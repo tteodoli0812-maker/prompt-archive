@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Archive Pro - Final</title>
+<title>Prompt Archive Pro - Dual Filter</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
@@ -37,7 +37,7 @@ body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px;
 
 h3 { font-size: 18px; margin: 0 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
 
-/* 입력 폼 및 버튼 정렬 수정 (이미지 반영) */
+/* 입력 폼 스타일 */
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 label { font-size: 13px; font-weight: 700; color: var(--text-main); }
@@ -46,7 +46,6 @@ label { font-size: 13px; font-weight: 700; color: var(--text-main); }
 input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
-/* '추가' 버튼 나란히 정렬 및 줄바꿈 방지 */
 .add-inline-btn { 
   padding: 0 15px; background: var(--primary); color: white; border: none; border-radius: var(--radius-md); 
   cursor: pointer; font-weight: 700; font-size: 14px; white-space: nowrap; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -64,34 +63,31 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .btn-main { background: var(--primary); color: white; flex: 2; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 .btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 
-/* 보관함 상단 필터 디자인 */
+/* 보관함 상단 필터 레이아웃 (Dual Filter) */
 .archive-filter-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.filter-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; }
+.filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.search-row { width: 100%; }
 
-.list-scroll { max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 5px; }
-.archive-card { width: 100%; padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); background: white; position: relative; transition: 0.2s; }
+.list-scroll { max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+.archive-card { width: 100%; padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); background: white; transition: 0.2s; }
 .archive-card:hover { border-color: var(--primary); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
 
-/* 카드 내용 정렬 및 가독성 수정 */
 .meta-tags { display: flex; gap: 6px; margin-bottom: 10px; }
 .tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: #f1f5f9; font-weight: 700; color: var(--text-sub); }
-.archive-card strong { font-size: 16px; display: block; margin-bottom: 8px; }
-.archive-card .desc-preview { font-size: 13px; color: var(--text-sub); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-.card-actions { display: flex; gap: 6px; }
+.card-actions { display: flex; gap: 6px; margin-top: 15px; }
 .card-actions button { flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
 .load-btn { background: #eef2ff; color: #4f46e5; }
 .edit-btn { background: #ecfdf5; color: #10b981; }
 .copy-btn { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
 .del-btn { background: #fef2f2; color: #ef4444; }
 
-/* 커스텀 팝업 (이미지 b0df4a 반영) */
+/* 커스텀 팝업 (Image b0df4a 반영) */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; }
 .modal-overlay.show { display: flex; }
-.modal { background: #2b2b2b; border-radius: 12px; width: 420px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.modal { background: #2b2b2b; border-radius: 12px; width: 420px; overflow: hidden; }
 .modal-header { padding: 15px 20px; background: #222; color: #fff; font-size: 14px; border-bottom: 1px solid #3d3d3d; }
 .modal-body { padding: 25px 20px; }
-.modal-body p { color: #fff; margin: 0 0 15px 0; font-size: 15px; }
 .modal-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; outline: none; }
 .modal-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 1px #3b82f6; }
 .modal-footer { padding: 15px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #222; }
@@ -108,8 +104,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
   <div class="modal">
     <div class="modal-header">tteodoli0812-maker.github.io의 메시지</div>
     <div class="modal-body">
-      <p id="mTitle">항목 추가</p>
-      <input type="text" id="mInput" class="modal-input" placeholder="내용을 입력하세요">
+      <p id="mTitle" style="color:white; margin-bottom:10px;">항목 추가</p>
+      <input type="text" id="mInput" class="modal-input">
     </div>
     <div class="modal-footer">
       <button class="m-btn m-confirm" id="mConfirm">확인</button>
@@ -170,10 +166,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
       <h3>프롬프트 보관함</h3>
       <div class="archive-filter-area">
         <div class="filter-row">
+          <select id="aiFilter" style="background:#f1f5f9; border:none; font-weight:700;">
+            <option value="all">전체 AI</option>
+          </select>
           <select id="categoryFilter" style="background:#f1f5f9; border:none; font-weight:700;">
             <option value="all">전체 용도</option>
           </select>
-          <input type="text" id="searchIn" placeholder="제목/내용 검색...">
+        </div>
+        <div class="search-row">
+          <input type="text" id="searchIn" placeholder="검색어를 입력하세요...">
         </div>
       </div>
       <div class="list-scroll" id="listBox"></div>
@@ -185,8 +186,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 
 <script>
 let savedData = [
-  { id: 1, title: "파이썬 데이터 분석", ai: "ChatGPT", use: "코딩", tone: "분석적", detail: "Pandas 라이브러리를 사용해서 데이터프레임의 결측치를 처리하고 상관관계를 분석하는 코드를 작성해줘." },
-  { id: 2, title: "IT 신제품 리뷰 기사", ai: "Claude", use: "글쓰기", tone: "친근한", detail: "최신 무선 이어폰의 장단점을 비교하는 블로그 포스팅 초안을 작성해줘. 소제목을 포함해줘." }
+  { id: 1, title: "파이썬 데이터 분석", ai: "ChatGPT", use: "코딩", tone: "분석적", detail: "Pandas 라이브러리를 사용해서 데이터프레임의 결측치를 처리하는 코드를 작성해줘." },
+  { id: 2, title: "IT 신제품 리뷰 기사", ai: "Claude", use: "글쓰기", tone: "친근한", detail: "최신 무선 이어폰의 장단점을 비교하는 블로그 포스팅 초안을 작성해줘." }
 ];
 let aiOptions = ["ChatGPT", "Claude", "Gemini"];
 let useOptions = ["코딩", "글쓰기", "기획", "마케팅"];
@@ -208,8 +209,10 @@ function renderOptions() {
 }
 
 function renderFilterOptions() {
-  const f = document.getElementById('categoryFilter');
-  f.innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  const af = document.getElementById('aiFilter');
+  const cf = document.getElementById('categoryFilter');
+  af.innerHTML = '<option value="all">전체 AI</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  cf.innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
@@ -234,14 +237,16 @@ function updatePreview() {
 
 function renderList() {
   const kw = document.getElementById('searchIn').value.toLowerCase();
-  const filter = document.getElementById('categoryFilter').value;
+  const aiF = document.getElementById('aiFilter').value;
+  const useF = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
   box.innerHTML = '';
 
   const filtered = savedData.filter(d => {
     const matchKw = d.title.toLowerCase().includes(kw) || d.detail.toLowerCase().includes(kw);
-    const matchFilter = (filter === 'all' || d.use === filter);
-    return matchKw && matchFilter;
+    const matchAi = (aiF === 'all' || d.ai === aiF);
+    const matchUse = (useF === 'all' || d.use === useF);
+    return matchKw && matchAi && matchUse;
   });
 
   filtered.forEach(item => {
@@ -250,7 +255,7 @@ function renderList() {
     div.innerHTML = `
       <div class="meta-tags"><span class="tag">${item.ai}</span><span class="tag">${item.use}</span></div>
       <strong>${item.title}</strong>
-      <div class="desc-preview">${item.detail}</div>
+      <div style="font-size:13px; color:var(--text-sub);">${item.detail.substring(0, 50)}...</div>
       <div class="card-actions">
         <button class="load-btn" onclick="loadItem(${item.id})">열기</button>
         <button class="edit-btn" onclick="startEdit(${item.id})">수정</button>
@@ -274,25 +279,26 @@ document.getElementById('mConfirm').onclick = () => {
   const val = document.getElementById('mInput').value.trim();
   if(!val) return;
   if(currentTarget === 'aiSel') aiOptions.push(val);
-  else { useOptions.push(val); renderFilterOptions(); }
+  else useOptions.push(val);
   renderOptions();
+  renderFilterOptions();
   document.getElementById(currentTarget).value = val;
   updatePreview();
   closeModal();
 };
 
-function startEdit(id) {
+function loadItem(id) {
   const item = savedData.find(d => d.id === id);
   if(!item) return;
-  editId = id;
   document.getElementById('titleIn').value = item.title;
   document.getElementById('aiSel').value = item.ai;
   document.getElementById('useSel').value = item.use;
   document.getElementById('toneIn').value = item.tone;
   document.getElementById('detailIn').value = item.detail;
-  document.getElementById('modeLabel').textContent = "[수정 모드]";
   updatePreview();
 }
+
+function startEdit(id) { loadItem(id); editId = id; document.getElementById('modeLabel').textContent = "[수정 모드]"; }
 
 function deleteItem(id) { if(confirm('삭제할까요?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
 
@@ -304,7 +310,7 @@ function copyItem(id) {
 
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value;
-  if(!title) return alert('제목 필수!');
+  if(!title) return alert('제목을 입력하세요!');
   const obj = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
   if(editId) savedData[savedData.findIndex(d => d.id === editId)] = obj;
   else savedData.unshift(obj);
@@ -319,6 +325,7 @@ function resetForm() {
 function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(()=>t.style.display='none', 2000); }
 
 document.getElementById('searchIn').oninput = renderList;
+document.getElementById('aiFilter').onchange = renderList;
 document.getElementById('categoryFilter').onchange = renderList;
 ['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).oninput = updatePreview);
 init();
