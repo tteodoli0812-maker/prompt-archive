@@ -49,6 +49,13 @@ h3 {
   align-items: center;
 }
 
+.subhead {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: -6px;
+  margin-bottom: 14px;
+}
+
 .input-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -68,7 +75,7 @@ label {
   color: var(--text-sub);
 }
 
-.flex-input { display: flex; gap: 4px; }
+.flex-input { display: flex; gap: 6px; }
 
 input, select, textarea {
   width: 100%;
@@ -86,7 +93,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .add-inline-btn {
-  padding: 0 10px;
+  padding: 0 12px;
   background: var(--primary-soft);
   color: var(--primary);
   border: 1px solid var(--primary);
@@ -119,25 +126,15 @@ input:focus, select:focus, textarea:focus {
   color: #f8fafc;
   padding: 15px;
   border-radius: 8px;
-  min-height: 120px;
+  min-height: 140px;
   font-size: 13px;
   white-space: pre-wrap;
   margin-top: 10px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-.btn-group {
-  display: flex;
-  gap: 8px;
-  margin-top: 15px;
-}
-button {
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-}
+.btn-group { display: flex; gap: 8px; margin-top: 15px; }
+button { padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 .btn-main { background: var(--primary); color: white; flex: 1; }
 .btn-sub { background: #e2e8f0; color: var(--text-main); flex: 1; }
 
@@ -148,8 +145,30 @@ button {
   margin-bottom: 12px;
 }
 
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tab-btn {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: #c7d2fe;
+}
+
 .list-scroll {
-  max-height: 720px;
+  max-height: 760px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -220,6 +239,7 @@ button {
   <div class="main-side">
     <div class="card">
       <h3>프롬프트 만들기 <span id="modeStatus" style="font-size:12px; color:var(--primary)">새로 만들기</span></h3>
+      <div class="subhead">짧게 입력하면 바로 결과가 아래에 정리됩니다.</div>
 
       <div class="input-row">
         <div class="field">
@@ -255,10 +275,7 @@ button {
           <input type="text" id="customChipIn" placeholder="자주 쓰는 조건을 추가해보세요">
           <button class="add-inline-btn" type="button" onclick="addChip()">추가</button>
         </div>
-        <div class="chip-container" id="chipBox">
-          <span class="chip" onclick="applyChip(this)">자연스러운 말투</span>
-          <span class="chip" onclick="applyChip(this)">핵심만 요약</span>
-        </div>
+        <div class="chip-container" id="chipBox"></div>
         <textarea id="detailIn" style="margin-top:10px;" placeholder="상세 내용을 적어주세요."></textarea>
       </div>
 
@@ -274,6 +291,11 @@ button {
   <div class="archive-side">
     <div class="card">
       <h3>저장된 프롬프트</h3>
+
+      <div class="view-tabs">
+        <button class="tab-btn active" data-view="use">용도별 보기</button>
+        <button class="tab-btn" data-view="ai">AI별 보기</button>
+      </div>
 
       <div class="filters">
         <select id="categoryFilter">
@@ -297,6 +319,7 @@ let aiOptions = ["ChatGPT", "Claude", "Gemini"];
 let useOptions = ["글쓰기", "코딩", "기획", "분석"];
 let chips = ["자연스러운 말투", "핵심만 요약"];
 let editId = null;
+let currentView = 'use';
 
 function init() {
   renderSelect('aiSel', aiOptions);
@@ -309,14 +332,24 @@ function init() {
 
 function renderSelect(id, options) {
   const el = document.getElementById(id);
+  const current = el.value;
   el.innerHTML = options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
+  if (options.includes(current)) el.value = current;
 }
 
 function renderFilterCategories() {
   const filter = document.getElementById('categoryFilter');
-  const categories = [...new Set(savedData.map(item => item.use).filter(Boolean))];
-  filter.innerHTML = `<option value="all">전체 카테고리</option>` +
-    categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
+  const current = filter.value || 'all';
+  const source = currentView === 'use'
+    ? [...new Set(savedData.map(item => item.use).filter(Boolean))]
+    : [...new Set(savedData.map(item => item.ai).filter(Boolean))];
+
+  const label = currentView === 'use' ? '전체 용도' : '전체 AI';
+  filter.innerHTML = `<option value="all">${label}</option>` +
+    source.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
+
+  if (source.includes(current)) filter.value = current;
+  else filter.value = 'all';
 }
 
 function renderChips() {
@@ -343,9 +376,11 @@ function addOption(id, msg) {
   } else {
     if (!useOptions.includes(clean)) useOptions.push(clean);
     renderSelect(id, useOptions);
+    renderFilterCategories();
   }
   document.getElementById(id).value = clean;
   updateResult();
+  showToast('카테고리가 추가되었습니다.');
 }
 
 function addChip() {
@@ -384,7 +419,8 @@ function renderList() {
   const filtered = savedData.filter(d => {
     const keywordTarget = `${d.title} ${d.ai} ${d.use} ${d.tone} ${d.detail}`.toLowerCase();
     const matchesKeyword = !keyword || keywordTarget.includes(keyword);
-    const matchesCategory = category === 'all' || d.use === category;
+    const compareValue = currentView === 'use' ? d.use : d.ai;
+    const matchesCategory = category === 'all' || compareValue === category;
     return matchesKeyword && matchesCategory;
   });
 
@@ -393,21 +429,35 @@ function renderList() {
     return;
   }
 
+  const grouped = {};
   filtered.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'archive-card';
-    div.innerHTML = `
-      <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
-      <strong>${escapeHtml(item.title)}</strong>
-      <div class="desc">${escapeHtml(item.detail || '')}</div>
-      <div class="card-actions">
-        <button class="action-btn action-load" data-id="${item.id}">불러오기</button>
-        <button class="action-btn action-edit" data-id="${item.id}">수정</button>
-        <button class="action-btn action-copy" data-id="${item.id}">복사</button>
-        <button class="action-btn action-del" data-id="${item.id}">삭제</button>
-      </div>
-    `;
-    box.appendChild(div);
+    const key = currentView === 'use' ? item.use : item.ai;
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(item);
+  });
+
+  Object.keys(grouped).forEach(groupName => {
+    const title = document.createElement('div');
+    title.className = 'group-title';
+    title.textContent = groupName;
+    box.appendChild(title);
+
+    grouped[groupName].forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'archive-card';
+      div.innerHTML = `
+        <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
+        <strong>${escapeHtml(item.title)}</strong>
+        <div class="desc">${escapeHtml(item.detail || '')}</div>
+        <div class="card-actions">
+          <button class="action-btn action-load" data-id="${item.id}">불러오기</button>
+          <button class="action-btn action-edit" data-id="${item.id}">수정</button>
+          <button class="action-btn action-copy" data-id="${item.id}">복사</button>
+          <button class="action-btn action-del" data-id="${item.id}">삭제</button>
+        </div>
+      `;
+      box.appendChild(div);
+    });
   });
 
   box.querySelectorAll('.action-load').forEach(btn => {
@@ -462,6 +512,8 @@ function deleteItem(id) {
 
 function resetFields() {
   ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('aiSel').selectedIndex = 0;
+  document.getElementById('useSel').selectedIndex = 0;
   editId = null;
   document.getElementById('modeStatus').textContent = '새로 만들기';
   updateResult();
@@ -512,6 +564,16 @@ document.getElementById('categoryFilter').onchange = renderList;
   document.getElementById(id).onchange = updateResult;
 });
 
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    renderFilterCategories();
+    renderList();
+  };
+});
+
 function showToast(m) {
   const toast = document.getElementById('toast');
   toast.textContent = m;
@@ -524,7 +586,7 @@ function escapeHtml(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+    .replace(/\"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
 
