@@ -25,7 +25,7 @@
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
 body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; line-height: 1.6; }
 
-/* 레이아웃 개편 - Sidebar/Content 구조 */
+/* 레이아웃 개편 */
 .container { 
   max-width: 1300px; 
   margin: 0 auto; 
@@ -34,17 +34,14 @@ body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 
   gap: 32px; 
 }
 
-/* 제목 섹션 */
 .main-header { grid-column: 1 / -1; margin-bottom: 8px; }
 .main-header h1 { font-size: 28px; font-weight: 800; margin: 0; color: var(--text-main); letter-spacing: -0.02em; }
 .main-header p { color: var(--text-sub); margin: 4px 0 0; font-size: 14px; }
 
-/* 공통 카드 디자인 */
 .card { background: var(--card); border-radius: var(--radius-lg); border: none; padding: 32px; box-shadow: var(--shadow-card); }
 .section-title { font-size: 18px; font-weight: 700; margin: 0 0 20px 0; display: flex; align-items: center; gap: 10px; }
 .section-title span.badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--primary-soft); color: var(--primary); }
 
-/* 입력 폼 스타일 */
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 label { font-size: 13px; font-weight: 700; color: var(--text-main); }
@@ -56,18 +53,14 @@ input, select, textarea {
 }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
 
-/* 인라인 추가 버튼 - 줄바꿈 문제 수정 완료 (Image 2 대응) */
 .add-inline-btn { 
   padding: 0 16px; background: white; color: var(--primary); 
   border: 1.5px solid var(--primary); border-radius: var(--radius-md); 
   cursor: pointer; font-weight: 700; font-size: 13px;
-  white-space: nowrap; /* 글자 안 잘리게 */
-  flex-shrink: 0; /* 버튼 크기 유지 */
-  transition: 0.2s;
+  white-space: nowrap; flex-shrink: 0; transition: 0.2s;
 }
 .add-inline-btn:hover { background: var(--primary-soft); }
 
-/* 칩 스타일 */
 .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .chip { 
   padding: 6px 14px; background: #f8fafc; border-radius: 20px; font-size: 12px; 
@@ -75,14 +68,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 }
 .chip:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
 
-/* 결과창 디자인 - 다크 테마 에디터 느낌 */
 .result-box { 
   background: #0f172a; color: #e2e8f0; padding: 24px; border-radius: var(--radius-md); 
   min-height: 160px; font-size: 14px; white-space: pre-wrap; margin-top: 12px;
   font-family: 'Consolas', monospace; line-height: 1.6; border: 1px solid #1e293b;
 }
 
-/* 메인 버튼 세트 */
 .btn-group { display: flex; gap: 12px; margin-top: 24px; }
 button { padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
 .btn-main { background: var(--primary); color: white; flex: 2; box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2); }
@@ -90,145 +81,51 @@ button { padding: 14px; border-radius: var(--radius-md); border: none; font-weig
 .btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; }
 .btn-sub:hover { background: #e2e8f0; }
 
-/* 보관함 사이드 */
-.archive-side {
-  position: sticky; /* 스크롤 시 따라오게 */
-  top: 40px;
-  height: max-content;
-}
+.archive-side { position: sticky; top: 40px; height: max-content; }
 .view-tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 12px; margin-bottom: 20px; }
 .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; background: transparent; color: var(--text-sub); }
 .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
 .filters { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; margin-bottom: 20px; }
-
-/* 보관함 리스트 - 데이터 많을 때 대응 완료 */
 .list-scroll { max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 4px; }
-.list-scroll::-webkit-scrollbar { width: 5px; }
-.list-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-.group-title { font-size: 12px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 24px 0 12px; }
-
-/* 보관함 카드 - 안 맞는 문제 해결 완료 (Image 1 대응) */
 .archive-card { 
-  width: 100%; /* 너비 꽉 차게 */
-  padding: 20px; border: 1px solid var(--border); border-radius: 16px; 
+  width: 100%; padding: 20px; border: 1px solid var(--border); border-radius: 16px; 
   background: white; margin-bottom: 16px; transition: 0.3s;
 }
-.archive-card:hover { transform: scale(1.02); border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-.archive-card strong { display: block; font-size: 16px; margin-bottom: 8px; color: var(--text-main); }
 .archive-card .meta { font-size: 11px; color: var(--primary); font-weight: bold; margin-bottom: 12px; }
-.archive-card .desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-
 .card-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 16px; }
 .action-btn { padding: 8px 0; font-size: 11px; border-radius: 8px; font-weight: 700; text-align: center; }
 .action-load { background: #e0e7ff; color: #4338ca; }
 .action-edit { background: #dcfce7; color: #15803d; }
-.copy-btn { background: #f1f5f9; color: var(--text-sub); border: 1px solid #e2e8f0; } /* 보관함용 회색 복사버튼 */
+.copy-btn { background: #f1f5f9; color: var(--text-sub); border: 1px solid #e2e8f0; }
 .action-del { background: #fee2e2; color: #b91c1c; }
 
-/* --- 커스텀 팝업(모달) 디자인 --- */
-/* 이미지와 동일한 어두운 테마로 개편 (Image 0 대응) */
+/* 모달 디자인 */
 .modal-overlay { 
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-  background: rgba(0, 0, 0, 0.7); 
-  display: none; align-items: center; justify-content: center; z-index: 2000;
+  background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 2000;
   backdrop-filter: blur(4px);
 }
 .modal-overlay.show { display: flex; }
-.modal { 
-  background: #232323; /* 어두운 배경 */
-  border-radius: 12px; /* 이미지의 각진 느낌 반영 */
-  width: 100%; 
-  max-width: 480px; 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-  overflow: hidden;
-}
-
-/* 제목 바 - "tteodoli0812..." */
-.modal-header {
-  background: #1a1a1a;
-  padding: 15px 20px;
-  border-bottom: 1px solid #333;
-}
-.modal-header h4 { 
-  margin: 0; 
-  font-size: 16px; 
-  color: white; 
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-/* 바디 - "카테고리명을 입력하세요" */
-.modal-body {
-  padding: 25px 20px;
-}
-.modal-body p {
-  margin: 0 0 15px 0;
-  font-size: 14px;
-  color: white;
-  font-weight: 500;
-}
-
-/* 어두운 테마 입력창 - 이미지와 동일하게 */
-.modal-input { 
-  width: 100%; 
-  padding: 12px 15px; 
-  border: 1px solid #444; 
-  border-radius: 6px; 
-  background: #2a2a2a; 
-  color: white; 
-  font-size: 14px;
-  outline: none;
-}
-/* 포커스 시 이미지의 파란색 하이라이트 반영 */
-.modal-input:focus { 
-  border-color: #3b82f6; 
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); 
-}
-
-/* 하단 버튼 바 - 우측 정렬 */
-.modal-footer {
-  padding: 15px 20px 20px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-.modal-btn { 
-  padding: 10px 22px; 
-  border-radius: 6px; 
-  font-size: 13px; 
-  font-weight: 600;
-  cursor: pointer;
-}
-/* 확인 버튼 - 이미지의 파란색 */
+.modal { background: #232323; border-radius: 12px; width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); overflow: hidden; }
+.modal-header { background: #1a1a1a; padding: 15px 20px; border-bottom: 1px solid #333; }
+.modal-header h4 { margin: 0; font-size: 16px; color: white; font-weight: 700; }
+.modal-body { padding: 25px 20px; }
+.modal-body p { margin: 0 0 15px 0; font-size: 14px; color: white; }
+.modal-input { width: 100%; padding: 12px 15px; border: 1px solid #444; border-radius: 6px; background: #2a2a2a; color: white; outline: none; }
+.modal-footer { padding: 15px 20px 20px; display: flex; justify-content: flex-end; gap: 10px; }
 .btn-modal-confirm { background: #3b82f6; color: white; }
-.btn-modal-confirm:hover { background: #2563eb; }
-/* 취소 버튼 - 이미지의 회색 */
 .btn-modal-cancel { background: #333; color: white; border: 1px solid #444; }
-.btn-modal-cancel:hover { background: #444; }
 
-/* 토스트 알림 디자인 */
-.toast { 
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-  background: #0f172a; color: white; padding: 12px 28px; border-radius: 999px; font-size: 14px; 
-  display: none; z-index: 3000; font-weight: 600;
-}
-
-/* 반응형 모바일 대응 */
-@media (max-width: 980px) {
-  .container { grid-template-columns: 1fr; }
-  .modal { max-width: 90%; }
-}
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 28px; border-radius: 999px; display: none; z-index: 3000; }
 </style>
 </head>
 <body>
 
 <div class="modal-overlay" id="categoryModal">
   <div class="modal">
-    <div class="modal-header">
-      <h4>tteodoli0812-maker.github.io의 메시지</h4>
-    </div>
+    <div class="modal-header"><h4>tteodoli0812-maker.github.io의 메시지</h4></div>
     <div class="modal-body">
       <p id="modalDesc">카테고리명을 입력하세요</p>
       <input type="text" id="modalInput" class="modal-input" placeholder="이름 입력...">
@@ -251,44 +148,29 @@ button { padding: 14px; border-radius: var(--radius-md); border: none; font-weig
       <h3 class="section-title">작성 에디터 <span id="modeStatus" class="badge">새로 만들기</span></h3>
       
       <div class="input-row">
-        <div class="field">
-          <label>제목</label>
-          <input type="text" id="titleIn" placeholder="무엇에 관한 프롬프트인가요?">
-        </div>
-        <div class="field">
-          <label>AI 엔진</label>
-          <div class="flex-input">
-            <select id="aiSel"></select>
-            <button class="add-inline-btn" type="button" onclick="openModal('aiSel')">+</button>
-          </div>
+        <div class="field"><label>제목</label><input type="text" id="titleIn" placeholder="제목"></div>
+        <div class="field"><label>AI 엔진</label>
+          <div class="flex-input"><select id="aiSel"></select><button class="add-inline-btn" type="button" onclick="openModal('aiSel')">+</button></div>
         </div>
       </div>
 
       <div class="input-row">
-        <div class="field">
-          <label>용도 카테고리</label>
-          <div class="flex-input">
-            <select id="useSel"></select>
-            <button class="add-inline-btn" type="button" onclick="openModal('useSel')">+</button>
-          </div>
+        <div class="field"><label>용도 카테고리</label>
+          <div class="flex-input"><select id="useSel"></select><button class="add-inline-btn" type="button" onclick="openModal('useSel')">+</button></div>
         </div>
-        <div class="field">
-          <label>톤앤매너</label>
-          <input type="text" id="toneIn" placeholder="예: 전문적인, 친절한">
-        </div>
+        <div class="field"><label>톤앤매너</label><input type="text" id="toneIn" placeholder="톤앤매너"></div>
       </div>
 
       <div class="field" style="margin-bottom:20px;">
         <label>상세 조건 및 제약사항</label>
         <div class="flex-input">
-          <input type="text" id="customChipIn" placeholder="자주 쓰는 단어를 추가하세요">
+          <input type="text" id="customChipIn" placeholder="조건 추가">
           <button class="add-inline-btn" type="button" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="4" style="margin-top:12px;" placeholder="상세 내용을 적어주세요."></textarea>
+        <textarea id="detailIn" rows="4" style="margin-top:12px;" placeholder="상세 내용"></textarea>
       </div>
 
-      <label>실시간 프롬프트 미리보기</label>
       <div class="result-box" id="resultOut"></div>
 
       <div class="btn-group">
@@ -301,17 +183,11 @@ button { padding: 14px; border-radius: var(--radius-md); border: none; font-weig
   <div class="archive-side">
     <div class="card">
       <h3 class="section-title">프롬프트 보관함</h3>
-
       <div class="view-tabs">
         <button class="tab-btn active" data-view="use">용도별</button>
         <button class="tab-btn" data-view="ai">AI별</button>
       </div>
-
-      <div class="filters">
-        <select id="categoryFilter"></select>
-        <input type="text" id="searchIn" placeholder="검색...">
-      </div>
-
+      <div class="filters"><select id="categoryFilter"></select><input type="text" id="searchIn" placeholder="검색..."></div>
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
@@ -320,15 +196,13 @@ button { padding: 14px; border-radius: var(--radius-md); border: none; font-weig
 <div id="toast" class="toast">완료되었습니다!</div>
 
 <script>
-let savedData = [
-  { id: Date.now(), title: "기본 안내 프롬프트", ai: "ChatGPT", use: "글쓰기", tone: "친절하게", detail: "핵심 요약을 포함해줘" }
-];
+let savedData = [];
 let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["글쓰기", "코딩", "기획", "이미지"];
-let chips = ["자연스러운 말투", "핵심만 요약", "단계별 설명"];
+let useOptions = ["글쓰기", "코딩", "기획"];
+let chips = ["핵심 요약", "단계별 설명"];
 let editId = null;
 let currentView = 'use';
-let targetSelectId = ''; // 모달이 어떤 셀렉트박스를 타겟팅하는지 저장
+let targetSelectId = '';
 
 function init() {
   renderSelect('aiSel', aiOptions);
@@ -339,184 +213,89 @@ function init() {
   updateResult();
 }
 
-/* 모달 제어 로직 - Image 0의 팝업 느낌 구현 */
 function openModal(id) {
   targetSelectId = id;
-  const modal = document.getElementById('categoryModal');
-  const desc = document.getElementById('modalDesc');
-  const input = document.getElementById('modalInput');
-  
-  desc.textContent = id === 'aiSel' ? '사용할 AI 이름을 입력해주세요.' : '용도 분류 이름을 입력해주세요.';
-  input.value = '';
-  
-  modal.classList.add('show');
-  input.focus();
+  document.getElementById('modalDesc').textContent = id === 'aiSel' ? '사용할 AI 이름을 입력해주세요.' : '용도 분류 이름을 입력해주세요.';
+  document.getElementById('modalInput').value = '';
+  document.getElementById('categoryModal').classList.add('show');
+  document.getElementById('modalInput').focus();
 }
 
-function closeModal() {
-  document.getElementById('categoryModal').classList.remove('show');
-}
+function closeModal() { document.getElementById('categoryModal').classList.remove('show'); }
 
-// 팝업 확인 버튼 클릭 시 (기존 addOption 기능 대체)
 document.getElementById('modalConfirmBtn').onclick = () => {
   const val = document.getElementById('modalInput').value.trim();
   if (!val) return;
-
-  if (targetSelectId === 'aiSel') {
-    if (!aiOptions.includes(val)) aiOptions.push(val);
-    renderSelect('aiSel', aiOptions);
-  } else {
-    if (!useOptions.includes(val)) useOptions.push(val);
-    renderSelect('useSel', useOptions);
-    renderFilterCategories();
-  }
+  if (targetSelectId === 'aiSel') { if (!aiOptions.includes(val)) aiOptions.push(val); renderSelect('aiSel', aiOptions); }
+  else { if (!useOptions.includes(val)) useOptions.push(val); renderSelect('useSel', useOptions); renderFilterCategories(); }
   document.getElementById(targetSelectId).value = val;
-  updateResult();
-  closeModal();
-  showToast('추가되었습니다.');
+  updateResult(); closeModal(); showToast('추가되었습니다.');
 };
 
-// 엔터키 처리
-document.getElementById('modalInput').onkeydown = (e) => {
-  if (e.key === 'Enter') document.getElementById('modalConfirmBtn').click();
-};
-
-/* 기존 기능 유지 함수들 (디자인만 적용) */
 function renderSelect(id, options) {
   const el = document.getElementById(id);
-  const current = el.value;
   el.innerHTML = options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
-  if (options.includes(current)) el.value = current;
 }
 
 function renderFilterCategories() {
   const filter = document.getElementById('categoryFilter');
-  const current = filter.value || 'all';
-  const source = currentView === 'use' 
-    ? [...new Set(savedData.map(item => item.use).filter(Boolean))]
-    : [...new Set(savedData.map(item => item.ai).filter(Boolean))];
-
-  const label = currentView === 'use' ? '전체 용도' : '전체 AI';
-  filter.innerHTML = `<option value="all">${label}</option>` + source.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
-
-  if (source.includes(current)) filter.value = current;
-  else filter.value = 'all';
+  const source = currentView === 'use' ? [...new Set(savedData.map(item => item.use).filter(Boolean))] : [...new Set(savedData.map(item => item.ai).filter(Boolean))];
+  filter.innerHTML = `<option value="all">전체</option>` + source.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
 }
 
 function renderChips() {
-  const chipBox = document.getElementById('chipBox');
-  chipBox.innerHTML = '';
-  chips.forEach(text => {
-    const span = document.createElement('span');
-    span.className = 'chip';
-    span.textContent = text;
-    span.onclick = () => {
-      const area = document.getElementById('detailIn');
-      area.value += (area.value ? ', ' : '') + text;
-      updateResult();
-    };
-    chipBox.appendChild(span);
-  });
+  document.getElementById('chipBox').innerHTML = chips.map(text => `<span class="chip" onclick="applyChip('${escapeHtml(text)}')">${escapeHtml(text)}</span>`).join('');
+}
+
+function applyChip(text) {
+  const area = document.getElementById('detailIn');
+  area.value += (area.value ? ', ' : '') + text;
+  updateResult();
 }
 
 function addChip() {
   const input = document.getElementById('customChipIn');
   const val = input.value.trim();
-  if (!val) return;
-  if (!chips.includes(val)) chips.push(val);
-  renderChips();
-  input.value = '';
+  if (val) { if (!chips.includes(val)) chips.push(val); renderChips(); input.value = ''; }
 }
 
 function updateResult() {
-  const title = document.getElementById('titleIn').value || '(제목 없음)';
-  const ai = document.getElementById('aiSel').value || 'AI';
-  const use = document.getElementById('useSel').value || '용도';
-  const tone = document.getElementById('toneIn').value || '기본';
-  const detail = document.getElementById('detailIn').value || '요청사항 없음';
-
-  const res = `[${ai} / ${use}]\n목표: ${title}\n말투: ${tone}\n조건: ${detail}`;
+  const res = `[${document.getElementById('aiSel').value}] 제목: ${document.getElementById('titleIn').value}\n내용: ${document.getElementById('detailIn').value}`;
   document.getElementById('resultOut').textContent = res;
 }
 
 function renderList() {
-  const keyword = document.getElementById('searchIn').value.toLowerCase().trim();
-  const category = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
-  box.innerHTML = '';
-
-  const filtered = savedData.filter(d => {
-    const keywordTarget = `${d.title} ${d.ai} ${d.use} ${d.tone} ${d.detail}`.toLowerCase();
-    const matchesKeyword = !keyword || keywordTarget.includes(keyword);
-    const compareValue = currentView === 'use' ? d.use : d.ai;
-    return matchesKeyword && (category === 'all' || compareValue === category);
-  });
-
-  const grouped = {};
-  filtered.forEach(item => {
-    const key = currentView === 'use' ? item.use : item.ai;
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(item);
-  });
-
-  Object.keys(grouped).forEach(groupName => {
-    const title = document.createElement('div');
-    title.className = 'group-title';
-    title.textContent = groupName;
-    box.appendChild(title);
-
-    grouped[groupName].forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'archive-card';
-      div.innerHTML = `
-        <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
-        <strong>${escapeHtml(item.title)}</strong>
-        <div class="desc">${escapeHtml(item.detail || '')}</div>
-        <div class="card-actions">
-          <button class="action-btn action-load" onclick="loadItem(${item.id}, false)">불러오기</button>
-          <button class="action-btn action-edit" onclick="loadItem(${item.id}, true)">수정</button>
-          <button class="action-btn copy-btn" onclick="copyItem(${item.id})">복사</button>
-          <button class="action-btn action-del" onclick="deleteItem(${item.id})">삭제</button>
-        </div>
-      `;
-      box.appendChild(div);
-    });
-  });
+  box.innerHTML = savedData.map(item => `
+    <div class="archive-card">
+      <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
+      <strong>${escapeHtml(item.title)}</strong>
+      <div class="card-actions">
+        <button class="action-btn action-load" onclick="loadItem(${item.id}, false)">불러오기</button>
+        <button class="action-btn action-edit" onclick="loadItem(${item.id}, true)">수정</button>
+        <button class="action-btn copy-btn" onclick="copyItem(${item.id})">복사</button>
+        <button class="action-btn action-del" onclick="deleteItem(${item.id})">삭제</button>
+      </div>
+    </div>
+  `).join('');
 }
 
 function loadItem(id, editMode) {
   const item = savedData.find(d => d.id === id);
   if (!item) return;
   document.getElementById('titleIn').value = item.title;
-  document.getElementById('aiSel').value = item.ai;
-  document.getElementById('useSel').value = item.use;
-  document.getElementById('toneIn').value = item.tone;
   document.getElementById('detailIn').value = item.detail;
   editId = editMode ? id : null;
   document.getElementById('modeStatus').textContent = editMode ? '수정 중...' : '새로 만들기';
   updateResult();
-  showToast(editMode ? '수정할 수 있게 불러왔어요.' : '불러오기 성공!');
-}
-
-function copyItem(id) {
-  const item = savedData.find(d => d.id === id);
-  if (!item) return;
-  const text = `[${item.ai} / ${item.use}]\n목표: ${item.title}\n말투: ${item.tone || '기본'}\n조건: ${item.detail || '없음'}`;
-  navigator.clipboard.writeText(text);
-  showToast('프롬프트가 복사되었습니다!');
-}
-
-function deleteItem(id) {
-  if (!confirm('정말 삭제하시겠습니까?')) return;
-  savedData = savedData.filter(d => d.id !== id);
-  if (editId === id) resetFields();
-  renderFilterCategories();
-  renderList();
-  showToast('삭제되었습니다.');
 }
 
 function resetFields() {
-  ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
+  // 모든 입력 필드 초기화 (customChipIn 포함)
+  ['titleIn', 'toneIn', 'detailIn', 'customChipIn'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
   document.getElementById('aiSel').selectedIndex = 0;
   document.getElementById('useSel').selectedIndex = 0;
   editId = null;
@@ -527,50 +306,15 @@ function resetFields() {
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value.trim();
   if (!title) return showToast('제목을 입력해주세요.');
-
-  const newData = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
-
-  if (editId) {
-    const idx = savedData.findIndex(d => d.id === editId);
-    if (idx !== -1) savedData[idx] = newData;
-    showToast('수정되었습니다.');
-  } else {
-    savedData.unshift(newData);
-    showToast('보관함에 저장되었습니다.');
-  }
-
-  renderFilterCategories();
-  resetFields();
-  renderList();
+  const data = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, detail: document.getElementById('detailIn').value };
+  if (editId) { const idx = savedData.findIndex(d => d.id === editId); savedData[idx] = data; }
+  else { savedData.unshift(data); }
+  renderList(); renderFilterCategories(); resetFields(); showToast('저장되었습니다.');
 };
 
 document.getElementById('resetBtn').onclick = resetFields;
-document.getElementById('searchIn').oninput = renderList;
-document.getElementById('categoryFilter').onchange = renderList;
-['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => {
-  document.getElementById(id).oninput = updateResult;
-});
-
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentView = btn.dataset.view;
-    renderFilterCategories();
-    renderList();
-  };
-});
-
-function showToast(m) {
-  const t = document.getElementById('toast');
-  t.textContent = m;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 1800);
-}
-
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-}
+function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 1800); }
+function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m])); }
 
 init();
 </script>
