@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Prompt Vending</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --line: #e7eaf0;
+      --text: #111827;
+      --sub: #6b7280;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #16a34a;
+      --green-soft: #f0fdf4;
+      --gray-soft: #f8fafc;
+    }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 22px 16px 40px;
+    }
+    .topbar {
+      margin-bottom: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .brand p {
+      margin: 2px 0 0;
+      font-size: 13px;
+      color: var(--sub);
+    }
+    .hero,
+    .section,
+    .prompt-card,
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .hero {
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .hero h2 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .hero p {
+      margin: 0;
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .guide-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .guide-pill {
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: white;
+    }
+    .guide-pill.blue { background: var(--blue-soft); color: var(--blue); border-color: #bfdbfe; }
+    .guide-pill.green { background: var(--green-soft); color: var(--green); border-color: #bbf7d0; }
+    .guide-pill.gray { background: var(--gray-soft); color: #475569; }
+    .section {
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .section-header {
+      margin-bottom: 14px;
+    }
+    .section-header h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+    .section-header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--sub);
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .field {
+      border-radius: 14px;
+      padding: 10px;
+      background: var(--gray-soft);
+      border: 1px solid var(--line);
+    }
+    .field.editable {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+    .field-label {
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 7px;
+      color: #475569;
+    }
+    .field.editable .field-label {
+      color: var(--blue);
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #d6dbe4;
+      border-radius: 12px;
+      padding: 12px 13px;
+      font-size: 14px;
+      background: white;
+      outline: none;
+      font-family: inherit;
+    }
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .prompt-card {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .prompt-card h4 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+    .meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--gray-soft);
+      color: #4b5563;
+    }
+    .prompt-preview {
+      background: var(--gray-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 13px;
+      color: #4b5563;
+      min-height: 74px;
+      white-space: pre-wrap;
+    }
+    .action-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .use-btn {
+      background: var(--green);
+      color: white;
+    }
+    .ghost {
+      background: #f3f4f6;
+      color: var(--text);
+    }
+    .primary {
+      background: var(--blue);
+      color: white;
+    }
+    .soft {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .panel {
+      padding: 14px;
+    }
+    .panel.editable {
+      background: var(--blue-soft);
+      border-color: #bfdbfe;
+    }
+    .panel.result {
+      background: #fbfcfe;
+    }
+    .panel-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .panel-top h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .mini-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+    .mini-badge.editable { background: #dbeafe; color: var(--blue); }
+    .mini-badge.result { background: #e5e7eb; color: #475569; }
+    .result-box {
+      min-height: 180px;
+      border-radius: 14px;
+      background: #111827;
+      color: white;
+      padding: 14px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+    .status {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #111827;
+      color: white;
+      padding: 11px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .2s ease;
+      pointer-events: none;
+    }
+    .status.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 920px) {
+      .controls,
+      .prompt-grid,
+      .builder-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 720px) {
+      .controls,
+      .prompt-grid,
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h2 { font-size: 22px; }
+      .brand h1 { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>
+          <h1>My Prompt Vending</h1>
+          <p>선택 · 수정 · 정리 · 복사</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h2>나만의 프롬프트를 더 쉽게 만들기</h2>
+      <p>카드에서 고르고, 아래에서 수정하고, 정리해서 바로 복사할 수 있습니다.</p>
+      <div class="guide-row">
+        <div class="guide-pill green">클릭 가능</div>
+        <div class="guide-pill blue">수정 가능</div>
+        <div class="guide-pill gray">결과 보기</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h3>프롬프트 보관함</h3>
+      </div>
+
+      <div class="controls">
+        <div class="field editable">
+          <div class="field-label">검색</div>
+          <input id="searchInput" type="text" placeholder="프롬프트 검색" />
+        </div>
+        <div class="field editable">
+          <div class="field-label">AI</div>
+          <select id="aiFilter">
+            <option value="all">모든 AI</option>
+            <option value="ChatGPT">ChatGPT</option>
+            <option value="Midjourney">Midjourney</option>
+            <option value="Claude">Claude</option>
+            <option value="Gemini">Gemini</option>
+          </select>
+        </div>
+        <div class="field editable">
+          <div class="field-label">용도</div>
+          <select id="typeFilter">
+            <option value="all">모든 용도</option>
+            <option value="글쓰기">글쓰기</option>
+            <option value="이미지">이미지</option>
+            <option value="코딩">코딩</option>
+            <option value="기획/분석">기획/분석</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="prompt-grid" id="promptGrid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h3>프롬프트 빌더</h3>
+      </div>
+
+      <div class="builder-grid">
+        <div class="panel editable">
+          <div class="panel-top">
+            <h4>입력</h4>
+            <span class="mini-badge editable">수정 가능</span>
+          </div>
+          <textarea id="editor"></textarea>
+          <div class="action-row" style="margin-top:12px;">
+            <button class="primary" id="improveBtn">자동 정리</button>
+            <button class="ghost" id="copyRawBtn">원문 복사</button>
+          </div>
+        </div>
+
+        <div class="panel result">
+          <div class="panel-top">
+            <h4>결과</h4>
+            <span class="mini-badge result">읽기 전용</span>
+          </div>
+          <div class="result-box" id="resultBox"></div>
+          <div class="action-row" style="margin-top:12px;">
+            <button class="soft" id="copyResultBtn">정리본 복사</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="status" id="statusToast">복사 완료!</div>
+
+  <script>
+    const promptData = [
+      {
+        title: '발표문 작성',
+        ai: 'ChatGPT',
+        type: '글쓰기',
+        prompt: '발표문 써줘. 너무 딱딱하지 않게, 학생이 직접 발표하는 자연스러운 말투로 써줘.'
+      },
+      {
+        title: '디자인 문제 분석',
+        ai: 'ChatGPT',
+        type: '기획/분석',
+        prompt: '이 디자인 문제를 분석해줘. 사용자의 불편, 원인, 개선 방향을 중심으로 정리해줘.'
+      },
+      {
+        title: '에세이 초안',
+        ai: 'Claude',
+        type: '글쓰기',
+        prompt: '에세이 초안을 써줘. 문단 구분 없이 자연스럽게 이어지게 작성해줘.'
+      },
+      {
+        title: 'PPT 흐름 구성',
+        ai: 'Gemini',
+        type: '기획/분석',
+        prompt: '5분 발표용 PPT 흐름을 짜줘. 도입, 핵심 내용, 결론 순서로 슬라이드별 내용을 정리해줘.'
+      },
+      {
+        title: '웹 UI 코드 요청',
+        ai: 'ChatGPT',
+        type: '코딩',
+        prompt: '심플한 HTML/CSS/JS 페이지 코드를 짜줘. 클릭 가능한 요소와 편집 가능한 영역이 한눈에 보이게 해줘.'
+      },
+      {
+        title: '이미지 생성 프롬프트',
+        ai: 'Midjourney',
+        type: '이미지',
+        prompt: 'minimal editorial poster, soft gray background, clean typography, balanced layout, subtle lighting, modern aesthetic'
+      }
+    ];
+
+    const promptGrid = document.getElementById('promptGrid');
+    const searchInput = document.getElementById('searchInput');
+    const aiFilter = document.getElementById('aiFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const editor = document.getElementById('editor');
+    const resultBox = document.getElementById('resultBox');
+    const statusToast = document.getElementById('statusToast');
+
+    function showToast(message) {
+      statusToast.textContent = message;
+      statusToast.classList.add('show');
+      setTimeout(() => statusToast.classList.remove('show'), 1200);
+    }
+
+    function improvePrompt(text) {
+      const clean = text.trim().replace(/\s+/g, ' ');
+      return [
+        '역할: 요청을 더 구체적으로 정리하는 프롬프트 도우미',
+        '목표: 원하는 결과가 더 분명하게 나오도록 정리',
+        `요청: ${clean}`,
+        '조건: 대상, 상황, 말투, 구성 포함',
+        '출력 형식: 바로 사용할 수 있는 완성형 프롬프트'
+      ].join('\n');
+    }
+
+    function renderCards() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const aiValue = aiFilter.value;
+      const typeValue = typeFilter.value;
+
+      const filtered = promptData.filter(item => {
+        const matchKeyword = !keyword || `${item.title} ${item.prompt}`.toLowerCase().includes(keyword);
+        const matchAi = aiValue === 'all' || item.ai === aiValue;
+        const matchType = typeValue === 'all' || item.type === typeValue;
+        return matchKeyword && matchAi && matchType;
+      });
+
+      promptGrid.innerHTML = '';
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'prompt-card';
+        card.innerHTML = `
+          <div class="card-top">
+            <h4>${item.title}</h4>
+            <div class="meta">
+              <span class="pill">${item.ai}</span>
+              <span class="pill">${item.type}</span>
+            </div>
+          </div>
+          <div class="prompt-preview">${item.prompt}</div>
+          <div class="action-row">
+            <button class="use-btn">불러오기</button>
+            <button class="ghost copy-btn">복사</button>
+          </div>
+        `;
+
+        card.querySelector('.use-btn').addEventListener('click', () => {
+          editor.value = item.prompt;
+          resultBox.textContent = improvePrompt(item.prompt);
+          window.scrollTo({ top: document.querySelector('.builder-grid').offsetTop - 80, behavior: 'smooth' });
+        });
+
+        card.querySelector('.copy-btn').addEventListener('click', async () => {
+          await navigator.clipboard.writeText(item.prompt);
+          showToast('복사 완료!');
+        });
+
+        promptGrid.appendChild(card);
+      });
+    }
+
+    function refreshResult() {
+      resultBox.textContent = improvePrompt(editor.value);
+    }
+
+    document.getElementById('improveBtn').addEventListener('click', refreshResult);
+
+    document.getElementById('copyRawBtn').addEventListener('click', async () => {
+      await navigator.clipboard.writeText(editor.value);
+      showToast('원문 복사 완료!');
+    });
+
+    document.getElementById('copyResultBtn').addEventListener('click', async () => {
+      await navigator.clipboard.writeText(resultBox.textContent);
+      showToast('정리본 복사 완료!');
+    });
+
+    searchInput.addEventListener('input', renderCards);
+    aiFilter.addEventListener('change', renderCards);
+    typeFilter.addEventListener('change', renderCards);
+    editor.addEventListener('input', refreshResult);
+
+    editor.value = promptData[0].prompt;
+    refreshResult();
+    renderCards();
+  </script>
+</body>
+</html>
