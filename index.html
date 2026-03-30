@@ -3,344 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Archive Pro Custom</title>
+<title>Prompt Archive Pro - Final Edition</title>
 <style>
-/* Pretendard 글꼴 적용 - 세련된 현대적 글꼴 */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 :root {
-  --bg: #f5f7fa;
+  --bg: #f8fafc;
   --card: #ffffff;
-  --primary: #4f46e5; /* 세련된 인디고 블루 */
+  --primary: #4f46e5;
   --primary-hover: #4338ca;
   --primary-soft: #eef2ff;
   --text-main: #1e293b;
   --text-sub: #64748b;
   --border: #e2e8f0;
-  --danger: #ef4444;
-  --danger-soft: #fef2f2;
-  --success: #10b981;
-  --success-soft: #ecfdf5;
   --radius-lg: 16px;
   --radius-md: 10px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
 }
 
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px; line-height: 1.5; }
+body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px; }
 
-/* 레이아웃 구조 개편 - 여백 및 비율 조정 */
 .container { 
   max-width: 1200px; 
   margin: 0 auto; 
   display: grid; 
-  grid-template-columns: 1fr 420px; 
-  gap: 28px; 
-  padding: 20px 0;
+  grid-template-columns: 1fr 450px; 
+  gap: 24px; 
 }
 
-/* 카드 공통 디자인 */
 .card { 
   background: var(--card); 
   border-radius: var(--radius-lg); 
   border: 1px solid var(--border); 
-  padding: 28px; 
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s;
-}
-.card:hover { box-shadow: var(--shadow-md); }
-
-/* 제목 영역 */
-h3 { 
-  font-size: 18px; 
-  font-weight: 700; 
-  margin: 0 0 18px 0; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+  padding: 24px; 
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
 }
 
-/* 새로 만들기/수정 중 태그 */
-#modeStatus { 
-  font-size: 11px; 
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 999px;
-}
-.mode-new { background: #dee2ff; color: #4f46e5; }
-.mode-edit { background: #ffebeb; color: #ef4444; }
+h3 { font-size: 18px; margin: 0 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
 
-/* 폼 요소 레이아웃 */
+/* 입력 폼 스타일 */
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.field { display: flex; flex-direction: column; gap: 7px; position: relative; }
-label { font-size: 13px; font-weight: 600; color: var(--text-sub); }
+.field { display: flex; flex-direction: column; gap: 8px; }
+label { font-size: 13px; font-weight: 700; color: var(--text-main); }
 
-.flex-input { display: flex; gap: 6px; }
-
-/* 입력 필드 디자인 - 더 둥글고 여백 조정 */
+.flex-input { display: flex; gap: 8px; align-items: stretch; }
 input, select, textarea { 
-  width: 100%; 
-  padding: 12px; 
-  border: 1.5px solid var(--border); 
-  border-radius: var(--radius-md); 
-  font-size: 14px; 
-  outline: none; 
-  transition: all 0.2s ease;
+  width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none;
 }
-input:focus, select:focus, textarea:focus { 
-  border-color: var(--primary); 
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); 
-}
+input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
-/* 인라인 추가 버튼 디자인 개편 - '추가' 버튼 줄바꿈 현상 수정 완료 */
+/* 추가 버튼 정렬 수정 (이미지 2 대응) */
 .add-inline-btn { 
-  padding: 0 14px; 
-  background: white; 
-  color: var(--primary); 
-  border: 1.5px solid var(--primary); 
-  border-radius: var(--radius-md); 
-  cursor: pointer; 
-  font-weight: 700; 
-  font-size: 13px;
-  white-space: nowrap; /* 글자 안 잘리게 */
-  flex-shrink: 0; /* 버튼 크기 유지 */
-  transition: 0.2s;
-}
-.add-inline-btn:hover { background: var(--primary-soft); }
-
-/* 상세 조건 추가 버튼 수정 - 한 줄 배치 */
-.custom-add-area {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  width: 100%;
-}
-#customChipIn { flex-grow: 1; }
-.custom-add-btn { 
-    width: auto !important;
-    padding: 12px 18px;
-}
-
-/* 칩(태그) 디자인 */
-.chip-container { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
-.chip { 
-  padding: 6px 14px; 
-  background: #f1f5f9; 
-  border-radius: 20px; 
-  font-size: 12px; 
-  cursor: pointer; 
-  border: 1px solid var(--border); 
-  transition: 0.2s;
-  color: var(--text-sub);
-  font-weight: 600;
-}
-.chip:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
-
-/* 결과 미리보기 디자인 - 더 넓고 전문적인 느낌 */
-.result-box { 
-  background: #1e293b; 
-  color: #e2e8f0; 
-  padding: 20px; 
-  border-radius: var(--radius-md); 
-  min-height: 150px; 
-  font-size: 13px; 
-  white-space: pre-wrap; 
-  margin-top: 12px;
-  line-height: 1.6;
-}
-
-/* 하단 버튼 세트 */
-.btn-group { display: flex; gap: 10px; margin-top: 20px; }
-button { 
-  flex: 1; 
-  padding: 14px; 
-  border-radius: var(--radius-md); 
-  border: none; 
-  font-weight: 700; 
-  cursor: pointer; 
-  transition: 0.2s;
-  font-size: 14px;
-}
-.btn-main { background: var(--primary); color: white; }
-.btn-main:hover { background: var(--primary-hover); transform: translateY(-1px); }
-.btn-sub { background: #e2e8f0; color: var(--text-main); }
-.btn-sub:hover { background: #cbd5e1; }
-
-/* 보관함 검색바 */
-#searchIn { margin-bottom: 20px; border-color: #cbd5e1; }
-
-/* 보관함 리스트 스크롤 */
-.list-scroll { 
-  max-height: calc(100vh - 120px); /* 화면 크기에 맞게 */
-  overflow-y: auto; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 12px; 
-  padding-right: 4px;
-}
-.list-scroll::-webkit-scrollbar { width: 5px; }
-.list-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-
-/* 보관함 카드 디자인 개편 - 커서 불일치 문제 수정 완료 */
-.archive-card { 
-  padding: 18px; 
-  border: 1px solid var(--border); 
-  border-radius: var(--radius-lg); 
-  background: white; 
-  position: relative; 
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  overflow: hidden; /* 영역 밖 내용 숨김 */
-}
-
-/* 호버 효과 - 카드 전체가 깔끔하게 강조 */
-.archive-card:hover { 
-  border-color: var(--primary); 
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.archive-card .meta { font-size: 11px; color: var(--primary); font-weight: bold; margin-bottom: 7px; display: flex; gap: 5px; }
-.archive-card .meta-tag { background: var(--primary-soft); padding: 2px 8px; border-radius: 4px; }
-.archive-card strong { display: block; font-size: 15px; margin-bottom: 5px; color: var(--text-main); }
-.archive-card .desc { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
-
-/* 카드 상단 오른쪽 버튼 */
-.card-top-actions {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  display: flex;
-  gap: 5px;
-  opacity: 0; /* 평소엔 숨김 */
-  transition: opacity 0.2s;
-}
-.archive-card:hover .card-top-actions { opacity: 1; } /* 호버 시 나타남 */
-
-.action-btn { 
-  padding: 5px 10px; 
-  font-size: 11px; 
-  border-radius: 6px; 
+  padding: 0 20px; 
+  background: var(--primary); 
   color: white; 
-  cursor: pointer;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
+  border: none; 
+  border-radius: var(--radius-md); 
+  cursor: pointer; 
+  font-weight: 700; 
+  font-size: 14px;
+  white-space: nowrap; /* 줄바꿈 방지 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
-.edit { background: var(--success); }
-.del { background: var(--danger); }
 
-/* --- 커스텀 팝업(모달) 디자인 --- */
-/* 이미지와 동일한 어두운 테마로 개편 */
+/* 칩 스타일 */
+.chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip { 
+  padding: 6px 12px; background: var(--primary-soft); color: var(--primary); 
+  border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;
+}
+
+/* 결과창 성의있게 개편 */
+.result-box { 
+  background: #1e293b; color: #f8fafc; padding: 20px; border-radius: var(--radius-md); 
+  min-height: 200px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.7;
+  border-left: 4px solid var(--primary);
+}
+
+.btn-group { display: flex; gap: 10px; margin-top: 20px; }
+.btn-main { background: var(--primary); color: white; flex: 2; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
+.btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
+
+/* 보관함 리스트 디자인 (이미지 1 대응 - 꽉 차게) */
+.list-scroll { 
+  max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
+}
+.archive-card { 
+  width: 100%; /* 너비 꽉 차게 */
+  padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); 
+  background: white; transition: 0.2s; position: relative;
+}
+.archive-card:hover { border-color: var(--primary); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
+
+.meta-tags { display: flex; gap: 6px; margin-bottom: 10px; }
+.tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: #f1f5f9; font-weight: 700; color: var(--text-sub); }
+
+.archive-card strong { font-size: 16px; display: block; margin-bottom: 8px; color: var(--text-main); }
+.archive-card .desc-preview { font-size: 13px; color: var(--text-sub); margin-bottom: 15px; }
+
+/* 보관함 버튼 정렬 */
+.card-actions { display: flex; gap: 8px; width: 100%; }
+.card-actions button { 
+  flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;
+}
+.load-btn { background: #eef2ff; color: #4f46e5; }
+.edit-btn { background: #ecfdf5; color: #10b981; }
+.copy-btn { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
+.del-btn { background: #fef2f2; color: #ef4444; }
+
+/* 모달 디자인 */
 .modal-overlay { 
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-  background: rgba(0, 0, 0, 0.7); 
-  display: none; align-items: center; justify-content: center; z-index: 1000;
-  backdrop-filter: blur(5px);
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); 
+  display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(4px);
 }
 .modal-overlay.show { display: flex; }
+.modal { background: #222; border-radius: 12px; width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
+.modal-header { padding: 15px; background: #111; color: #ccc; font-size: 12px; border-bottom: 1px solid #333; }
+.modal-body { padding: 24px; }
+.modal-body p { color: white; margin: 0 0 15px 0; font-weight: 600; }
+.modal-footer { padding: 15px; display: flex; justify-content: flex-end; gap: 10px; background: #1a1a1a; }
+.m-btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+.m-confirm { background: #3b82f6; color: white; }
+.m-cancel { background: #444; color: #ccc; }
 
-.modal { 
-  background: #232323; /* 어두운 배경 */
-  border-radius: 12px; /* 이미지의 각진 느낌 반영 */
-  width: 100%; 
-  max-width: 480px; 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-  overflow: hidden;
-}
+#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 8px; display: none; z-index: 10000; }
 
-/* 제목 바 - "tteodoli0812..." */
-.modal-header {
-  background: #1a1a1a;
-  padding: 15px 20px;
-  border-bottom: 1px solid #333;
-}
-.modal-header h4 { 
-  margin: 0; 
-  font-size: 16px; 
-  color: white; 
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-/* 바디 - "카테고리명을 입력하세요" */
-.modal-body {
-  padding: 25px 20px;
-}
-.modal-body p {
-  margin: 0 0 15px 0;
-  font-size: 14px;
-  color: white;
-  font-weight: 500;
-}
-
-/* 어두운 테마 입력창 - 이미지와 동일하게 */
-#modalInput { 
-  width: 100%; 
-  padding: 12px 15px; 
-  border: 1px solid #444; 
-  border-radius: 6px; 
-  background: #2a2a2a; 
-  color: white; 
-  font-size: 14px;
-  outline: none;
-  margin-top: 5px;
-}
-/* 포커스 시 이미지의 파란색 하이라이트 반영 */
-#modalInput:focus { 
-  border-color: #3b82f6; 
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); 
-}
-
-/* 하단 버튼 바 - 우측 정렬 */
-.modal-footer {
-  padding: 15px 20px 20px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-.modal-btn { 
-  padding: 10px 22px; 
-  border-radius: 6px; 
-  font-size: 13px; 
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-}
-/* 확인 버튼 - 이미지의 파란색 */
-.btn-modal-confirm { background: #3b82f6; color: white; }
-.btn-modal-confirm:hover { background: #2563eb; }
-/* 취소 버튼 - 이미지의 회색 */
-.btn-modal-cancel { background: #333; color: white; border: 1px solid #444; }
-.btn-modal-cancel:hover { background: #444; }
-
-/* 토스트 알림 디자인 */
-.toast { 
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-  background: rgba(30, 41, 59, 0.9); color: white; padding: 12px 25px; border-radius: 50px; 
-  font-size: 13px; font-weight: 600; display: none; z-index: 1100; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* 반응형 디자인 */
-@media (max-width: 900px) {
-  .container { grid-template-columns: 1fr; gap: 20px; }
-}
+@media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<div class="modal-overlay" id="categoryModal">
+<div class="modal-overlay" id="customModal">
   <div class="modal">
-    <div class="modal-header">
-      <h4>tteodoli0812-maker.github.io의 메시지</h4>
-    </div>
+    <div class="modal-header" id="mHeader">tteodoli0812-maker.github.io의 메시지</div>
     <div class="modal-body">
-      <p id="modalDesc">새 항목 이름을 입력해주세요.</p>
-      <input type="text" id="modalInput" placeholder="이름 입력...">
+      <p id="mTitle">항목 추가</p>
+      <input type="text" id="mInput" style="background:#333; border:1px solid #444; color:white;">
     </div>
     <div class="modal-footer">
-      <button class="modal-btn btn-modal-confirm" id="modalConfirmBtn">확인</button>
-      <button class="modal-btn btn-modal-cancel" onclick="closeModal()">취소</button>
+      <button class="m-btn m-confirm" id="mConfirm">확인</button>
+      <button class="m-btn m-cancel" onclick="closeModal()">취소</button>
     </div>
   </div>
 </div>
@@ -348,18 +153,18 @@ button {
 <div class="container">
   <div class="main-side">
     <div class="card">
-      <h3>프롬프트 만들기 <span id="modeStatus" class="mode-new">새로 만들기</span></h3>
+      <h3>프롬프트 제작 도구 <span id="modeLabel" style="font-size:11px; color:var(--primary);">[새 모드]</span></h3>
       
       <div class="input-row">
         <div class="field">
           <label>제목</label>
-          <input type="text" id="titleIn" placeholder="예: 블로그 포스팅 초안">
+          <input type="text" id="titleIn" placeholder="제목을 입력하세요">
         </div>
         <div class="field">
           <label>AI 엔진</label>
           <div class="flex-input">
             <select id="aiSel"></select>
-            <button class="add-inline-btn" type="button" onclick="openModal('aiSel')">+</button>
+            <button class="add-inline-btn" onclick="openModal('aiSel')">추가</button>
           </div>
         </div>
       </div>
@@ -369,269 +174,211 @@ button {
           <label>용도 카테고리</label>
           <div class="flex-input">
             <select id="useSel"></select>
-            <button class="add-inline-btn" type="button" onclick="openModal('useSel')">+</button>
+            <button class="add-inline-btn" onclick="openModal('useSel')">추가</button>
           </div>
         </div>
         <div class="field">
           <label>톤앤매너</label>
-          <input type="text" id="toneIn" placeholder="예: 단호하게, 친절하게">
+          <input type="text" id="toneIn" placeholder="예: 전문적인, 유머러스한">
         </div>
       </div>
 
-      <div class="field" style="margin-bottom:15px;">
-        <label>상세 조건 및 제약사항</label>
-        <div class="custom-add-area flex-input">
-          <input type="text" id="customChipIn" placeholder="자주 쓰는 조건을 추가하세요">
-          <button class="add-inline-btn custom-add-btn" type="button" onclick="addChip()">추가</button>
+      <div class="field">
+        <label>상세 조건 및 제약 사항</label>
+        <div class="flex-input">
+          <input type="text" id="chipIn" placeholder="조건 키워드 입력">
+          <button class="add-inline-btn" onclick="addChip()">추가</button>
         </div>
-        <div class="chip-container" id="chipBox">
-          </div>
-        <textarea id="detailIn" style="margin-top:10px;" rows="4" placeholder="상세 조건을 자유롭게 입력하세요."></textarea>
+        <div class="chip-container" id="chipBox"></div>
+        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="AI에게 전달할 상세 지침을 작성하세요."></textarea>
       </div>
 
-      <label style="font-size: 13px; font-weight: 600; color: var(--text-sub); margin-top: 10px; display: block;">실시간 결과 미리보기</label>
       <div class="result-box" id="resultOut"></div>
       
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">보관함에 저장하기</button>
-        <button class="btn-sub" id="resetBtn">입력 초기화</button>
+        <button class="btn-main" id="saveBtn">보관함 저장</button>
+        <button class="btn-sub" onclick="resetForm()">초기화</button>
       </div>
     </div>
   </div>
 
   <div class="archive-side">
     <div class="card">
-      <h3>저장된 프롬프트 보관함</h3>
-      <input type="text" id="searchIn" placeholder="제목이나 태그로 검색...">
-      <div class="list-scroll" id="listBox">
-        </div>
+      <h3>프롬프트 보관함</h3>
+      <input type="text" id="searchIn" placeholder="검색어를 입력하세요..." style="margin-bottom:20px;">
+      <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
 </div>
 
-<div id="toast" class="toast">완료되었습니다!</div>
+<div id="toast">복사되었습니다!</div>
 
 <script>
-// 데이터 상태 및 초기화 (기존 데이터 유지)
+// --- 데이터 및 초기화 ---
+// 성의 있는 예시 데이터 추가 (ai별, 용도별)
 let savedData = [
-  { id: Date.now(), title: "기본 안내 프롬프트", ai: "ChatGPT", use: "글쓰기", tone: "친절하게", detail: "핵심 요약을 포함해줘" }
+  { 
+    id: 1, title: "파이썬 데이터 시각화 스크립트", ai: "ChatGPT", use: "코딩", tone: "분석적이고 정확하게", 
+    detail: "Pandas와 Matplotlib을 사용해서 CSV 데이터를 시각화하는 코드를 짜줘. 주석은 한글로 달아주고 코드 효율성을 높여줘." 
+  },
+  { 
+    id: 2, title: "블로그 IT 리뷰 포스팅 초안", ai: "Claude", use: "글쓰기", tone: "친근하고 설득력 있게", 
+    detail: "최신 스마트폰 리뷰 글을 써줘. 서론-본론-결론 구조로 작성하고, 독자들이 흥미를 느낄만한 소제목을 3개 이상 포함해줘." 
+  },
+  { 
+    id: 3, title: "주간 업무 보고 기획안", ai: "Gemini", use: "기획", tone: "격식 있고 간결하게", 
+    detail: "한 주 동안 진행된 마케팅 성과를 요약하는 보고서 양식을 만들어줘. 수치 위주의 불렛포인트 형식을 사용해줘." 
+  }
 ];
-let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["글쓰기", "코딩", "기획", "이미지"];
-let chips = ["자연스러운 말투", "핵심만 요약", "단계별 설명"];
-let editId = null;
-let targetSelectId = ''; // 팝업이 어느 select박스를 타겟으로 하는지 저장
 
-// 초기화 함수
+let aiOptions = ["ChatGPT", "Claude", "Gemini", "Llama 3"];
+let useOptions = ["코딩", "글쓰기", "기획", "이미지 생성", "마케팅"];
+let chips = ["단계별 설명", "핵심 요약 포함", "전문 용어 제외", "표 형식 사용"];
+let editId = null;
+let currentTarget = '';
+
 function init() {
-  renderSelect('aiSel', aiOptions);
-  renderSelect('useSel', useOptions);
+  renderOptions();
   renderChips();
   renderList();
-  updateResult();
+  updatePreview();
 }
 
-/* --- 커스텀 팝업(모달) 제어 스크립트 (UI 로직만 추가) --- */
-function openModal(id) {
-  targetSelectId = id; // 타겟 저장
-  const modal = document.getElementById('categoryModal');
-  const desc = document.getElementById('modalDesc');
-  const input = document.getElementById('modalInput');
-  
-  // 타겟에 따라 문구 변경
-  if (id === 'aiSel') {
-    desc.textContent = '새로 추가할 AI 엔진 이름을 입력해주세요.';
-    input.placeholder = '예: Llama 3';
-  } else {
-    desc.textContent = '새로 추가할 용도 카테고리명을 입력해주세요.';
-    input.placeholder = '예: 이메일 작성';
-  }
-  
-  input.value = ''; // 입력창 초기화
-  modal.classList.add('show'); // 팝업 띄우기
-  input.focus(); // 자동 포커스
-}
-
-function closeModal() {
-  document.getElementById('categoryModal').classList.remove('show'); // 팝업 닫기
-}
-
-// 팝업 확인 버튼 클릭 시 (기존 addOption 기능 대체)
-document.getElementById('modalConfirmBtn').onclick = () => {
-  const val = document.getElementById('modalInput').value.trim();
-  if (!val) return; // 빈 값 입력 시 리턴
-
-  if (targetSelectId === 'aiSel') {
-    if (!aiOptions.includes(val)) aiOptions.push(val);
-    renderSelect('aiSel', aiOptions);
-  } else {
-    if (!useOptions.includes(val)) useOptions.push(val);
-    renderSelect('useSel', useOptions);
-  }
-  
-  // 새로 추가된 항목 자동 선택
-  document.getElementById(targetSelectId).value = val;
-  updateResult();
-  closeModal(); // 팝업 닫기
-  showToast('새 항목이 추가되었습니다.');
-};
-
-// 팝업 내 입력창에서 엔터키 처리
-document.getElementById('modalInput').onkeydown = (e) => {
-  if (e.key === 'Enter') {
-    document.getElementById('modalConfirmBtn').click();
-  }
-};
-
-/* --- 기존 기능 유지 함수들 (기능 로직 절대 변경 불가) --- */
-
-function renderSelect(id, options) {
-  const el = document.getElementById(id);
-  const current = el.value; // 현재 선택값 유지
-  el.innerHTML = options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
-  if (options.includes(current)) {
-    el.value = current;
-  }
+// --- UI 렌더링 기능 (기존 로직 유지) ---
+function renderOptions() {
+  const a = document.getElementById('aiSel');
+  const u = document.getElementById('useSel');
+  a.innerHTML = aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  u.innerHTML = useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
-  const chipBox = document.getElementById('chipBox');
-  chipBox.innerHTML = '';
-  chips.forEach(text => {
-    const span = document.createElement('span');
-    span.className = 'chip';
-    span.textContent = text;
-    // 칩 클릭 시 상세 설명에 추가 (기능 유지)
-    span.onclick = () => {
-      const area = document.getElementById('detailIn');
-      area.value += (area.value ? ', ' : '') + text;
-      updateResult();
-    };
-    chipBox.appendChild(span);
-  });
+  const box = document.getElementById('chipBox');
+  box.innerHTML = chips.map(c => `<span class="chip" onclick="applyChip('${c}')">${c}</span>`).join('');
 }
 
-// 상세 조건 칩 추가 기능
+function applyChip(c) {
+  const d = document.getElementById('detailIn');
+  d.value += (d.value ? ', ' : '') + c;
+  updatePreview();
+}
+
 function addChip() {
-  const input = document.getElementById('customChipIn');
-  const val = input.value.trim();
-  if (!val) return;
-  if (!chips.includes(val)) {
-    chips.push(val);
+  const i = document.getElementById('chipIn');
+  if(i.value.trim()) {
+    chips.push(i.value.trim());
     renderChips();
+    i.value = '';
   }
-  input.value = '';
 }
 
-// 프롬프트 결과 생성 기능
-function updateResult() {
+// --- 프롬프트 생성 (더 성의있게 개편) ---
+function updatePreview() {
   const title = document.getElementById('titleIn').value || '(제목 없음)';
-  const ai = document.getElementById('aiSel').value || 'AI';
-  const use = document.getElementById('useSel').value || '용도';
-  const tone = document.getElementById('toneIn').value || '기본';
-  const detail = document.getElementById('detailIn').value || '추가 조건 없음';
+  const ai = document.getElementById('aiSel').value;
+  const use = document.getElementById('useSel').value;
+  const tone = document.getElementById('toneIn').value || '일반적인';
+  const detail = document.getElementById('detailIn').value || '내용을 입력해주세요.';
 
-  const res = `[${ai} / ${use}]\n목표: ${title}\n말투: ${tone}\n조건: ${detail}`;
-  document.getElementById('resultOut').textContent = res;
+  const template = `[ 시스템 지침: ${ai} 전용 ]\n\n` +
+                   `● 페르소나 및 목표: ${use} 전문가로서 "${title}" 작업을 수행합니다.\n` +
+                   `● 출력 톤앤매너: ${tone}\n\n` +
+                   `[ 상세 요청 내용 ]\n${detail}\n\n` +
+                   `※ 위 지침에 따라 최상의 결과물을 생성해 주세요.`;
+  
+  document.getElementById('resultOut').textContent = template;
 }
 
-// 보관함 리스트 렌더링 (커서 불일치 문제 해결 및 디자인 개편)
+// --- 보관함 리스트 (이미지 1 문제 해결) ---
 function renderList() {
-  const keyword = document.getElementById('searchIn').value.toLowerCase().trim();
+  const kw = document.getElementById('searchIn').value.toLowerCase();
   const box = document.getElementById('listBox');
   box.innerHTML = '';
 
-  const filteredData = savedData.filter(d => 
-    d.title.toLowerCase().includes(keyword) || 
-    d.detail.toLowerCase().includes(keyword) || 
-    d.ai.toLowerCase().includes(keyword) || 
-    d.use.toLowerCase().includes(keyword)
-  );
-
-  if (filteredData.length === 0) {
-    box.innerHTML = '<div style="text-align: center; color: var(--text-sub); font-size: 13px; margin-top: 20px;">저장된 프롬프트가 없습니다.</div>';
-    return;
-  }
-
-  filteredData.forEach(item => {
+  savedData.filter(d => d.title.toLowerCase().includes(kw)).forEach(item => {
     const div = document.createElement('div');
     div.className = 'archive-card';
     div.innerHTML = `
-      <div class="card-top-actions">
-        <span class="action-btn edit" onclick="editItem(${item.id})">수정</span>
-        <span class="action-btn del" onclick="deleteItem(${item.id})">삭제</span>
+      <div class="meta-tags">
+        <span class="tag">${item.ai}</span>
+        <span class="tag">${item.use}</span>
       </div>
-      <div class="meta">
-        <span class="meta-tag">${escapeHtml(item.ai)}</span>
-        <span class="meta-tag">${escapeHtml(item.use)}</span>
+      <strong>${item.title}</strong>
+      <div class="desc-preview">${item.detail.substring(0, 40)}...</div>
+      <div class="card-actions">
+        <button class="load-btn" onclick="loadItem(${item.id})">불러오기</button>
+        <button class="edit-btn" onclick="startEdit(${item.id})">수정</button>
+        <button class="copy-btn" onclick="copyItem(${item.id})">복사</button>
+        <button class="del-btn" onclick="deleteItem(${item.id})">삭제</button>
       </div>
-      <strong>${escapeHtml(item.title)}</strong>
-      <div class="desc">${escapeHtml(item.detail || '')}</div>
     `;
-    // 카드 자체 클릭 시 내용 복사 기능 유지
-    div.onclick = (e) => {
-      // 수정/삭제 버튼 클릭 시엔 복사 안 함
-      if (e.target.classList.contains('action-btn')) return;
-      
-      const copyText = `[${item.ai} / ${item.use}]\n목표: ${item.title}\n말투: ${item.tone || '기본'}\n조건: ${item.detail || '없음'}`;
-      navigator.clipboard.writeText(copyText);
-      showToast('프롬프트 내용이 복사되었습니다!');
-    };
     box.appendChild(div);
   });
 }
 
-// 수정 모드 진입 기능
-function editItem(id) {
-  const item = savedData.find(d => d.id === id);
-  if (!item) return;
-  
-  editId = id;
-  const modeStatus = document.getElementById('modeStatus');
-  modeStatus.textContent = "수정 중...";
-  modeStatus.className = 'mode-edit';
-  
-  document.getElementById('titleIn').value = item.title;
-  document.getElementById('aiSel').value = item.ai;
-  document.getElementById('useSel').value = item.use;
-  document.getElementById('toneIn').value = item.tone;
-  document.getElementById('detailIn').value = item.detail;
-  updateResult();
-  
-  // 맨 위로 스크롤 (사용자 편의)
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+// --- 커스텀 모달 기능 ---
+function openModal(type) {
+  currentTarget = type;
+  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 명칭 입력' : '새 카테고리 명칭 입력';
+  document.getElementById('customModal').classList.add('show');
+  document.getElementById('mInput').focus();
 }
 
-// 삭제 기능
+function closeModal() {
+  document.getElementById('customModal').classList.remove('show');
+  document.getElementById('mInput').value = '';
+}
+
+document.getElementById('mConfirm').onclick = () => {
+  const val = document.getElementById('mInput').value.trim();
+  if(!val) return;
+  if(currentTarget === 'aiSel') aiOptions.push(val);
+  else useOptions.push(val);
+  renderOptions();
+  document.getElementById(currentTarget).value = val;
+  updatePreview();
+  closeModal();
+};
+
+// --- 액션 기능 (수정/저장/삭제/복사) ---
+function loadItem(id) {
+  const item = savedData.find(d => d.id === id);
+  if(item) {
+    document.getElementById('titleIn').value = item.title;
+    document.getElementById('aiSel').value = item.ai;
+    document.getElementById('useSel').value = item.use;
+    document.getElementById('toneIn').value = item.tone;
+    document.getElementById('detailIn').value = item.detail;
+    updatePreview();
+    showToast('데이터를 불러왔습니다.');
+  }
+}
+
+function startEdit(id) {
+  loadItem(id);
+  editId = id;
+  document.getElementById('modeLabel').textContent = "[수정 모드]";
+}
+
 function deleteItem(id) {
-  if (confirm('정말 이 프롬프트를 삭제하시겠습니까?')) {
+  if(confirm('삭제할까요?')) {
     savedData = savedData.filter(d => d.id !== id);
     renderList();
-    showToast('삭제되었습니다.');
   }
 }
 
-// 입력 초기화 기능
-function resetFields() {
-  ['titleIn', 'toneIn', 'detailIn'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  editId = null;
-  const modeStatus = document.getElementById('modeStatus');
-  modeStatus.textContent = "새로 만들기";
-  modeStatus.className = 'mode-new';
-  updateResult();
+function copyItem(id) {
+  const item = savedData.find(d => d.id === id);
+  const text = `[${item.ai} / ${item.use}] ${item.title}\n\n${item.detail}`;
+  navigator.clipboard.writeText(text);
+  showToast('클립보드에 복사되었습니다.');
 }
 
-// 저장 기능 (신규/수정 공용)
 document.getElementById('saveBtn').onclick = () => {
-  const title = document.getElementById('titleIn').value.trim();
-  if(!title) {
-    showToast('제목을 입력해주세요.');
-    return;
-  }
+  const title = document.getElementById('titleIn').value;
+  if(!title) return alert('제목을 입력하세요.');
 
-  const newData = {
+  const obj = {
     id: editId || Date.now(),
     title,
     ai: document.getElementById('aiSel').value,
@@ -640,58 +387,40 @@ document.getElementById('saveBtn').onclick = () => {
     detail: document.getElementById('detailIn').value
   };
 
-  if (editId) {
+  if(editId) {
     const idx = savedData.findIndex(d => d.id === editId);
-    if (idx !== -1) {
-      savedData[idx] = newData;
-      showToast('수정되었습니다.');
-    }
+    savedData[idx] = obj;
   } else {
-    savedData.unshift(newData); // 맨 위에 추가
-    showToast('보관함에 저장되었습니다.');
+    savedData.unshift(obj);
   }
-
-  // AI엔진 및 용도 리스트 업데이트 (새로 추가된 값이 있다면)
-  if(!aiOptions.includes(newData.ai)) aiOptions.push(newData.ai);
-  if(!useOptions.includes(newData.use)) useOptions.push(newData.use);
-  renderSelect('aiSel', aiOptions);
-  renderSelect('useSel', useOptions);
-
-  resetFields();
+  
+  resetForm();
   renderList();
+  showToast('저장 완료!');
 };
 
-document.getElementById('resetBtn').onclick = resetFields;
-document.getElementById('searchIn').oninput = renderList;
+function resetForm() {
+  document.getElementById('titleIn').value = '';
+  document.getElementById('toneIn').value = '';
+  document.getElementById('detailIn').value = '';
+  editId = null;
+  document.getElementById('modeLabel').textContent = "[새 모드]";
+  updatePreview();
+}
 
-// 입력 필드 변경 시 결과 실시간 업데이트 (이벤트 연결)
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2000);
+}
+
+// 이벤트 바인딩
+document.getElementById('searchIn').oninput = renderList;
 ['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => {
-  document.getElementById(id).oninput = updateResult;
-  document.getElementById(id).onchange = updateResult;
+  document.getElementById(id).oninput = updatePreview;
 });
 
-// 토스트 알림 기능
-function showToast(m) {
-  const toast = document.getElementById('toast');
-  toast.textContent = m;
-  toast.style.display = 'block';
-  setTimeout(() => {
-    toast.style.display = 'none';
-  }, 1800);
-}
-
-// HTML 이스케이프 (보안)
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-// 초기 로드
 init();
 </script>
 </body>
