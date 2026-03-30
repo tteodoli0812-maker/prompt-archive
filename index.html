@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Studio Pro - Final Fixed</title>
+<title>프롬프트 스튜디오 프로</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
@@ -15,61 +15,33 @@
   --text-main: #0f172a;
   --text-sub: #475569;
   --border: #e2e8f0;
-  --accent: #10b981;
-  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; transition: all 0.2s ease; }
+body { margin: 0; background: var(--bg-gradient); color: var(--text-main); padding: 30px; min-height: 100vh; }
 
-body { 
-  margin: 0; background: var(--bg-gradient); color: var(--text-main); 
-  padding: 30px; min-height: 100vh;
-}
+.container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 480px; gap: 30px; }
+.card { background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.8); padding: 30px; box-shadow: var(--shadow); backdrop-filter: blur(10px); }
 
-.container { 
-  max-width: 1300px; margin: 0 auto; display: grid; 
-  grid-template-columns: 1fr 480px; gap: 30px;
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-.card { 
-  background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 30px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
-}
-
-h3 { font-size: 20px; font-weight: 800; margin: 0 0 25px 0; display: flex; align-items: center; letter-spacing: -0.5px; }
+h3 { font-size: 20px; font-weight: 800; margin: 0 0 25px 0; display: flex; align-items: center; }
 h3::before { content: ''; display: inline-block; width: 4px; height: 20px; background: var(--primary); margin-right: 12px; border-radius: 10px; }
 
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .field { display: flex; flex-direction: column; gap: 10px; }
 label { font-size: 13px; font-weight: 700; color: var(--text-sub); }
 
-input, select, textarea { 
-  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); 
-  border-radius: 12px; font-size: 14px; outline: none; background: #fff;
-}
+input, select, textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; outline: none; background: #fff; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
 
-.add-inline-btn { 
-  padding: 0 18px; background: var(--primary); color: white; border: none; 
-  border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 14px;
-}
+.add-inline-btn { padding: 0 18px; background: var(--primary); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 14px; }
 .add-inline-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
 .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.chip { 
-  padding: 8px 14px; background: rgba(99, 102, 241, 0.08); color: var(--primary); 
-  border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: 700;
-}
-.chip:hover { background: var(--primary); color: white; }
+.chip { padding: 8px 14px; background: rgba(99, 102, 241, 0.08); color: var(--primary); border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: 700; }
+.chip.active { background: var(--primary); color: white; }
 
-.result-box { 
-  background: #0f172a; color: #e2e8f0; padding: 25px; border-radius: 16px; 
-  min-height: 380px; font-size: 13.5px; white-space: pre-wrap; margin-top: 20px; 
-  line-height: 1.7; border-left: 6px solid var(--primary); font-family: 'Consolas', monospace;
-}
+.result-box { background: #0f172a; color: #e2e8f0; padding: 25px; border-radius: 16px; min-height: 400px; font-size: 13.5px; white-space: pre-wrap; margin-top: 20px; line-height: 1.7; border-left: 6px solid var(--primary); font-family: 'Consolas', monospace; overflow-y: auto; }
 
 .btn-group { display: flex; gap: 12px; margin-top: 25px; }
 .btn-main { background: var(--primary); color: white; flex: 2; padding: 16px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; font-size: 15px; }
@@ -78,11 +50,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .archive-filter-area { background: #f8fafc; padding: 15px; border-radius: 14px; margin-bottom: 20px; border: 1px solid var(--border); }
 .filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 
-.list-scroll { max-height: 800px; overflow-y: auto; padding-right: 5px; }
-.archive-card { 
-  width: 100%; padding: 20px; border: 1px solid var(--border); border-radius: 18px; 
-  background: white; margin-bottom: 15px;
-}
+.list-scroll { max-height: 800px; overflow-y: auto; }
+.archive-card { width: 100%; padding: 20px; border: 1px solid var(--border); border-radius: 18px; background: white; margin-bottom: 15px; }
 .archive-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--primary); }
 
 .tag { font-size: 10px; padding: 4px 8px; border-radius: 5px; background: #f1f5f9; font-weight: 800; color: var(--text-sub); margin-right: 4px; }
@@ -90,22 +59,17 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .card-actions button { flex: 1; padding: 9px; font-size: 11px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
 
 .load-btn { background: #e0e7ff; color: #4338ca; }
-.edit-btn { background: #dcfce7; color: #15803d; }
 .copy-btn { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
 .del-btn { background: #fee2e2; color: #b91c1c; }
 
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(4px); }
 .modal-overlay.show { display: flex; }
-.modal { background: #1e293b; border-radius: 20px; width: 400px; overflow: hidden; border: 1px solid #334155; }
+.modal { background: #1e293b; border-radius: 20px; width: 400px; border: 1px solid #334155; overflow: hidden; }
 .modal-body { padding: 30px; }
 .modal-input { width: 100%; background: #0f172a; border: 1px solid #334155; color: white; padding: 12px; border-radius: 10px; outline: none; }
 .modal-footer { padding: 15px 25px; display: flex; justify-content: flex-end; gap: 10px; background: #0f172a; }
 
-#toast { 
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-  background: #0f172a; color: white; padding: 12px 30px; border-radius: 12px; 
-  display: none; z-index: 2000; font-weight: 600; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 30px; border-radius: 12px; display: none; z-index: 2000; font-weight: 600; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 </style>
 </head>
 <body>
@@ -126,52 +90,52 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 <div class="container">
   <div class="main-side">
     <div class="card">
-      <h3>PROMPT ENGINE <span id="modeLabel" style="font-size:11px; color:var(--primary); margin-left:10px; background:rgba(99,102,241,0.1); padding:2px 8px; border-radius:4px;">[READY]</span></h3>
+      <h3>프롬프트 엔진 <span id="modeLabel" style="font-size:11px; color:var(--primary); margin-left:10px; background:rgba(99,102,241,0.1); padding:2px 8px; border-radius:4px;">[대기 중]</span></h3>
       <div class="input-row">
-        <div class="field"><label>CORE TOPIC</label><input type="text" id="titleIn" placeholder="해결할 주제 입력"></div>
-        <div class="field"><label>AI ENGINE</label><div class="flex-input"><select id="aiSel"></select><button class="add-inline-btn" onclick="openModal('aiSel')">+</button></div></div>
+        <div class="field"><label>핵심 주제</label><input type="text" id="titleIn" placeholder="해결할 주제를 입력하세요"></div>
+        <div class="field"><label>AI 엔진 최적화</label><div class="flex-input"><select id="aiSel"></select><button class="add-inline-btn" onclick="openModal('aiSel')">+</button></div></div>
       </div>
       <div class="input-row">
-        <div class="field"><label>CATEGORY</label><div class="flex-input"><select id="useSel"></select><button class="add-inline-btn" onclick="openModal('useSel')">+</button></div></div>
-        <div class="field"><label>TONE</label><input type="text" id="toneIn" placeholder="분위기 입력"></div>
+        <div class="field"><label>전문 분야 선택</label><div class="flex-input"><select id="useSel"></select><button class="add-inline-btn" onclick="openModal('useSel')">+</button></div></div>
+        <div class="field"><label>답변 톤앤매너</label><input type="text" id="toneIn" placeholder="예: 전문적이고 간결하게"></div>
       </div>
       <div class="field">
-        <label>CONSTRAINTS</label>
-        <div class="flex-input"><input type="text" id="chipIn" placeholder="키워드 입력"><button class="add-inline-btn" onclick="addChip()">추가</button></div>
+        <label>제약 조건 및 키워드 (클릭하여 활성화)</label>
+        <div class="flex-input"><input type="text" id="chipIn" placeholder="새 조건 추가"><button class="add-inline-btn" onclick="addChip()">추가</button></div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="상세 요청사항 입력"></textarea>
+        <textarea id="detailIn" rows="4" style="margin-top:12px;" placeholder="추가적인 상세 요청사항을 입력하세요"></textarea>
       </div>
       <div class="result-box" id="resultOut"></div>
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">SAVE & COPY PROMPT</button>
-        <button class="btn-sub" onclick="resetForm()">RESET</button>
+        <button class="btn-main" id="saveBtn">보관함 저장 및 프롬프트 복사</button>
+        <button class="btn-sub" onclick="resetForm()">초기화</button>
       </div>
     </div>
   </div>
 
   <div class="archive-side">
     <div class="card">
-      <h3>ARCHIVE</h3>
+      <h3>스마트 보관함</h3>
       <div class="archive-filter-area">
         <div class="filter-row">
           <select id="aiFilter"></select>
           <select id="categoryFilter"></select>
         </div>
-        <input type="text" id="searchIn" placeholder="검색어를 입력하세요...">
+        <input type="text" id="searchIn" placeholder="저장된 프롬프트 검색...">
       </div>
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
 </div>
 
-<div id="toast">완료되었습니다!</div>
+<div id="toast">복사 완료!</div>
 
 <script>
 let savedData = [];
-let aiOptions = ["ChatGPT-4", "Claude-3.5", "Gemini Pro"];
-let useOptions = ["Development", "Planning", "Marketing", "Writing"];
-let chips = ["Chain-of-Thought", "Expert Level", "Clear Steps"];
-let editId = null;
+let aiOptions = ["ChatGPT-4", "Claude-3.5", "Gemini Pro", "Perplexity"];
+let useOptions = ["개발(Development)", "비즈니스 기획", "콘텐츠 제작", "데이터 분석", "학술 연구"];
+let chips = ["Clean Code", "No Yapping", "Data-Driven", "Step-by-Step", "최신 트렌드 반영"];
+let activeChips = new Set(); // 활성화된 칩 관리
 let currentTarget = '';
 
 function init() { renderOptions(); renderChips(); renderFilterOptions(); renderList(); updatePreview(); }
@@ -182,45 +146,57 @@ function renderOptions() {
 }
 
 function renderFilterOptions() {
-  document.getElementById('aiFilter').innerHTML = '<option value="all">ALL ENGINES</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
-  document.getElementById('categoryFilter').innerHTML = '<option value="all">ALL CATEGORIES</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('aiFilter').innerHTML = '<option value="all">모든 엔진</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('categoryFilter').innerHTML = '<option value="all">모든 카테고리</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
-  document.getElementById('chipBox').innerHTML = chips.map(c => `<span class="chip" onclick="applyChip('${c}')">${c}</span>`).join('');
+  document.getElementById('chipBox').innerHTML = chips.map(c => 
+    `<span class="chip ${activeChips.has(c) ? 'active' : ''}" onclick="toggleChip('${c}')">${c}</span>`
+  ).join('');
 }
 
-function applyChip(c) {
-  const d = document.getElementById('detailIn');
-  d.value += (d.value ? ', ' : '') + c;
+function toggleChip(c) {
+  if(activeChips.has(c)) activeChips.delete(c);
+  else activeChips.add(c);
+  renderChips();
   updatePreview();
 }
 
 function addChip() {
   const i = document.getElementById('chipIn');
-  if(i.value.trim()) { chips.push(i.value.trim()); renderChips(); i.value = ''; }
+  if(i.value.trim()) { 
+    chips.push(i.value.trim()); 
+    activeChips.add(i.value.trim());
+    renderChips(); i.value = ''; updatePreview();
+  }
 }
 
-// 공통 프롬프트 빌더 함수 (복사 및 미리보기용)
+// [핵심] 칩(조건)을 포함하여 전체 프롬프트를 구성하는 함수
 function buildFullPrompt(data) {
-  const { ai, use, title, tone, detail } = data;
-  return `[ SYSTEM INSTRUCTION: ${ai} Optimized ]
+  const chipText = data.activeChips && data.activeChips.length > 0 ? data.activeChips.join(', ') : 'N/A';
+  const detailText = data.detail ? data.detail : '추가 요청 없음';
 
-당신은 최고의 "${use}" 전문가입니다. 사용자의 요청 "${title || '주제 미정'}"에 대해 아래의 사고 체계를 통해 답변하십시오.
+  return `${chipText}
+
+[ SYSTEM INSTRUCTION: ${data.ai} ]
+
+당신은 최고의 "${data.use}" 전문가입니다. 사용자의 요청 "${data.title || '주제 미정'}"에 대해 아래의 사고 체계를 통해 답변하십시오.
 
 1. CONTEXT ANALYSIS
-주제: ${title || '미지정'} / 분야: ${use}
+주제: ${data.title || '미지정'} / 분야: ${data.use}
 
 2. THINKING PROCESS (CoT)
-- 의도를 분석하고 전문적 사실에 근거해 논리를 구성하십시오.
-- 톤앤매너: "${tone || 'Professional'}" 분위기를 유지하십시오.
+- 사용자의 의도를 분석하고, 가장 정확한 사실 정보를 기반으로 논리를 구성하십시오.
+- 톤앤매너: "${data.tone || '전문적이고 논리적인'}" 분위기를 엄격히 준수하십시오.
 
 3. CONSTRAINTS & REQUIREMENTS
-- 상세 지침: ${detail || '추가 요청 없음'}
-- 가독성을 위해 마크다운 구조와 불렛 포인트를 사용하십시오.
-- 답변 마지막에는 이 주제와 관련된 전문가의 제언 3가지를 덧붙이십시오.
+- 선택된 조건: ${chipText}
+- 상세 지침: ${detailText}
+- 가독성을 위해 마크다운 구조를 활용하십시오.
+- 불필요한 서론은 생략하고 즉시 핵심 해결책을 제시하십시오.
 
-"위 지침에 따라 최상의 결과물을 생성하십시오."`;
+"위 지침에 따라 "${data.title || '해당 주제'}"에 대한 최상의 결과물을 생성하십시오."`;
 }
 
 function updatePreview() {
@@ -229,9 +205,24 @@ function updatePreview() {
     use: document.getElementById('useSel').value,
     title: document.getElementById('titleIn').value,
     tone: document.getElementById('toneIn').value,
-    detail: document.getElementById('detailIn').value
+    detail: document.getElementById('detailIn').value,
+    activeChips: Array.from(activeChips)
   };
   document.getElementById('resultOut').textContent = buildFullPrompt(data);
+}
+
+function copyItem(id) {
+  let text = "";
+  if (id) {
+    const item = savedData.find(d => d.id === id);
+    if (item) text = buildFullPrompt(item);
+  } else {
+    text = document.getElementById('resultOut').textContent;
+  }
+  
+  if(!text) return;
+  navigator.clipboard.writeText(text);
+  showToast('프롬프트 전체가 복사되었습니다!');
 }
 
 function renderList() {
@@ -242,45 +233,28 @@ function renderList() {
   box.innerHTML = '';
 
   const filtered = savedData.filter(d => {
-    const matchKw = d.title.toLowerCase().includes(kw) || d.detail.toLowerCase().includes(kw);
+    const matchKw = d.title.toLowerCase().includes(kw);
     return matchKw && (aiF === 'all' || d.ai === aiF) && (useF === 'all' || d.use === useF);
   });
-
-  if(filtered.length === 0) { box.innerHTML = '<div style="text-align:center; padding:50px; color:#94a3b8;">No data.</div>'; return; }
 
   filtered.forEach(item => {
     const div = document.createElement('div');
     div.className = 'archive-card';
     div.innerHTML = `
       <div class="meta-tags"><span class="tag">${item.ai}</span><span class="tag">${item.use}</span></div>
-      <strong style="display:block; margin-bottom:5px;">${item.title}</strong>
-      <div style="font-size:12px; color:var(--text-sub);">${item.detail.substring(0, 40)}...</div>
+      <strong>${item.title}</strong>
+      <div style="font-size:11px; color:var(--text-sub); margin-top:5px;">조건: ${item.activeChips.slice(0,2).join(', ')}...</div>
       <div class="card-actions">
-        <button class="load-btn" onclick="loadItem(${item.id})">LOAD</button>
-        <button class="edit-btn" onclick="startEdit(${item.id})">EDIT</button>
-        <button class="copy-btn" onclick="copyItem(${item.id})">COPY</button>
-        <button class="del-btn" onclick="deleteItem(${item.id})">DEL</button>
+        <button class="load-btn" onclick="loadItem(${item.id})">불러오기</button>
+        <button class="copy-btn" onclick="copyItem(${item.id})">전체 복사</button>
+        <button class="del-btn" onclick="deleteItem(${item.id})">삭제</button>
       </div>
     `;
     box.appendChild(div);
   });
 }
 
-function copyItem(id) {
-  let text = "";
-  if (id) {
-    // 보관함 항목 복사 시 전체 프롬프트 템플릿 적용
-    const item = savedData.find(d => d.id === id);
-    text = buildFullPrompt(item);
-  } else {
-    // 현재 제작 중인 결과물 복사
-    text = document.getElementById('resultOut').textContent;
-  }
-  navigator.clipboard.writeText(text);
-  showToast('프롬프트 전체가 복사되었습니다!');
-}
-
-function openModal(type) { currentTarget = type; document.getElementById('mTitle').textContent = type === 'aiSel' ? 'ADD ENGINE' : 'ADD CATEGORY'; document.getElementById('customModal').classList.add('show'); }
+function openModal(type) { currentTarget = type; document.getElementById('mTitle').textContent = type === 'aiSel' ? '엔진 추가' : '분야 추가'; document.getElementById('customModal').classList.add('show'); }
 function closeModal() { document.getElementById('customModal').classList.remove('show'); document.getElementById('mInput').value = ''; }
 
 document.getElementById('mConfirm').onclick = () => {
@@ -298,26 +272,31 @@ function loadItem(id) {
   document.getElementById('useSel').value = item.use;
   document.getElementById('toneIn').value = item.tone;
   document.getElementById('detailIn').value = item.detail;
+  activeChips = new Set(item.activeChips);
+  renderChips();
   updatePreview();
 }
 
-function startEdit(id) { loadItem(id); editId = id; document.getElementById('modeLabel').textContent = "[EDITING]"; }
-function deleteItem(id) { if(confirm('삭제할까요?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
-
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value;
-  if(!title) return alert('제목을 입력하세요.');
-  const obj = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
-  if(editId) savedData[savedData.findIndex(d => d.id === editId)] = obj;
-  else savedData.unshift(obj);
-  copyItem(); resetForm(); renderList();
+  if(!title) return alert('주제를 입력하세요.');
+  const obj = { 
+    id: Date.now(), title, ai: document.getElementById('aiSel').value, 
+    use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, 
+    detail: document.getElementById('detailIn').value,
+    activeChips: Array.from(activeChips)
+  };
+  savedData.unshift(obj);
+  copyItem(); 
+  resetForm(); renderList();
 };
 
 function resetForm() {
   document.getElementById('titleIn').value = ''; document.getElementById('toneIn').value = ''; document.getElementById('detailIn').value = '';
-  editId = null; document.getElementById('modeLabel').textContent = "[READY]"; updatePreview();
+  activeChips.clear(); renderChips(); updatePreview();
 }
 
+function deleteItem(id) { if(confirm('삭제하시겠습니까?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
 function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(()=>t.style.display='none', 2000); }
 
 document.getElementById('searchIn').oninput = renderList;
