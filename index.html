@@ -24,7 +24,7 @@ body{
   color:var(--text);
 }
 .wrap{
-  max-width:1040px;
+  max-width:1100px;
   margin:0 auto;
   padding:28px 16px 48px;
 }
@@ -52,9 +52,6 @@ body{
   display:grid;
   grid-template-columns:1.2fr .8fr;
   gap:14px;
-}
-.hero-main{
-  padding:6px 2px 6px 2px;
 }
 .hero-main h2{
   margin:0 0 8px;
@@ -97,6 +94,11 @@ body{
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
+.grid-3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+}
 .field{
   background:var(--soft);
   border:1px solid var(--line);
@@ -108,7 +110,7 @@ body{
   font-size:12px;
   margin-bottom:8px;
 }
-input, select, textarea{
+input, textarea, select{
   width:100%;
   border:1px solid #d6dbe4;
   border-radius:12px;
@@ -165,7 +167,7 @@ button{
 .soft-btn{background:#eef2f7;color:#111827;}
 .result-grid{
   display:grid;
-  grid-template-columns:.8fr 1.2fr;
+  grid-template-columns:.85fr 1.15fr;
   gap:12px;
 }
 .panel{
@@ -192,13 +194,7 @@ button{
   background:#111827;
   color:#f9fafb;
 }
-.toolbar{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:10px;
-  margin-bottom:14px;
-}
-.group-tabs{
+.view-toggle{
   display:flex;
   gap:8px;
   margin-bottom:14px;
@@ -217,38 +213,44 @@ button{
   background:#dbeafe;
   color:#1d4ed8;
 }
-.groups{
+.toolbar{
   display:grid;
-  gap:16px;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
 }
-.group{
-  border-top:1px solid var(--line);
-  padding-top:12px;
+.library-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
-.group:first-child{
-  border-top:none;
-  padding-top:0;
-}
-.group-title{
-  font-size:15px;
-  font-weight:700;
-  margin-bottom:10px;
-}
-.list{
+.file-list{
   display:grid;
   gap:10px;
 }
-.item{
+.file-item{
   border:1px solid var(--line);
   border-radius:16px;
   padding:14px;
   background:#fff;
+  cursor:pointer;
+  transition:.15s ease;
+}
+.file-item:hover{
+  border-color:#cbd5e1;
+  background:#fafcff;
+}
+.file-item.active{
+  border-color:#93c5fd;
+  background:#eff6ff;
+}
+.file-top{
   display:flex;
   justify-content:space-between;
-  gap:12px;
+  gap:8px;
   align-items:flex-start;
 }
-.item-main strong{
+.file-top strong{
   display:block;
   font-size:14px;
   margin-bottom:6px;
@@ -272,13 +274,20 @@ button{
   color:var(--sub);
   line-height:1.6;
 }
-.item-actions{
+.preview-panel .panel-body{
+  min-height:100%;
+}
+.preview-empty{
+  color:var(--sub);
+}
+.small-actions{
   display:flex;
   gap:8px;
-  flex-shrink:0;
+  flex-wrap:wrap;
+  margin-top:14px;
 }
-.item-actions button{
-  padding:8px 10px;
+.small-actions button{
+  padding:9px 11px;
   font-size:12px;
 }
 .status{
@@ -296,8 +305,8 @@ button{
   pointer-events:none;
 }
 .status.show{opacity:1;transform:translateY(0);}
-@media (max-width:900px){
-  .hero,.grid-2,.result-grid,.toolbar{grid-template-columns:1fr;}
+@media (max-width:920px){
+  .hero,.grid-2,.grid-3,.result-grid,.toolbar,.library-layout{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -316,15 +325,15 @@ button{
     <div class="hero-side">
       <div class="info-box">
         <strong>빠른 입력</strong>
-        <span>길게 쓰지 않고 핵심만 입력</span>
+        <span>기본 문구를 지우지 않아도 바로 클릭해서 입력</span>
       </div>
       <div class="info-box">
         <strong>자동 정리</strong>
         <span>바로 복사할 수 있는 프롬프트로 변환</span>
       </div>
       <div class="info-box">
-        <strong>분류 보관</strong>
-        <span>AI별, 용도별로 묶어서 다시 보기</span>
+        <strong>파일처럼 보기</strong>
+        <span>저장한 프롬프트를 눌러서 오른쪽에서 확인</span>
       </div>
     </div>
   </div>
@@ -334,29 +343,31 @@ button{
 
     <div class="grid-2">
       <div class="field">
-        <strong>무엇을 만들고 싶나요?</strong>
+        <strong>제목</strong>
         <input id="topicInput" placeholder="예: 발표문, 기획안, HTML 코드, 이미지 프롬프트">
       </div>
       <div class="field">
         <strong>어떤 AI에 쓸 건가요?</strong>
-        <select id="aiInput">
-          <option value="ChatGPT">ChatGPT</option>
-          <option value="Claude">Claude</option>
-          <option value="Gemini">Gemini</option>
-          <option value="Midjourney">Midjourney</option>
-        </select>
+        <input id="aiInput" list="aiOptions" placeholder="예: ChatGPT">
+        <datalist id="aiOptions">
+          <option value="ChatGPT"></option>
+          <option value="Claude"></option>
+          <option value="Gemini"></option>
+          <option value="Midjourney"></option>
+        </datalist>
       </div>
     </div>
 
     <div class="grid-2" style="margin-top:12px;">
       <div class="field">
         <strong>용도</strong>
-        <select id="useInput">
-          <option value="글쓰기">글쓰기</option>
-          <option value="기획/분석">기획/분석</option>
-          <option value="코딩">코딩</option>
-          <option value="이미지">이미지</option>
-        </select>
+        <input id="useInput" list="useOptions" placeholder="예: 글쓰기">
+        <datalist id="useOptions">
+          <option value="글쓰기"></option>
+          <option value="기획/분석"></option>
+          <option value="코딩"></option>
+          <option value="이미지"></option>
+        </datalist>
       </div>
       <div class="field">
         <strong>원하는 느낌</strong>
@@ -404,30 +415,26 @@ button{
   <div class="card">
     <h3 class="section-title">3. 저장된 프롬프트</h3>
 
-    <div class="group-tabs">
+    <div class="view-toggle">
       <button class="tab active" data-group="use">용도별 보기</button>
       <button class="tab" data-group="ai">AI별 보기</button>
     </div>
 
     <div class="toolbar">
       <input id="searchInput" placeholder="검색">
-      <select id="aiFilter">
-        <option value="all">모든 AI</option>
-        <option value="ChatGPT">ChatGPT</option>
-        <option value="Claude">Claude</option>
-        <option value="Gemini">Gemini</option>
-        <option value="Midjourney">Midjourney</option>
-      </select>
-      <select id="useFilter">
-        <option value="all">모든 용도</option>
-        <option value="글쓰기">글쓰기</option>
-        <option value="기획/분석">기획/분석</option>
-        <option value="코딩">코딩</option>
-        <option value="이미지">이미지</option>
-      </select>
+      <select id="aiFilter"></select>
+      <select id="useFilter"></select>
     </div>
 
-    <div class="groups" id="groups"></div>
+    <div class="library-layout">
+      <div class="groups" id="groups"></div>
+      <div class="panel preview-panel">
+        <div class="panel-head">파일 보기</div>
+        <div class="panel-body" id="filePreview">
+          <div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -442,12 +449,14 @@ const detailInput = document.getElementById('detailInput');
 const summaryBox = document.getElementById('summaryBox');
 const resultBox = document.getElementById('resultBox');
 const groups = document.getElementById('groups');
+const filePreview = document.getElementById('filePreview');
 const searchInput = document.getElementById('searchInput');
 const aiFilter = document.getElementById('aiFilter');
 const useFilter = document.getElementById('useFilter');
 const toast = document.getElementById('toast');
 
 let groupMode = 'use';
+let selectedIndex = null;
 
 let savedPrompts = [
   { title:'발표문', ai:'ChatGPT', use:'글쓰기', tone:'자연스럽게', detail:'학생 발표용, 도입-본론-결론 구조', result:'' },
@@ -485,22 +494,67 @@ function buildPrompt(title, ai, use, tone, detail){
   ].join('\n');
 }
 
+function refreshFilterOptions(){
+  const aiValues = ['all', ...new Set(savedPrompts.map(item => item.ai).filter(Boolean))];
+  const useValues = ['all', ...new Set(savedPrompts.map(item => item.use).filter(Boolean))];
+
+  aiFilter.innerHTML = aiValues.map(v => `<option value="${v}">${v === 'all' ? '모든 AI' : v}</option>`).join('');
+  useFilter.innerHTML = useValues.map(v => `<option value="${v}">${v === 'all' ? '모든 용도' : v}</option>`).join('');
+}
+
 function renderOutput(){
   const title = topicInput.value.trim();
-  const ai = aiInput.value;
-  const use = useInput.value;
+  const ai = aiInput.value.trim();
+  const use = useInput.value.trim();
   const tone = toneInput.value.trim();
   const detail = detailInput.value.trim();
 
   summaryBox.textContent = [
     `주제: ${title || '-'}`,
-    `AI: ${ai}`,
-    `용도: ${use}`,
+    `AI: ${ai || '-'}`,
+    `용도: ${use || '-'}`,
     `느낌: ${tone || '-'}`,
     `조건: ${detail || '-'}`
   ].join('\n');
 
   resultBox.textContent = buildPrompt(title, ai, use, tone, detail);
+}
+
+function renderPreview(item){
+  if(!item){
+    filePreview.innerHTML = '<div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>';
+    return;
+  }
+
+  filePreview.innerHTML = `
+    <strong style="display:block;font-size:16px;margin-bottom:8px;">${item.title}</strong>
+    <div class="meta" style="margin-bottom:10px;">
+      <span class="pill">${item.ai}</span>
+      <span class="pill">${item.use}</span>
+      <span class="pill">${item.tone || '-'}</span>
+    </div>
+    <div class="preview" style="margin-bottom:12px;">${item.detail || '-'}</div>
+    <div style="border:1px solid var(--line); border-radius:14px; background:#111827; color:#fff; padding:14px; white-space:pre-wrap; font-size:13px; line-height:1.7;">${item.result}</div>
+    <div class="small-actions">
+      <button class="soft-btn" id="previewLoadBtn">입력칸에 불러오기</button>
+      <button class="primary" id="previewCopyBtn">복사</button>
+    </div>
+  `;
+
+  document.getElementById('previewLoadBtn').onclick = () => {
+    topicInput.value = item.title;
+    aiInput.value = item.ai;
+    useInput.value = item.use;
+    toneInput.value = item.tone;
+    detailInput.value = item.detail;
+    renderOutput();
+    showToast('입력칸에 불러왔어요');
+  };
+
+  document.getElementById('previewCopyBtn').onclick = async () => {
+    await navigator.clipboard.writeText(item.result);
+    showToast('복사 완료!');
+  };
 }
 
 function groupItems(items, mode){
@@ -516,7 +570,7 @@ function groupItems(items, mode){
 function renderSaved(){
   const keyword = searchInput.value.trim().toLowerCase();
   const filtered = savedPrompts.filter(item => {
-    const matchesKeyword = !keyword || `${item.title} ${item.detail} ${item.result}`.toLowerCase().includes(keyword);
+    const matchesKeyword = !keyword || `${item.title} ${item.detail} ${item.result} ${item.ai} ${item.use}`.toLowerCase().includes(keyword);
     const matchesAi = aiFilter.value === 'all' || item.ai === aiFilter.value;
     const matchesUse = useFilter.value === 'all' || item.use === useFilter.value;
     return matchesKeyword && matchesAi && matchesUse;
@@ -526,30 +580,33 @@ function renderSaved(){
   groups.innerHTML = '';
 
   if(!filtered.length){
-    groups.innerHTML = '<div class="item"><div class="item-main"><strong>저장된 프롬프트가 없습니다</strong><div class="preview">위에서 만든 뒤 저장해보세요</div></div></div>';
+    groups.innerHTML = '<div class="file-item"><div class="preview">저장된 프롬프트가 없습니다.</div></div>';
+    renderPreview(null);
     return;
+  }
+
+  if(selectedIndex === null || !savedPrompts[selectedIndex]){
+    const firstItem = filtered[0];
+    selectedIndex = savedPrompts.indexOf(firstItem);
   }
 
   Object.keys(grouped).forEach(groupName => {
     const section = document.createElement('div');
     section.className = 'group';
 
-    const itemsHtml = grouped[groupName].map((item, index) => {
+    const itemsHtml = grouped[groupName].map(item => {
       const realIndex = savedPrompts.indexOf(item);
       return `
-        <div class="item">
-          <div class="item-main">
-            <strong>${item.title}</strong>
-            <div class="meta">
-              <span class="pill">${item.ai}</span>
-              <span class="pill">${item.use}</span>
-              <span class="pill">${item.tone || '-'}</span>
+        <div class="file-item ${realIndex === selectedIndex ? 'active' : ''}" data-index="${realIndex}">
+          <div class="file-top">
+            <div>
+              <strong>${item.title}</strong>
+              <div class="meta">
+                <span class="pill">${item.ai}</span>
+                <span class="pill">${item.use}</span>
+              </div>
+              <div class="preview">${item.detail || '-'}</div>
             </div>
-            <div class="preview">${item.detail || '-'}</div>
-          </div>
-          <div class="item-actions">
-            <button class="soft-btn load-btn" data-index="${realIndex}">불러오기</button>
-            <button class="primary copy-btn" data-index="${realIndex}">복사</button>
           </div>
         </div>
       `;
@@ -557,32 +614,20 @@ function renderSaved(){
 
     section.innerHTML = `
       <div class="group-title">${groupName}</div>
-      <div class="list">${itemsHtml}</div>
+      <div class="file-list">${itemsHtml}</div>
     `;
 
     groups.appendChild(section);
   });
 
-  document.querySelectorAll('.load-btn').forEach(btn => {
-    btn.onclick = () => {
-      const item = savedPrompts[Number(btn.dataset.index)];
-      topicInput.value = item.title;
-      aiInput.value = item.ai;
-      useInput.value = item.use;
-      toneInput.value = item.tone;
-      detailInput.value = item.detail;
-      renderOutput();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.file-item[data-index]').forEach(item => {
+    item.onclick = () => {
+      selectedIndex = Number(item.dataset.index);
+      renderSaved();
     };
   });
 
-  document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.onclick = async () => {
-      const item = savedPrompts[Number(btn.dataset.index)];
-      await navigator.clipboard.writeText(item.result);
-      showToast('복사 완료!');
-    };
-  });
+  renderPreview(savedPrompts[selectedIndex]);
 }
 
 document.getElementById('generateBtn').onclick = renderOutput;
@@ -592,26 +637,41 @@ document.getElementById('copyBtn').onclick = async () => {
 };
 document.getElementById('saveBtn').onclick = () => {
   const title = topicInput.value.trim();
+  const ai = aiInput.value.trim();
+  const use = useInput.value.trim();
+
   if(!title){
-    showToast('무엇을 만들지 입력하세요');
+    showToast('제목을 입력하세요');
     return;
   }
+  if(!ai){
+    showToast('AI를 입력하세요');
+    return;
+  }
+  if(!use){
+    showToast('용도를 입력하세요');
+    return;
+  }
+
   const item = {
     title,
-    ai: aiInput.value,
-    use: useInput.value,
+    ai,
+    use,
     tone: toneInput.value.trim(),
     detail: detailInput.value.trim(),
-    result: buildPrompt(title, aiInput.value, useInput.value, toneInput.value.trim(), detailInput.value.trim())
+    result: buildPrompt(title, ai, use, toneInput.value.trim(), detailInput.value.trim())
   };
+
   savedPrompts.unshift(item);
+  selectedIndex = 0;
+  refreshFilterOptions();
   renderSaved();
   showToast('보관함에 저장됨');
 };
 document.getElementById('resetBtn').onclick = () => {
   topicInput.value = '';
-  aiInput.value = 'ChatGPT';
-  useInput.value = '글쓰기';
+  aiInput.value = '';
+  useInput.value = '';
   toneInput.value = '';
   detailInput.value = '';
   renderOutput();
@@ -634,16 +694,19 @@ document.querySelectorAll('.tab').forEach(tab => {
   };
 });
 
+[topicInput, aiInput, useInput, toneInput, detailInput].forEach(el => {
+  el.addEventListener('input', renderOutput);
+  el.addEventListener('focus', () => {
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.select?.();
+  });
+});
+
 searchInput.addEventListener('input', renderSaved);
 aiFilter.addEventListener('change', renderSaved);
 useFilter.addEventListener('change', renderSaved);
-topicInput.addEventListener('input', renderOutput);
-aiInput.addEventListener('change', renderOutput);
-useInput.addEventListener('change', renderOutput);
-toneInput.addEventListener('input', renderOutput);
-detailInput.addEventListener('input', renderOutput);
 
 savedPrompts = savedPrompts.map(item => ({ ...item, result: buildPrompt(item.title, item.ai, item.use, item.tone, item.detail) }));
+refreshFilterOptions();
 renderOutput();
 renderSaved();
 </script>
