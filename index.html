@@ -8,243 +8,167 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 :root {
-  --bg: #f8fafc;
+  --bg: #f1f5f9;
   --card: #ffffff;
   --primary: #4f46e5;
+  --primary-hover: #4338ca;
   --primary-soft: #eef2ff;
-  --text-main: #1e293b;
+  --text-main: #0f172a;
   --text-sub: #64748b;
   --border: #e2e8f0;
   --danger: #ef4444;
   --danger-soft: #fef2f2;
   --success: #10b981;
   --success-soft: #ecfdf5;
-  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px; }
+body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; line-height: 1.6; }
 
 .container {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 24px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
 }
 
+/* 제목 섹션 */
+.main-header {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+}
+.main-header h1 { font-size: 28px; font-weight: 800; margin: 0; color: var(--primary); letter-spacing: -0.02em; }
+.main-header p { color: var(--text-sub); margin: 4px 0 0; font-size: 14px; }
+
+/* 공통 카드 디자인 */
 .card {
   background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  border: none;
+  padding: 32px;
+  box-shadow: var(--shadow);
 }
 
-h3 {
-  font-size: 16px;
-  margin: 0 0 15px 0;
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
+}
+.section-title span.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--primary-soft);
+  color: var(--primary);
 }
 
-.subhead {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin-top: -6px;
-  margin-bottom: 14px;
+/* 입력 폼 */
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+label { font-size: 13px; font-weight: 700; color: var(--text-main); }
+
+.flex-input { display: flex; gap: 8px; }
+input, select, textarea { 
+  width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); 
+  font-size: 14px; outline: none; background: #fff; transition: all 0.2s ease;
 }
-
-.input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-sub);
-}
-
-.flex-input { display: flex; gap: 6px; }
-
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  background: #fff;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(79,70,229,0.10);
+input:focus, select:focus, textarea:focus { 
+  border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08); 
 }
 
 .add-inline-btn {
-  padding: 0 12px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  flex: 0 0 auto;
+  padding: 0 16px; background: var(--primary); color: white; border: none;
+  border-radius: var(--radius-md); cursor: pointer; font-weight: bold; transition: 0.2s;
+}
+.add-inline-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+/* 칩 스타일 */
+.chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip { 
+  padding: 6px 14px; background: #f8fafc; border-radius: 999px; font-size: 12px; 
+  cursor: pointer; border: 1px solid var(--border); font-weight: 600; color: var(--text-sub); transition: 0.2s;
+}
+.chip:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+
+/* 프리뷰 박스 */
+.result-box { 
+  background: #0f172a; color: #e2e8f0; padding: 24px; border-radius: var(--radius-md); 
+  min-height: 160px; font-size: 14px; white-space: pre-wrap; margin-top: 12px;
+  font-family: 'Cascadia Code', 'Consolas', monospace; border: 1px solid #1e293b;
 }
 
-.chip-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
+/* 버튼 영역 */
+.btn-group { display: flex; gap: 12px; margin-top: 24px; }
+button { padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-main { background: var(--primary); color: white; flex: 2; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2); }
+.btn-main:hover { background: var(--primary-hover); transform: translateY(-2px); }
+.btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; }
 
-.chip {
-  padding: 5px 10px;
-  background: #f1f5f9;
-  border-radius: 20px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  transition: 0.2s;
-}
-.chip:hover { background: var(--primary-soft); border-color: var(--primary); }
+/* 보관함 사이드 */
+.view-tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 12px; margin-bottom: 20px; }
+.tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; background: transparent; color: var(--text-sub); }
+.tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-.result-box {
-  background: #1e293b;
-  color: #f8fafc;
-  padding: 15px;
-  border-radius: 8px;
-  min-height: 140px;
-  font-size: 13px;
-  white-space: pre-wrap;
-  margin-top: 10px;
-  line-height: 1.65;
-}
+.filters { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; margin-bottom: 20px; }
 
-.btn-group { display: flex; gap: 8px; margin-top: 15px; }
-button { padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-.btn-main { background: var(--primary); color: white; flex: 1; }
-.btn-sub { background: #e2e8f0; color: var(--text-main); flex: 1; }
+.list-scroll { max-height: 700px; overflow-y: auto; padding-right: 4px; }
+.list-scroll::-webkit-scrollbar { width: 6px; }
+.list-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-.filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
+.group-title { font-size: 12px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin: 24px 0 12px; }
 
-.view-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+.archive-card { 
+  padding: 20px; border: 1px solid var(--border); border-radius: 16px; 
+  background: white; margin-bottom: 16px; transition: 0.3s;
 }
+.archive-card:hover { transform: scale(1.02); border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.archive-card strong { display: block; font-size: 16px; margin-bottom: 8px; color: var(--text-main); }
+.archive-card .meta { display: flex; gap: 6px; margin-bottom: 12px; }
+.archive-card .tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; background: #f1f5f9; color: var(--text-sub); font-weight: 700; }
+.archive-card .desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-.tab-btn {
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #f8fafc;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-sub);
-  cursor: pointer;
-}
-.tab-btn.active {
-  background: var(--primary-soft);
-  color: var(--primary);
-  border-color: #c7d2fe;
-}
-
-.list-scroll {
-  max-height: 760px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.group-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-sub);
-  margin: 8px 0 2px;
-}
-
-.archive-card {
-  padding: 15px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: white;
-  transition: 0.2s;
-}
-.archive-card:hover { border-color: var(--primary); }
-.archive-card strong { display: block; font-size: 14px; margin-bottom: 5px; }
-.archive-card .meta { font-size: 11px; color: var(--primary); font-weight: bold; margin-bottom: 5px; }
-.archive-card .desc { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
-
-.card-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-.action-btn {
-  padding: 7px 10px;
-  font-size: 11px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  font-weight: 700;
-}
+.card-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 16px; }
+.action-btn { padding: 8px 0; font-size: 11px; border-radius: 8px; font-weight: 700; text-align: center; }
 .action-load { background: var(--primary-soft); color: var(--primary); }
 .action-edit { background: var(--success-soft); color: var(--success); }
-.action-copy { background: #e2e8f0; color: var(--text-main); }
+.action-copy { background: #f1f5f9; color: var(--text-main); }
 .action-del { background: var(--danger-soft); color: var(--danger); }
 
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #334155;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 40px;
-  font-size: 13px;
-  display: none;
-  z-index: 1000;
+.toast { 
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+  background: #1e293b; color: white; padding: 12px 28px; border-radius: 999px; font-size: 14px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 1000; font-weight: 600;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .container { grid-template-columns: 1fr; }
-  .input-row, .filters { grid-template-columns: 1fr; }
+  .card { padding: 20px; }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
+  <div class="main-header">
+    <h1>Prompt Archive Pro</h1>
+    <p>나만의 고효율 프롬프트를 체계적으로 관리하세요.</p>
+  </div>
+
   <div class="main-side">
     <div class="card">
-      <h3>프롬프트 만들기 <span id="modeStatus" style="font-size:12px; color:var(--primary)">새로 만들기</span></h3>
-      <div class="subhead">짧게 입력하면 바로 결과가 아래에 정리됩니다.</div>
-
+      <h3 class="section-title">작성 에디터 <span id="modeStatus" class="badge">새로 만들기</span></h3>
+      
       <div class="input-row">
         <div class="field">
           <label>제목</label>
-          <input type="text" id="titleIn" placeholder="예: 블로그 포스팅 초안">
+          <input type="text" id="titleIn" placeholder="무엇에 관한 프롬프트인가요?">
         </div>
         <div class="field">
           <label>AI 엔진</label>
@@ -265,43 +189,42 @@ button { padding: 12px; border-radius: 8px; border: none; font-weight: 600; curs
         </div>
         <div class="field">
           <label>톤앤매너</label>
-          <input type="text" id="toneIn" placeholder="예: 단호하게, 친절하게">
+          <input type="text" id="toneIn" placeholder="예: 전문적인, 친절한">
         </div>
       </div>
 
-      <div class="field" style="margin-bottom:15px;">
+      <div class="field" style="margin-bottom:20px;">
         <label>상세 조건 및 제약사항</label>
         <div class="flex-input">
-          <input type="text" id="customChipIn" placeholder="자주 쓰는 조건을 추가해보세요">
+          <input type="text" id="customChipIn" placeholder="자주 쓰는 단어를 추가하세요">
           <button class="add-inline-btn" type="button" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" style="margin-top:10px;" placeholder="상세 내용을 적어주세요."></textarea>
+        <textarea id="detailIn" rows="4" style="margin-top:12px;" placeholder="상세 내용을 적어주세요."></textarea>
       </div>
 
+      <label>실시간 프롬프트 미리보기</label>
       <div class="result-box" id="resultOut"></div>
 
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">보관함에 저장</button>
-        <button class="btn-sub" id="resetBtn">초기화</button>
+        <button class="btn-main" id="saveBtn">보관함에 저장하기</button>
+        <button class="btn-sub" id="resetBtn">입력 초기화</button>
       </div>
     </div>
   </div>
 
   <div class="archive-side">
     <div class="card">
-      <h3>저장된 프롬프트</h3>
+      <h3 class="section-title">프롬프트 보관함</h3>
 
       <div class="view-tabs">
-        <button class="tab-btn active" data-view="use">용도별 보기</button>
-        <button class="tab-btn" data-view="ai">AI별 보기</button>
+        <button class="tab-btn active" data-view="use">용도별</button>
+        <button class="tab-btn" data-view="ai">AI별</button>
       </div>
 
       <div class="filters">
-        <select id="categoryFilter">
-          <option value="all">전체 카테고리</option>
-        </select>
-        <input type="text" id="searchIn" placeholder="검색어 입력...">
+        <select id="categoryFilter"></select>
+        <input type="text" id="searchIn" placeholder="검색...">
       </div>
 
       <div class="list-scroll" id="listBox"></div>
@@ -313,11 +236,11 @@ button { padding: 12px; border-radius: 8px; border: none; font-weight: 600; curs
 
 <script>
 let savedData = [
-  { id: Date.now(), title: "샘플 프롬프트", ai: "ChatGPT", use: "코딩", tone: "명확하게", detail: "단계별로 설명해줘" }
+  { id: Date.now(), title: "기본 안내 프롬프트", ai: "ChatGPT", use: "글쓰기", tone: "친절하게", detail: "핵심 요약을 포함해줘" }
 ];
 let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["글쓰기", "코딩", "기획", "분석"];
-let chips = ["자연스러운 말투", "핵심만 요약"];
+let useOptions = ["글쓰기", "코딩", "기획", "이미지"];
+let chips = ["자연스러운 말투", "핵심만 요약", "단계별 설명"];
 let editId = null;
 let currentView = 'use';
 
@@ -390,7 +313,6 @@ function addChip() {
   if (!chips.includes(val)) chips.push(val);
   renderChips();
   input.value = '';
-  showToast('상세 조건이 추가되었습니다.');
 }
 
 function applyChip(el) {
@@ -400,11 +322,11 @@ function applyChip(el) {
 }
 
 function updateResult() {
-  const title = document.getElementById('titleIn').value || '(제목)';
+  const title = document.getElementById('titleIn').value || '(제목 없음)';
   const ai = document.getElementById('aiSel').value || 'AI';
   const use = document.getElementById('useSel').value || '용도';
   const tone = document.getElementById('toneIn').value || '기본';
-  const detail = document.getElementById('detailIn').value || '없음';
+  const detail = document.getElementById('detailIn').value || '추가 조건 없음';
 
   const res = `[${ai} / ${use}]\n목표: ${title}\n말투: ${tone}\n조건: ${detail}`;
   document.getElementById('resultOut').textContent = res;
@@ -424,11 +346,6 @@ function renderList() {
     return matchesKeyword && matchesCategory;
   });
 
-  if (!filtered.length) {
-    box.innerHTML = `<div class="archive-card"><div class="desc">해당 조건의 프롬프트가 없습니다.</div></div>`;
-    return;
-  }
-
   const grouped = {};
   filtered.forEach(item => {
     const key = currentView === 'use' ? item.use : item.ai;
@@ -446,7 +363,10 @@ function renderList() {
       const div = document.createElement('div');
       div.className = 'archive-card';
       div.innerHTML = `
-        <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
+        <div class="meta">
+          <span class="tag">${escapeHtml(item.ai)}</span>
+          <span class="tag">${escapeHtml(item.use)}</span>
+        </div>
         <strong>${escapeHtml(item.title)}</strong>
         <div class="desc">${escapeHtml(item.detail || '')}</div>
         <div class="card-actions">
@@ -460,37 +380,24 @@ function renderList() {
     });
   });
 
-  box.querySelectorAll('.action-load').forEach(btn => {
-    btn.onclick = () => loadItem(Number(btn.dataset.id), false);
-  });
-  box.querySelectorAll('.action-edit').forEach(btn => {
-    btn.onclick = () => loadItem(Number(btn.dataset.id), true);
-  });
-  box.querySelectorAll('.action-copy').forEach(btn => {
-    btn.onclick = () => copyItem(Number(btn.dataset.id));
-  });
-  box.querySelectorAll('.action-del').forEach(btn => {
-    btn.onclick = () => deleteItem(Number(btn.dataset.id));
-  });
+  box.querySelectorAll('.action-load').forEach(btn => { btn.onclick = () => loadItem(Number(btn.dataset.id), false); });
+  box.querySelectorAll('.action-edit').forEach(btn => { btn.onclick = () => loadItem(Number(btn.dataset.id), true); });
+  box.querySelectorAll('.action-copy').forEach(btn => { btn.onclick = () => copyItem(Number(btn.dataset.id)); });
+  box.querySelectorAll('.action-del').forEach(btn => { btn.onclick = () => deleteItem(Number(btn.dataset.id)); });
 }
 
 function loadItem(id, editMode) {
   const item = savedData.find(d => d.id === id);
   if (!item) return;
-
-  if (!aiOptions.includes(item.ai)) { aiOptions.push(item.ai); renderSelect('aiSel', aiOptions); }
-  if (!useOptions.includes(item.use)) { useOptions.push(item.use); renderSelect('useSel', useOptions); renderFilterCategories(); }
-
   document.getElementById('titleIn').value = item.title;
   document.getElementById('aiSel').value = item.ai;
   document.getElementById('useSel').value = item.use;
   document.getElementById('toneIn').value = item.tone;
   document.getElementById('detailIn').value = item.detail;
-
   editId = editMode ? id : null;
   document.getElementById('modeStatus').textContent = editMode ? '수정 중...' : '새로 만들기';
   updateResult();
-  showToast(editMode ? '수정할 수 있게 불러왔어요.' : '불러오기 성공!');
+  showToast(editMode ? '수정 모드로 전환되었습니다.' : '내용을 불러왔습니다.');
 }
 
 function copyItem(id) {
@@ -504,7 +411,6 @@ function copyItem(id) {
 function deleteItem(id) {
   if (!confirm('정말 삭제하시겠습니까?')) return;
   savedData = savedData.filter(d => d.id !== id);
-  if (editId === id) resetFields();
   renderFilterCategories();
   renderList();
   showToast('삭제되었습니다.');
@@ -512,8 +418,6 @@ function deleteItem(id) {
 
 function resetFields() {
   ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('aiSel').selectedIndex = 0;
-  document.getElementById('useSel').selectedIndex = 0;
   editId = null;
   document.getElementById('modeStatus').textContent = '새로 만들기';
   updateResult();
@@ -523,37 +427,19 @@ document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value.trim();
   if (!title) return showToast('제목을 입력해주세요.');
 
-  const ai = document.getElementById('aiSel').value;
-  const use = document.getElementById('useSel').value;
-  const tone = document.getElementById('toneIn').value;
-  const detail = document.getElementById('detailIn').value;
-
-  const newData = {
-    id: editId || Date.now(),
-    title,
-    ai,
-    use,
-    tone,
-    detail
-  };
+  const newData = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
 
   if (editId) {
     const idx = savedData.findIndex(d => d.id === editId);
     if (idx !== -1) savedData[idx] = newData;
-    showToast('수정되었습니다.');
   } else {
     savedData.unshift(newData);
-    showToast('보관함에 저장되었습니다.');
   }
 
-  if (!aiOptions.includes(ai)) aiOptions.push(ai);
-  if (!useOptions.includes(use)) useOptions.push(use);
-
-  renderSelect('aiSel', aiOptions);
-  renderSelect('useSel', useOptions);
   renderFilterCategories();
   resetFields();
   renderList();
+  showToast('저장 완료!');
 };
 
 document.getElementById('resetBtn').onclick = resetFields;
@@ -561,7 +447,6 @@ document.getElementById('searchIn').oninput = renderList;
 document.getElementById('categoryFilter').onchange = renderList;
 ['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => {
   document.getElementById(id).oninput = updateResult;
-  document.getElementById(id).onchange = updateResult;
 });
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -578,16 +463,11 @@ function showToast(m) {
   const toast = document.getElementById('toast');
   toast.textContent = m;
   toast.style.display = 'block';
-  setTimeout(() => toast.style.display = 'none', 1800);
+  setTimeout(() => toast.style.display = 'none', 2000);
 }
 
 function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
 }
 
 init();
