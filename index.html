@@ -16,78 +16,201 @@
   --text-sub: #64748b;
   --border: #e2e8f0;
   --danger: #ef4444;
+  --danger-soft: #fef2f2;
   --success: #10b981;
+  --success-soft: #ecfdf5;
   --radius: 12px;
 }
 
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
 body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px; }
 
-.container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+}
 
-/* 공통 카드 스타일 */
-.card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-h3 { font-size: 16px; margin: 0 0 15px 0; display: flex; justify-content: space-between; align-items: center; }
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
 
-/* 입력 필드 레이아웃 */
-.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.field { display: flex; flex-direction: column; gap: 6px; position: relative; }
-label { font-size: 12px; font-weight: 600; color: var(--text-sub); }
+h3 {
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+}
 
 .flex-input { display: flex; gap: 4px; }
-input, select, textarea { 
-  width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none;
-}
-input:focus { border-color: var(--primary); }
 
-/* 커스텀 추가 버튼 */
-.add-inline-btn { 
-  padding: 0 10px; background: var(--primary-soft); color: var(--primary); 
-  border: 1px solid var(--primary); border-radius: 8px; cursor: pointer; font-weight: bold;
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
 }
 
-/* 칩 스타일 */
-.chip-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.chip { 
-  padding: 5px 10px; background: #f1f5f9; border-radius: 20px; font-size: 12px; 
-  cursor: pointer; border: 1px solid var(--border); transition: 0.2s;
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.10);
+}
+
+.add-inline-btn {
+  padding: 0 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  padding: 5px 10px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: 0.2s;
 }
 .chip:hover { background: var(--primary-soft); border-color: var(--primary); }
 
-/* 결과창 */
-.result-box { 
-  background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 8px; 
-  min-height: 120px; font-size: 13px; white-space: pre-wrap; margin-top: 10px;
+.result-box {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 120px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  margin-top: 10px;
+  line-height: 1.6;
 }
 
-/* 버튼 세트 */
-.btn-group { display: flex; gap: 8px; margin-top: 15px; }
-button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-.btn-main { background: var(--primary); color: white; }
-.btn-sub { background: #e2e8f0; color: var(--text-main); }
+.btn-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+button {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-main { background: var(--primary); color: white; flex: 1; }
+.btn-sub { background: #e2e8f0; color: var(--text-main); flex: 1; }
 
-/* 보관함 리스트 */
-.list-scroll { max-height: 700px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.archive-card { 
-  padding: 15px; border: 1px solid var(--border); border-radius: 10px; 
-  background: white; position: relative; transition: 0.2s;
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.list-scroll {
+  max-height: 720px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin: 8px 0 2px;
+}
+
+.archive-card {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  transition: 0.2s;
 }
 .archive-card:hover { border-color: var(--primary); }
 .archive-card strong { display: block; font-size: 14px; margin-bottom: 5px; }
 .archive-card .meta { font-size: 11px; color: var(--primary); font-weight: bold; margin-bottom: 5px; }
 .archive-card .desc { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
 
-.card-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
-.action-btn { 
-  padding: 4px 8px; font-size: 11px; border-radius: 4px; color: white; cursor: pointer;
+.card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
-.edit { background: var(--success); }
-.del { background: var(--danger); }
+.action-btn {
+  padding: 7px 10px;
+  font-size: 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-weight: 700;
+}
+.action-load { background: var(--primary-soft); color: var(--primary); }
+.action-edit { background: var(--success-soft); color: var(--success); }
+.action-copy { background: #e2e8f0; color: var(--text-main); }
+.action-del { background: var(--danger-soft); color: var(--danger); }
 
-.toast { 
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-  background: #334155; color: white; padding: 10px 20px; border-radius: 40px; font-size: 13px;
-  display: none; z-index: 1000;
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #334155;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-size: 13px;
+  display: none;
+  z-index: 1000;
+}
+
+@media (max-width: 900px) {
+  .container { grid-template-columns: 1fr; }
+  .input-row, .filters { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -97,7 +220,7 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
   <div class="main-side">
     <div class="card">
       <h3>프롬프트 만들기 <span id="modeStatus" style="font-size:12px; color:var(--primary)">새로 만들기</span></h3>
-      
+
       <div class="input-row">
         <div class="field">
           <label>제목</label>
@@ -107,7 +230,7 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
           <label>AI 엔진</label>
           <div class="flex-input">
             <select id="aiSel"></select>
-            <button class="add-inline-btn" onclick="addOption('aiSel', 'AI 이름을 입력하세요')">+</button>
+            <button class="add-inline-btn" type="button" onclick="addOption('aiSel', 'AI 이름을 입력하세요')">+</button>
           </div>
         </div>
       </div>
@@ -117,7 +240,7 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
           <label>용도 카테고리</label>
           <div class="flex-input">
             <select id="useSel"></select>
-            <button class="add-inline-btn" onclick="addOption('useSel', '카테고리명을 입력하세요')">+</button>
+            <button class="add-inline-btn" type="button" onclick="addOption('useSel', '카테고리명을 입력하세요')">+</button>
           </div>
         </div>
         <div class="field">
@@ -130,7 +253,7 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
         <label>상세 조건 및 제약사항</label>
         <div class="flex-input">
           <input type="text" id="customChipIn" placeholder="자주 쓰는 조건을 추가해보세요">
-          <button class="add-inline-btn" onclick="addChip()">추가</button>
+          <button class="add-inline-btn" type="button" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox">
           <span class="chip" onclick="applyChip(this)">자연스러운 말투</span>
@@ -140,7 +263,7 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
       </div>
 
       <div class="result-box" id="resultOut"></div>
-      
+
       <div class="btn-group">
         <button class="btn-main" id="saveBtn">보관함에 저장</button>
         <button class="btn-sub" id="resetBtn">초기화</button>
@@ -151,7 +274,14 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
   <div class="archive-side">
     <div class="card">
       <h3>저장된 프롬프트</h3>
-      <input type="text" id="searchIn" placeholder="검색어 입력..." style="margin-bottom:15px;">
+
+      <div class="filters">
+        <select id="categoryFilter">
+          <option value="all">전체 카테고리</option>
+        </select>
+        <input type="text" id="searchIn" placeholder="검색어 입력...">
+      </div>
+
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
@@ -160,48 +290,72 @@ button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 
 <div id="toast" class="toast">완료되었습니다!</div>
 
 <script>
-// 데이터 상태
 let savedData = [
   { id: Date.now(), title: "샘플 프롬프트", ai: "ChatGPT", use: "코딩", tone: "명확하게", detail: "단계별로 설명해줘" }
 ];
 let aiOptions = ["ChatGPT", "Claude", "Gemini"];
 let useOptions = ["글쓰기", "코딩", "기획", "분석"];
+let chips = ["자연스러운 말투", "핵심만 요약"];
 let editId = null;
 
-// 초기화 함수
 function init() {
   renderSelect('aiSel', aiOptions);
   renderSelect('useSel', useOptions);
+  renderFilterCategories();
+  renderChips();
   renderList();
   updateResult();
 }
 
 function renderSelect(id, options) {
   const el = document.getElementById(id);
-  el.innerHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+  el.innerHTML = options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
 }
 
-// 옵션 동적 추가
-function addOption(id, msg) {
-  const newVal = prompt(msg);
-  if (newVal) {
-    if (id === 'aiSel') { aiOptions.push(newVal); renderSelect(id, aiOptions); }
-    else { useOptions.push(newVal); renderSelect(id, useOptions); }
-    document.getElementById(id).value = newVal;
-  }
+function renderFilterCategories() {
+  const filter = document.getElementById('categoryFilter');
+  const categories = [...new Set(savedData.map(item => item.use).filter(Boolean))];
+  filter.innerHTML = `<option value="all">전체 카테고리</option>` +
+    categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
 }
 
-// 칩 동적 추가
-function addChip() {
-  const val = document.getElementById('customChipIn').value.trim();
-  if (val) {
+function renderChips() {
+  const chipBox = document.getElementById('chipBox');
+  chipBox.innerHTML = '';
+  chips.forEach(text => {
     const span = document.createElement('span');
     span.className = 'chip';
-    span.textContent = val;
+    span.textContent = text;
     span.onclick = () => applyChip(span);
-    document.getElementById('chipBox').appendChild(span);
-    document.getElementById('customChipIn').value = '';
+    chipBox.appendChild(span);
+  });
+}
+
+function addOption(id, msg) {
+  const newVal = prompt(msg);
+  if (!newVal) return;
+  const clean = newVal.trim();
+  if (!clean) return;
+
+  if (id === 'aiSel') {
+    if (!aiOptions.includes(clean)) aiOptions.push(clean);
+    renderSelect(id, aiOptions);
+  } else {
+    if (!useOptions.includes(clean)) useOptions.push(clean);
+    renderSelect(id, useOptions);
   }
+  document.getElementById(id).value = clean;
+  updateResult();
+}
+
+function addChip() {
+  const input = document.getElementById('customChipIn');
+  const val = input.value.trim();
+  if (!val) return;
+  if (!chips.includes(val)) chips.push(val);
+  renderChips();
+  input.value = '';
+  showToast('상세 조건이 추가되었습니다.');
 }
 
 function applyChip(el) {
@@ -210,11 +364,10 @@ function applyChip(el) {
   updateResult();
 }
 
-// 프롬프트 결과 생성
 function updateResult() {
   const title = document.getElementById('titleIn').value || '(제목)';
-  const ai = document.getElementById('aiSel').value;
-  const use = document.getElementById('useSel').value;
+  const ai = document.getElementById('aiSel').value || 'AI';
+  const use = document.getElementById('useSel').value || '용도';
   const tone = document.getElementById('toneIn').value || '기본';
   const detail = document.getElementById('detailIn').value || '없음';
 
@@ -222,106 +375,158 @@ function updateResult() {
   document.getElementById('resultOut').textContent = res;
 }
 
-// 리스트 렌더링 (수정/삭제 포함)
 function renderList() {
-  const keyword = document.getElementById('searchIn').value.toLowerCase();
+  const keyword = document.getElementById('searchIn').value.toLowerCase().trim();
+  const category = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
   box.innerHTML = '';
 
-  savedData.filter(d => d.title.toLowerCase().includes(keyword)).forEach(item => {
+  const filtered = savedData.filter(d => {
+    const keywordTarget = `${d.title} ${d.ai} ${d.use} ${d.tone} ${d.detail}`.toLowerCase();
+    const matchesKeyword = !keyword || keywordTarget.includes(keyword);
+    const matchesCategory = category === 'all' || d.use === category;
+    return matchesKeyword && matchesCategory;
+  });
+
+  if (!filtered.length) {
+    box.innerHTML = `<div class="archive-card"><div class="desc">해당 조건의 프롬프트가 없습니다.</div></div>`;
+    return;
+  }
+
+  filtered.forEach(item => {
     const div = document.createElement('div');
     div.className = 'archive-card';
     div.innerHTML = `
+      <div class="meta">${escapeHtml(item.ai)} · ${escapeHtml(item.use)}</div>
+      <strong>${escapeHtml(item.title)}</strong>
+      <div class="desc">${escapeHtml(item.detail || '')}</div>
       <div class="card-actions">
-        <span class="action-btn edit" onclick="editItem(${item.id})">수정</span>
-        <span class="action-btn del" onclick="deleteItem(${item.id})">삭제</span>
+        <button class="action-btn action-load" data-id="${item.id}">불러오기</button>
+        <button class="action-btn action-edit" data-id="${item.id}">수정</button>
+        <button class="action-btn action-copy" data-id="${item.id}">복사</button>
+        <button class="action-btn action-del" data-id="${item.id}">삭제</button>
       </div>
-      <div class="meta">${item.ai} · ${item.use}</div>
-      <strong>${item.title}</strong>
-      <div class="desc">${item.detail}</div>
     `;
-    div.onclick = (e) => {
-      if(e.target.classList.contains('action-btn')) return;
-      navigator.clipboard.writeText(`[${item.ai}] ${item.title}: ${item.detail}`);
-      showToast('프롬프트가 복사되었습니다!');
-    };
     box.appendChild(div);
+  });
+
+  box.querySelectorAll('.action-load').forEach(btn => {
+    btn.onclick = () => loadItem(Number(btn.dataset.id), false);
+  });
+  box.querySelectorAll('.action-edit').forEach(btn => {
+    btn.onclick = () => loadItem(Number(btn.dataset.id), true);
+  });
+  box.querySelectorAll('.action-copy').forEach(btn => {
+    btn.onclick = () => copyItem(Number(btn.dataset.id));
+  });
+  box.querySelectorAll('.action-del').forEach(btn => {
+    btn.onclick = () => deleteItem(Number(btn.dataset.id));
   });
 }
 
-// 저장 기능 (신규/수정 공용)
+function loadItem(id, editMode) {
+  const item = savedData.find(d => d.id === id);
+  if (!item) return;
+
+  if (!aiOptions.includes(item.ai)) { aiOptions.push(item.ai); renderSelect('aiSel', aiOptions); }
+  if (!useOptions.includes(item.use)) { useOptions.push(item.use); renderSelect('useSel', useOptions); renderFilterCategories(); }
+
+  document.getElementById('titleIn').value = item.title;
+  document.getElementById('aiSel').value = item.ai;
+  document.getElementById('useSel').value = item.use;
+  document.getElementById('toneIn').value = item.tone;
+  document.getElementById('detailIn').value = item.detail;
+
+  editId = editMode ? id : null;
+  document.getElementById('modeStatus').textContent = editMode ? '수정 중...' : '새로 만들기';
+  updateResult();
+  showToast(editMode ? '수정할 수 있게 불러왔어요.' : '불러오기 성공!');
+}
+
+function copyItem(id) {
+  const item = savedData.find(d => d.id === id);
+  if (!item) return;
+  const text = `[${item.ai} / ${item.use}]\n목표: ${item.title}\n말투: ${item.tone || '기본'}\n조건: ${item.detail || '없음'}`;
+  navigator.clipboard.writeText(text);
+  showToast('프롬프트가 복사되었습니다!');
+}
+
+function deleteItem(id) {
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+  savedData = savedData.filter(d => d.id !== id);
+  if (editId === id) resetFields();
+  renderFilterCategories();
+  renderList();
+  showToast('삭제되었습니다.');
+}
+
+function resetFields() {
+  ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
+  editId = null;
+  document.getElementById('modeStatus').textContent = '새로 만들기';
+  updateResult();
+}
+
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value.trim();
-  if(!title) return showToast('제목을 입력해주세요.');
+  if (!title) return showToast('제목을 입력해주세요.');
+
+  const ai = document.getElementById('aiSel').value;
+  const use = document.getElementById('useSel').value;
+  const tone = document.getElementById('toneIn').value;
+  const detail = document.getElementById('detailIn').value;
 
   const newData = {
     id: editId || Date.now(),
     title,
-    ai: document.getElementById('aiSel').value,
-    use: document.getElementById('useSel').value,
-    tone: document.getElementById('toneIn').value,
-    detail: document.getElementById('detailIn').value
+    ai,
+    use,
+    tone,
+    detail
   };
 
   if (editId) {
     const idx = savedData.findIndex(d => d.id === editId);
-    savedData[idx] = newData;
-    editId = null;
-    document.getElementById('modeStatus').textContent = "새로 만들기";
+    if (idx !== -1) savedData[idx] = newData;
     showToast('수정되었습니다.');
   } else {
     savedData.unshift(newData);
     showToast('보관함에 저장되었습니다.');
   }
 
+  if (!aiOptions.includes(ai)) aiOptions.push(ai);
+  if (!useOptions.includes(use)) useOptions.push(use);
+
+  renderSelect('aiSel', aiOptions);
+  renderSelect('useSel', useOptions);
+  renderFilterCategories();
   resetFields();
   renderList();
 };
 
-// 수정 모드 진입
-window.editItem = (id) => {
-  const item = savedData.find(d => d.id === id);
-  if (!item) return;
-  
-  editId = id;
-  document.getElementById('modeStatus').textContent = "수정 중...";
-  document.getElementById('titleIn').value = item.title;
-  document.getElementById('aiSel').value = item.ai;
-  document.getElementById('useSel').value = item.use;
-  document.getElementById('toneIn').value = item.tone;
-  document.getElementById('detailIn').value = item.detail;
-  updateResult();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-// 삭제 기능
-window.deleteItem = (id) => {
-  if (confirm('정말 삭제하시겠습니까?')) {
-    savedData = savedData.filter(d => d.id !== id);
-    renderList();
-    showToast('삭제되었습니다.');
-  }
-};
-
-function resetFields() {
-  ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
-  editId = null;
-  document.getElementById('modeStatus').textContent = "새로 만들기";
-  updateResult();
-}
-
-function showToast(m) {
-  toast.textContent = m;
-  toast.style.display = 'block';
-  setTimeout(() => toast.style.display = 'none', 2000);
-}
-
-// 이벤트 연결
 document.getElementById('resetBtn').onclick = resetFields;
 document.getElementById('searchIn').oninput = renderList;
-[document.getElementById('titleIn'), document.getElementById('aiSel'), document.getElementById('useSel'), document.getElementById('toneIn'), document.getElementById('detailIn')].forEach(el => {
-  el.oninput = updateResult;
+document.getElementById('categoryFilter').onchange = renderList;
+['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => {
+  document.getElementById(id).oninput = updateResult;
+  document.getElementById(id).onchange = updateResult;
 });
+
+function showToast(m) {
+  const toast = document.getElementById('toast');
+  toast.textContent = m;
+  toast.style.display = 'block';
+  setTimeout(() => toast.style.display = 'none', 1800);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 init();
 </script>
