@@ -1,308 +1,137 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Studio Pro | Ultimate Edition</title>
-<style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
-
-:root {
-  --bg: #f1f5f9; --card: #ffffff; --primary: #4f46e5; --primary-hover: #4338ca;
-  --primary-soft: #eef2ff; --text-main: #0f172a; --text-sub: #64748b;
-  --border: #e2e8f0; --radius-lg: 20px; --radius-md: 12px;
-}
-
-* { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; }
-
-.container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; }
-.main-header { grid-column: 1 / -1; margin-bottom: 20px; }
-.main-header h1 { font-size: 34px; font-weight: 900; margin: 0; letter-spacing: -0.05em; }
-
-.card { background: var(--card); border-radius: var(--radius-lg); padding: 40px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-.section-title { font-size: 20px; font-weight: 800; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; }
-.badge { font-size: 12px; padding: 4px 12px; border-radius: 99px; background: var(--primary-soft); color: var(--primary); font-weight: 700; border: 1px solid #c7d2fe; }
-
-/* Form Elements */
-.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-.field { display: flex; flex-direction: column; gap: 10px; }
-label { font-size: 14px; font-weight: 700; color: #475569; }
-
-.flex-input { display: flex; gap: 10px; }
-input, select, textarea { 
-  width: 100%; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: var(--radius-md); 
-  font-size: 15px; outline: none; transition: 0.2s;
-}
-input:focus, textarea:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
-
-.add-inline-btn { padding: 0 16px; background: #fff; color: var(--primary); border: 1.5px solid var(--primary); border-radius: var(--radius-md); cursor: pointer; font-weight: 700; }
-.add-inline-btn:hover { background: var(--primary-soft); }
-
-.chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.chip { padding: 8px 16px; background: #f8fafc; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); color: var(--text-sub); }
-.chip:hover { border-color: var(--primary); color: var(--primary); }
-
-/* Result Box */
-.result-box { 
-  background: #0f172a; color: #e2e8f0; padding: 30px; border-radius: var(--radius-md); 
-  min-height: 350px; font-size: 14px; white-space: pre-wrap; margin-top: 15px;
-  font-family: 'Consolas', monospace; line-height: 1.7; border: 1px solid #1e293b;
-}
-
-.btn-group { display: flex; gap: 16px; margin-top: 32px; }
-.btn-main { background: var(--primary); color: white; flex: 2; padding: 18px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; font-size: 16px; }
-.btn-sub { background: #f8fafc; color: var(--text-sub); flex: 1; padding: 18px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
-
-.filter-box { display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; margin-bottom: 24px; }
-.list-scroll { max-height: 750px; overflow-y: auto; padding-right: 10px; }
-.archive-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: white; margin-bottom: 16px; transition: 0.2s; }
-.archive-card:hover { border-color: var(--primary); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-.card-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 16px; }
-.action-btn { padding: 10px 0; font-size: 12px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; }
-.action-load { background: var(--primary-soft); color: var(--primary); }
-.action-del { background: #fee2e2; color: #b91c1c; }
-
-/* Modal */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-.modal-overlay.show { display: flex; }
-.modal { background: #1e293b; border-radius: 20px; width: 450px; overflow: hidden; color: white; }
-.modal-header { background: #0f172a; padding: 20px; font-weight: 800; }
-.modal-body { padding: 30px 20px; }
-.modal-input { width: 100%; padding: 14px; border: 1px solid #334155; border-radius: 10px; background: #0f172a; color: white; margin-top: 10px; }
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 14px 30px; border-radius: 99px; display: none; z-index: 3000; }
-</style>
-</head>
-<body>
-
-<div class="modal-overlay" id="categoryModal">
-  <div class="modal">
-    <div class="modal-header">새 카테고리 추가</div>
-    <div class="modal-body">
-      <p id="modalDesc" style="margin:0; color:#94a3b8; font-size:14px;">항목을 입력하세요</p>
-      <input type="text" id="modalInput" class="modal-input">
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
-        <button class="btn-sub" style="padding:10px 20px" onclick="closeModal()">취소</button>
-        <button class="btn-main" style="flex:none; padding:10px 25px" id="modalConfirmBtn">추가</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="main-header">
-    <h1>Prompt Studio Pro</h1>
-    <p>Professional Prompt Engineering Tool</p>
-  </div>
-
-  <div class="main-side">
-    <div class="card">
-      <div class="section-title">Editor <span id="modeStatus" class="badge">NEW</span></div>
-      
-      <div class="input-row">
-        <div class="field"><label>Project Title</label><input type="text" id="titleIn" placeholder="작업의 제목을 입력하세요"></div>
-        <div class="field"><label>AI Model</label>
-          <div class="flex-input"><select id="aiSel"></select><button class="add-inline-btn" onclick="openModal('aiSel')">+</button></div>
-        </div>
-      </div>
-
-      <div class="input-row">
-        <div class="field"><label>Category</label>
-          <div class="flex-input"><select id="useSel"></select><button class="add-inline-btn" onclick="openModal('useSel')">+</button></div>
-        </div>
-        <div class="field"><label>Tone & Manner</label><input type="text" id="toneIn" placeholder="전문적인, 직설적인 등"></div>
-      </div>
-
-      <div class="field">
-        <label>Requirements & Constraints</label>
-        <div class="flex-input">
-          <input type="text" id="customChipIn" placeholder="제약 조건 키워드 추가">
-          <button class="add-inline-btn" onclick="addChip()">Add</button>
-        </div>
-        <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:15px;" placeholder="구체적인 요청 사항을 적어주세요."></textarea>
-      </div>
-
-      <label style="margin-top:25px; display:block;">Engineered Prompt Preview</label>
-      <div class="result-box" id="resultOut"></div>
-
-      <div class="btn-group">
-        <button class="btn-main" id="saveBtn">Save to Archive</button>
-        <button class="btn-sub" id="resetBtn">Reset Editor</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="archive-side">
-    <div class="card">
-      <div class="section-title">Archive Storage</div>
-      <div class="filter-box">
-        <select id="categoryFilter"><option value="all">전체 카테고리</option></select>
-        <input type="text" id="searchIn" placeholder="검색어를 입력하세요...">
-      </div>
-      <div class="list-scroll" id="listBox"></div>
-    </div>
-  </div>
-</div>
-
-<div id="toast" class="toast">완료되었습니다!</div>
-
 <script>
-let savedData = [
-  {
-    id: 1,
-    title: "프론트엔드 코드 리팩토링",
-    ai: "GPT-4o",
-    use: "코드 최적화",
-    tone: "전문적이고 명확한",
-    detail: `React 기반 웹 애플리케이션의 코드 품질을 개선하고 싶다.
-가독성, 재사용성, 성능 관점에서 문제점을 분석하고 개선안을 제시해줘.
-
-특히 아래 항목을 포함해:
-- 불필요한 렌더링 여부
-- 컴포넌트 구조 개선
-- 상태 관리 최적화
-- 코드 스플리팅 가능 여부
-
-최종적으로 개선된 코드 예시까지 제공해줘.`
-  },
-  {
-    id: 2,
-    title: "UX 디자인 블로그 글 작성",
-    ai: "Claude 3.5",
-    use: "콘텐츠 제작",
-    tone: "친근하지만 전문적인",
-    detail: `UX 디자인에서 '좋은 경험'이란 무엇인지 설명하는 블로그 글을 작성해줘.
-
-대상은 디자인을 처음 배우는 사람이며,
-이해하기 쉽게 사례 중심으로 설명해줘.
-
-구성:
-- 도입 (흥미 유도)
-- 핵심 개념 설명
-- 실제 사례 2~3개
-- 마무리 요약
-
-읽기 쉬운 문단 구조와 자연스러운 흐름으로 작성해줘.`
-  },
-  {
-    id: 3,
-    title: "대학생 대상 웹 서비스 기획",
-    ai: "Gemini 1.5 Pro",
-    use: "전략 기획",
-    tone: "분석적이고 구조적인",
-    detail: `대학생들이 실제로 사용할 만한 웹 서비스를 하나 기획해줘.
-
-조건:
-- 기존 서비스와 차별점 명확히 제시
-- 문제 정의 → 해결 방식 → 기대 효과 구조
-- 수익 모델 포함
-- MVP 기능 우선순위 정리
-
-결과는 기획서 형태로 정리해줘.`
-  },
-  {
-    id: 4,
-    title: "프롬프트 성능 개선",
-    ai: "GPT-4o",
-    use: "전략 기획",
-    tone: "논리적이고 직설적인",
-    detail: `주어진 프롬프트를 분석하고 더 좋은 결과가 나오도록 개선해줘.
-
-요구사항:
-- 문제점 분석 (왜 결과가 별로인지)
-- 개선 방향 제시
-- 개선된 프롬프트 작성
-- Before / After 비교
-
-최종 프롬프트는 바로 사용할 수 있는 형태로 만들어줘.`
-  },
-  {
-    id: 5,
-    title: "웹페이지 UI/UX 개선 제안",
-    ai: "Claude 3.5",
-    use: "전략 기획",
-    tone: "전문적인 컨설턴트 스타일",
-    detail: `현재 웹페이지의 UI/UX를 분석하고 개선안을 제시해줘.
-
-포인트:
-- 사용 흐름 (User Flow)
-- 직관성 문제
-- 시각적 계층 구조
-- 버튼/인터랙션 개선
-
-각 문제마다:
-문제 → 원인 → 개선안 구조로 정리해줘.
-
-가능하면 실제 디자인 수정 방향까지 구체적으로 제안해줘.`
-  }
-];
-
+let savedData = [];
 let aiOptions = ["GPT-4o", "Claude 3.5", "Gemini 1.5 Pro"];
 let useOptions = ["코드 최적화", "전략 기획", "콘텐츠 제작"];
 let chips = ["불필요한 서론 생략", "단계별 가이드 제공", "JSON 형식 출력"];
 let editId = null;
 let targetSelectId = null;
 
+const STORAGE_KEYS = {
+  savedData: "promptStudio_savedData",
+  aiOptions: "promptStudio_aiOptions",
+  useOptions: "promptStudio_useOptions",
+  chips: "promptStudio_chips"
+};
+
+function loadStorage() {
+  try {
+    const storedSavedData = localStorage.getItem(STORAGE_KEYS.savedData);
+    const storedAiOptions = localStorage.getItem(STORAGE_KEYS.aiOptions);
+    const storedUseOptions = localStorage.getItem(STORAGE_KEYS.useOptions);
+    const storedChips = localStorage.getItem(STORAGE_KEYS.chips);
+
+    if (storedSavedData) savedData = JSON.parse(storedSavedData);
+    if (storedAiOptions) aiOptions = JSON.parse(storedAiOptions);
+    if (storedUseOptions) useOptions = JSON.parse(storedUseOptions);
+    if (storedChips) chips = JSON.parse(storedChips);
+  } catch (e) {
+    console.error("로컬 저장소 불러오기 실패:", e);
+  }
+}
+
+function saveStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEYS.savedData, JSON.stringify(savedData));
+    localStorage.setItem(STORAGE_KEYS.aiOptions, JSON.stringify(aiOptions));
+    localStorage.setItem(STORAGE_KEYS.useOptions, JSON.stringify(useOptions));
+    localStorage.setItem(STORAGE_KEYS.chips, JSON.stringify(chips));
+  } catch (e) {
+    console.error("로컬 저장소 저장 실패:", e);
+  }
+}
+
 function init() {
+  loadStorage();
   renderSelect('aiSel', aiOptions);
   renderSelect('useSel', useOptions);
   renderFilterOptions();
   renderChips();
+  resetFields(false);
   renderList();
   updateResult();
 }
 
-/* 🚀 최상급 프롬프트 확장 엔진 */
+/* 🚀 프롬프트 생성 엔진 */
 function updateResult() {
   const title = document.getElementById('titleIn').value.trim() || "지정되지 않은 작업";
-  const ai = document.getElementById('aiSel').value;
-  const use = document.getElementById('useSel').value;
+  const ai = document.getElementById('aiSel').value || aiOptions[0] || "";
+  const use = document.getElementById('useSel').value || useOptions[0] || "";
   const tone = document.getElementById('toneIn').value.trim() || "전문적이고 명확한 톤";
   const detail = document.getElementById('detailIn').value.trim() || "추가 조건 없음";
 
+  const selectedChips = chips.length
+    ? chips.map(chip => `- ${chip}`).join('\n')
+    : "- 없음";
+
   const prompt = `[SYSTEM CONTEXT]
-당신은 최고의 "${use}" 전문가입니다. 사용자의 요청을 ${ai} 엔진의 성능을 활용해 완벽히 처리하십시오.
+당신은 "${use}" 분야에 특화된 숙련된 전문가입니다.
+사용자의 요청을 분석하고, ${ai}의 강점을 최대한 활용해 가장 실용적이고 완성도 높은 결과물을 생성하세요.
 
 [MISSION]
-작업 명칭: ${title}
+작업명: ${title}
 
-[PERSONA & STYLE]
-- 말투: ${tone}
-- 역할: 분석적이고 구조적인 사고를 가진 시니어 컨설턴트
+[ROLE]
+- 역할: 문제를 구조화하고 핵심만 정리하는 시니어 전문가
+- 목표: 바로 복사해서 사용할 수 있는 수준의 결과물 작성
 
-[CONSTRAINTS]
+[TONE & STYLE]
+- 말투/분위기: ${tone}
+- 설명은 명확하고 간결하게 작성
+- 필요 시 항목화, 단계화, 예시 제시
+
+[REQUIREMENTS]
 ${detail}
 
-[OUTPUT RULES]
-1. 가독성을 위해 마크다운 구조를 적극 활용하십시오.
-2. 실행 가능하고 구체적인 인사이트만 제공하십시오.
-3. 요청하지 않은 부연 설명은 최소화하십시오.
+[ADDITIONAL CONSTRAINTS / PREFERENCES]
+${selectedChips}
 
----
-가이드라인에 따라 최상의 결과물을 도출해 주세요.`;
+[OUTPUT RULES]
+1. 결과물은 바로 실사용 가능해야 합니다.
+2. 두루뭉술한 표현보다 구체적인 문장과 실행 가능한 내용을 우선합니다.
+3. 요청 목적에 맞게 구조화된 형식으로 작성합니다.
+4. 불필요한 서론, 반복, 장황한 설명은 최소화합니다.
+5. 필요한 경우 예시, 표기 형식, 문장 템플릿까지 포함합니다.
+
+[FINAL INSTRUCTION]
+위 조건을 모두 반영해, 사용자가 그대로 복사해 활용할 수 있는 최적의 결과물을 작성하세요.`;
 
   document.getElementById('resultOut').textContent = prompt;
 }
 
-/* 🛠️ 검색 및 필터링 기능 */
+/* 보관함 렌더링 */
 function renderList() {
-  const keyword = document.getElementById('searchIn').value.toLowerCase();
+  const keyword = document.getElementById('searchIn').value.toLowerCase().trim();
   const filter = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
 
   const filtered = savedData.filter(item => {
+    const title = (item.title || '').toLowerCase();
+    const detail = (item.detail || '').toLowerCase();
+    const tone = (item.tone || '').toLowerCase();
+    const ai = (item.ai || '').toLowerCase();
+    const use = (item.use || '').toLowerCase();
+
     const matchKeyword =
-      item.title.toLowerCase().includes(keyword) ||
-      item.detail.toLowerCase().includes(keyword);
+      !keyword ||
+      title.includes(keyword) ||
+      detail.includes(keyword) ||
+      tone.includes(keyword) ||
+      ai.includes(keyword) ||
+      use.includes(keyword);
+
     const matchFilter = (filter === 'all' || item.use === filter);
     return matchKeyword && matchFilter;
   });
 
   box.innerHTML = filtered.map(item => `
     <div class="archive-card">
-      <div style="font-size:11px; color:var(--primary); font-weight:800; margin-bottom:8px;">${item.ai} / ${item.use}</div>
-      <strong style="font-size:17px;">${item.title}</strong>
+      <div style="font-size:11px; color:var(--primary); font-weight:800; margin-bottom:8px;">
+        ${escapeHtml(item.ai)} / ${escapeHtml(item.use)}
+      </div>
+      <strong style="font-size:17px;">${escapeHtml(item.title)}</strong>
+      <div style="font-size:13px; color:#64748b; margin-top:8px; line-height:1.5;">
+        ${escapeHtml((item.detail || '').slice(0, 100))}${(item.detail || '').length > 100 ? '...' : ''}
+      </div>
       <div class="card-actions">
         <button class="action-btn action-load" onclick="loadItem(${item.id}, false)">불러오기</button>
         <button class="action-btn action-load" style="background:#dcfce7; color:#15803d;" onclick="loadItem(${item.id}, true)">수정</button>
@@ -313,39 +142,59 @@ function renderList() {
   `).join('') || '<p style="text-align:center; color:#94a3b8; margin-top:50px;">결과가 없습니다.</p>';
 }
 
-/* 실시간 검색/필터 이벤트 리스너 */
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('searchIn').addEventListener('input', renderList);
-  document.getElementById('categoryFilter').addEventListener('change', renderList);
-});
-
 function renderFilterOptions() {
   const filter = document.getElementById('categoryFilter');
-  filter.innerHTML = '<option value="all">전체 카테고리</option>' + 
-    useOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+  const currentValue = filter.value || 'all';
+
+  filter.innerHTML =
+    '<option value="all">전체 카테고리</option>' +
+    useOptions.map(opt => `<option value="${escapeAttribute(opt)}">${escapeHtml(opt)}</option>`).join('');
+
+  if ([...filter.options].some(option => option.value === currentValue)) {
+    filter.value = currentValue;
+  } else {
+    filter.value = 'all';
+  }
 }
 
-/* 초기화 & 필드 관리 */
-function resetFields() {
-  ['titleIn', 'toneIn', 'detailIn', 'customChipIn'].forEach(id => document.getElementById(id).value = '');
+function resetFields(runUpdate = true) {
+  document.getElementById('titleIn').value = '';
+  document.getElementById('toneIn').value = '';
+  document.getElementById('detailIn').value = '';
+  document.getElementById('customChipIn').value = '';
+
+  if (aiOptions.length) document.getElementById('aiSel').value = aiOptions[0];
+  if (useOptions.length) document.getElementById('useSel').value = useOptions[0];
+
   editId = null;
   document.getElementById('modeStatus').textContent = 'NEW';
-  updateResult();
+
+  if (runUpdate) updateResult();
 }
 
 function addChip() {
   const input = document.getElementById('customChipIn');
   const val = input.value.trim();
-  if (val) {
-    if (!chips.includes(val)) chips.push(val);
+
+  if (!val) return;
+
+  if (!chips.includes(val)) {
+    chips.push(val);
+    saveStorage();
     renderChips();
-    input.value = '';
+    updateResult();
+    showToast('제약 조건이 추가되었습니다.');
+  } else {
+    showToast('이미 존재하는 항목입니다.');
   }
+
+  input.value = '';
 }
 
 function openModal(id) {
   targetSelectId = id;
-  document.getElementById('modalDesc').textContent = id === 'aiSel' ? 'AI 이름을 입력하세요.' : '카테고리 이름을 입력하세요.';
+  document.getElementById('modalDesc').textContent =
+    id === 'aiSel' ? 'AI 이름을 입력하세요.' : '카테고리 이름을 입력하세요.';
   document.getElementById('categoryModal').classList.add('show');
   document.getElementById('modalInput').value = '';
   document.getElementById('modalInput').focus();
@@ -353,129 +202,249 @@ function openModal(id) {
 
 function closeModal() {
   document.getElementById('categoryModal').classList.remove('show');
+  targetSelectId = null;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('modalConfirmBtn').onclick = () => {
-    const val = document.getElementById('modalInput').value.trim();
-    if (val) {
-      if (targetSelectId === 'aiSel') {
-        if (!aiOptions.includes(val)) aiOptions.push(val);
-        renderSelect('aiSel', aiOptions);
-      } else {
-        if (!useOptions.includes(val)) useOptions.push(val);
-        renderSelect('useSel', useOptions);
-        renderFilterOptions();
-      }
-      document.getElementById(targetSelectId).value = val;
-      updateResult();
+document.getElementById('modalConfirmBtn').onclick = () => {
+  const val = document.getElementById('modalInput').value.trim();
+  if (!val || !targetSelectId) return closeModal();
+
+  if (targetSelectId === 'aiSel') {
+    if (!aiOptions.includes(val)) {
+      aiOptions.push(val);
+      renderSelect('aiSel', aiOptions);
+      saveStorage();
     }
-    closeModal();
-  };
-});
+  } else {
+    if (!useOptions.includes(val)) {
+      useOptions.push(val);
+      renderSelect('useSel', useOptions);
+      renderFilterOptions();
+      saveStorage();
+    }
+  }
+
+  document.getElementById(targetSelectId).value = val;
+  updateResult();
+  closeModal();
+};
 
 function renderSelect(id, options) {
-  document.getElementById(id).innerHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+  document.getElementById(id).innerHTML =
+    options.map(opt => `<option value="${escapeAttribute(opt)}">${escapeHtml(opt)}</option>`).join('');
 }
 
 function renderChips() {
-  document.getElementById('chipBox').innerHTML = chips.map(c => `<span class="chip" onclick="applyChip('${c.replace(/'/g, "\\'")}')">${c}</span>`).join('');
+  document.getElementById('chipBox').innerHTML = chips.map(c => `
+    <span class="chip" onclick="applyChip('${escapeJsString(c)}')" title="클릭하여 상세 요청에 추가">
+      ${escapeHtml(c)}
+    </span>
+  `).join('');
 }
 
 function applyChip(text) {
   const area = document.getElementById('detailIn');
-  area.value += (area.value ? ', ' : '') + text;
-  updateResult();
+  const current = area.value.trim();
+
+  if (!current.includes(text)) {
+    area.value += (area.value ? '\n- ' : '- ') + text;
+    updateResult();
+  }
 }
 
 function loadItem(id, editMode) {
   const item = savedData.find(d => d.id === id);
-  if (!item) return;
-  document.getElementById('titleIn').value = item.title;
-  document.getElementById('aiSel').value = item.ai;
-  document.getElementById('useSel').value = item.use;
+  if (!item) {
+    showToast('항목을 찾을 수 없습니다.');
+    return;
+  }
+
+  if (!aiOptions.includes(item.ai)) {
+    aiOptions.push(item.ai);
+    renderSelect('aiSel', aiOptions);
+  }
+
+  if (!useOptions.includes(item.use)) {
+    useOptions.push(item.use);
+    renderSelect('useSel', useOptions);
+    renderFilterOptions();
+  }
+
+  document.getElementById('titleIn').value = item.title || '';
+  document.getElementById('aiSel').value = item.ai || aiOptions[0] || '';
+  document.getElementById('useSel').value = item.use || useOptions[0] || '';
   document.getElementById('toneIn').value = item.tone || '';
-  document.getElementById('detailIn').value = item.detail;
+  document.getElementById('detailIn').value = item.detail || '';
+
   editId = editMode ? id : null;
   document.getElementById('modeStatus').textContent = editMode ? 'EDIT' : 'NEW';
   updateResult();
 }
 
-function copyItem(id) {
+async function copyItem(id) {
   const item = savedData.find(d => d.id === id);
-  if (!item) return;
 
-  const prompt = `[SYSTEM CONTEXT]
-당신은 최고의 "${item.use}" 전문가입니다. 사용자의 요청을 ${item.ai} 엔진의 성능을 활용해 완벽히 처리하십시오.
+  if (!item) {
+    return showToast('복사할 항목을 찾을 수 없습니다.');
+  }
+
+  const textToCopy = buildPromptFromItem(item);
+
+  try {
+    await navigator.clipboard.writeText(textToCopy);
+    showToast('선택한 프롬프트 복사 완료!');
+  } catch (e) {
+    console.error(e);
+    showToast('복사에 실패했습니다.');
+  }
+}
+
+function buildPromptFromItem(item) {
+  const title = item.title || "지정되지 않은 작업";
+  const ai = item.ai || "";
+  const use = item.use || "";
+  const tone = item.tone?.trim() || "전문적이고 명확한 톤";
+  const detail = item.detail?.trim() || "추가 조건 없음";
+
+  const selectedChips = chips.length
+    ? chips.map(chip => `- ${chip}`).join('\n')
+    : "- 없음";
+
+  return `[SYSTEM CONTEXT]
+당신은 "${use}" 분야에 특화된 숙련된 전문가입니다.
+사용자의 요청을 분석하고, ${ai}의 강점을 최대한 활용해 가장 실용적이고 완성도 높은 결과물을 생성하세요.
 
 [MISSION]
-작업 명칭: ${item.title}
+작업명: ${title}
 
-[PERSONA & STYLE]
-- 말투: ${item.tone || "전문적이고 명확한 톤"}
-- 역할: 분석적이고 구조적인 사고를 가진 시니어 컨설턴트
+[ROLE]
+- 역할: 문제를 구조화하고 핵심만 정리하는 시니어 전문가
+- 목표: 바로 복사해서 사용할 수 있는 수준의 결과물 작성
 
-[CONSTRAINTS]
-${item.detail}
+[TONE & STYLE]
+- 말투/분위기: ${tone}
+- 설명은 명확하고 간결하게 작성
+- 필요 시 항목화, 단계화, 예시 제시
+
+[REQUIREMENTS]
+${detail}
+
+[ADDITIONAL CONSTRAINTS / PREFERENCES]
+${selectedChips}
 
 [OUTPUT RULES]
-1. 가독성을 위해 마크다운 구조를 적극 활용하십시오.
-2. 실행 가능하고 구체적인 인사이트만 제공하십시오.
-3. 요청하지 않은 부연 설명은 최소화하십시오.
+1. 결과물은 바로 실사용 가능해야 합니다.
+2. 두루뭉술한 표현보다 구체적인 문장과 실행 가능한 내용을 우선합니다.
+3. 요청 목적에 맞게 구조화된 형식으로 작성합니다.
+4. 불필요한 서론, 반복, 장황한 설명은 최소화합니다.
+5. 필요한 경우 예시, 표기 형식, 문장 템플릿까지 포함합니다.
 
----
-가이드라인에 따라 최상의 결과물을 도출해 주세요.`;
-
-  navigator.clipboard.writeText(prompt);
-  showToast('복사 완료!');
+[FINAL INSTRUCTION]
+위 조건을 모두 반영해, 사용자가 그대로 복사해 활용할 수 있는 최적의 결과물을 작성하세요.`;
 }
 
 function deleteItem(id) {
   if (!confirm('삭제하시겠습니까?')) return;
+
   savedData = savedData.filter(d => d.id !== id);
+
+  if (editId === id) {
+    resetFields();
+  }
+
+  saveStorage();
   renderList();
+  showToast('삭제 완료!');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('saveBtn').onclick = () => {
-    const title = document.getElementById('titleIn').value.trim();
-    if (!title) return showToast('제목을 입력하세요.');
+document.getElementById('saveBtn').onclick = () => {
+  const title = document.getElementById('titleIn').value.trim();
+  if (!title) return showToast('제목을 입력하세요.');
 
-    const data = {
-      id: editId || Date.now(),
-      title,
-      ai: document.getElementById('aiSel').value,
-      use: document.getElementById('useSel').value,
-      tone: document.getElementById('toneIn').value,
-      detail: document.getElementById('detailIn').value
-    };
-
-    if (editId) {
-      const idx = savedData.findIndex(d => d.id === editId);
-      if (idx !== -1) savedData[idx] = data;
-    } else {
-      savedData.unshift(data);
-    }
-
-    renderList();
-    resetFields();
-    showToast('저장 완료!');
+  const data = {
+    id: editId || Date.now(),
+    title,
+    ai: document.getElementById('aiSel').value,
+    use: document.getElementById('useSel').value,
+    tone: document.getElementById('toneIn').value.trim(),
+    detail: document.getElementById('detailIn').value.trim()
   };
 
-  document.getElementById('resetBtn').onclick = resetFields;
-  ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).oninput = updateResult);
-  document.getElementById('aiSel').onchange = updateResult;
-  document.getElementById('useSel').onchange = updateResult;
+  if (editId) {
+    const idx = savedData.findIndex(d => d.id === editId);
+    if (idx !== -1) savedData[idx] = data;
+    else savedData.unshift(data);
+  } else {
+    savedData.unshift(data);
+  }
 
-  init();
+  saveStorage();
+  renderList();
+  renderFilterOptions();
+  resetFields();
+  showToast(editId ? '수정 완료!' : '저장 완료!');
+};
+
+document.getElementById('resetBtn').onclick = () => resetFields();
+
+document.getElementById('searchIn').addEventListener('input', renderList);
+document.getElementById('categoryFilter').addEventListener('change', renderList);
+
+['titleIn', 'toneIn', 'detailIn'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateResult);
 });
 
-function showToast(m) {
+document.getElementById('aiSel').addEventListener('change', updateResult);
+document.getElementById('useSel').addEventListener('change', updateResult);
+
+document.getElementById('modalInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('modalConfirmBtn').click();
+  }
+});
+
+document.getElementById('customChipIn').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addChip();
+  }
+});
+
+document.getElementById('categoryModal').addEventListener('click', (e) => {
+  if (e.target.id === 'categoryModal') closeModal();
+});
+
+function showToast(message) {
   const t = document.getElementById('toast');
-  t.textContent = m;
+  t.textContent = message;
   t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 1800);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.style.display = 'none';
+  }, 1800);
 }
+
+function escapeHtml(str = '') {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function escapeAttribute(str = '') {
+  return escapeHtml(str);
+}
+
+function escapeJsString(str = '') {
+  return String(str)
+    .replaceAll('\\', '\\\\')
+    .replaceAll("'", "\\'")
+    .replaceAll('\n', '\\n')
+    .replaceAll('\r', '');
+}
+
+init();
 </script>
-</body>
-</html>
