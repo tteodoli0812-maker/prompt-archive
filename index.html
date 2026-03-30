@@ -16,6 +16,8 @@
   --primary-soft:#eff6ff;
   --soft:#f8fafc;
   --dark:#111827;
+  --danger:#dc2626;
+  --danger-soft:#fef2f2;
 }
 body{
   margin:0;
@@ -24,9 +26,9 @@ body{
   color:var(--text);
 }
 .wrap{
-  max-width:1100px;
+  max-width:1240px;
   margin:0 auto;
-  padding:28px 16px 48px;
+  padding:28px 18px 48px;
 }
 .header{
   margin-bottom:18px;
@@ -52,6 +54,7 @@ body{
   display:grid;
   grid-template-columns:1.2fr .8fr;
   gap:14px;
+  align-items:start;
 }
 .hero-main h2{
   margin:0 0 8px;
@@ -65,38 +68,36 @@ body{
   font-size:14px;
   line-height:1.7;
 }
-.hero-side{
-  display:grid;
-  gap:10px;
+.hero-mini{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
 }
-.info-box{
+.mini-chip{
+  padding:8px 10px;
+  border-radius:999px;
   background:var(--soft);
   border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-}
-.info-box strong{
-  display:block;
-  font-size:14px;
-  margin-bottom:4px;
-}
-.info-box span{
-  color:var(--sub);
-  font-size:13px;
+  font-size:12px;
+  font-weight:700;
+  color:#475569;
 }
 .section-title{
   margin:0 0 14px;
   font-size:18px;
   font-weight:700;
 }
+.app-layout{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:16px;
+  align-items:start;
+}
+.stack{display:grid; gap:16px;}
 .grid-2{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.grid-3{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
   gap:12px;
 }
 .field{
@@ -125,7 +126,7 @@ input:focus,select:focus,textarea:focus{
   box-shadow:0 0 0 4px rgba(37,99,235,0.08);
 }
 textarea{
-  min-height:88px;
+  min-height:92px;
   resize:vertical;
 }
 .chips{
@@ -144,10 +145,7 @@ textarea{
   font-weight:700;
   cursor:pointer;
 }
-.chip:hover{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
+.chip:hover{background:#dbeafe;color:#1d4ed8;}
 .actions{
   display:flex;
   gap:10px;
@@ -165,9 +163,10 @@ button{
 .primary{background:var(--primary);color:#fff;}
 .dark{background:var(--dark);color:#fff;}
 .soft-btn{background:#eef2f7;color:#111827;}
+.danger-btn{background:var(--danger-soft); color:var(--danger);}
 .result-grid{
   display:grid;
-  grid-template-columns:.85fr 1.15fr;
+  grid-template-columns:1fr;
   gap:12px;
 }
 .panel{
@@ -185,7 +184,7 @@ button{
 }
 .panel-body{
   padding:14px;
-  min-height:190px;
+  min-height:170px;
   white-space:pre-wrap;
   font-size:14px;
   line-height:1.7;
@@ -209,10 +208,7 @@ button{
   font-weight:700;
   cursor:pointer;
 }
-.tab.active{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
+.tab.active{background:#dbeafe;color:#1d4ed8;}
 .toolbar{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
@@ -221,13 +217,24 @@ button{
 }
 .library-layout{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:.92fr 1.08fr;
   gap:14px;
 }
-.file-list{
-  display:grid;
-  gap:10px;
+.groups{display:grid; gap:16px;}
+.group{
+  border-top:1px solid var(--line);
+  padding-top:12px;
 }
+.group:first-child{
+  border-top:none;
+  padding-top:0;
+}
+.group-title{
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.file-list{display:grid; gap:10px;}
 .file-item{
   border:1px solid var(--line);
   border-radius:16px;
@@ -243,12 +250,6 @@ button{
 .file-item.active{
   border-color:#93c5fd;
   background:#eff6ff;
-}
-.file-top{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  align-items:flex-start;
 }
 .file-top strong{
   display:block;
@@ -274,12 +275,7 @@ button{
   color:var(--sub);
   line-height:1.6;
 }
-.preview-panel .panel-body{
-  min-height:100%;
-}
-.preview-empty{
-  color:var(--sub);
-}
+.preview-empty{color:var(--sub);}
 .small-actions{
   display:flex;
   gap:8px;
@@ -305,8 +301,9 @@ button{
   pointer-events:none;
 }
 .status.show{opacity:1;transform:translateY(0);}
-@media (max-width:920px){
-  .hero,.grid-2,.grid-3,.result-grid,.toolbar,.library-layout{grid-template-columns:1fr;}
+@media (max-width:980px){
+  .hero,.app-layout,.grid-2,.toolbar,.library-layout{grid-template-columns:1fr;}
+  .hero-mini{justify-content:flex-start;}
 }
 </style>
 </head>
@@ -319,119 +316,104 @@ button{
 
   <div class="card hero">
     <div class="hero-main">
-      <h2>짧게 적고 바로 쓰는<br>프롬프트 정리 공간</h2>
-      <p>길게 작성하는 대신 핵심만 넣으면 바로 쓸 수 있는 형태로 정리됩니다. 만든 프롬프트는 저장해 두고, AI별 또는 용도별로 다시 골라 쓸 수 있습니다.</p>
+      <h2>짧게 적고 바로 쓰는 프롬프트 정리 공간</h2>
+      <p>핵심만 넣으면 바로 쓸 수 있는 형태로 정리되고, 저장한 프롬프트는 파일처럼 눌러서 다시 확인하고 수정할 수 있습니다.</p>
     </div>
-    <div class="hero-side">
-      <div class="info-box">
-        <strong>빠른 입력</strong>
-        <span>기본 문구를 지우지 않아도 바로 클릭해서 입력</span>
-      </div>
-      <div class="info-box">
-        <strong>자동 정리</strong>
-        <span>바로 복사할 수 있는 프롬프트로 변환</span>
-      </div>
-      <div class="info-box">
-        <strong>파일처럼 보기</strong>
-        <span>저장한 프롬프트를 눌러서 오른쪽에서 확인</span>
-      </div>
+    <div class="hero-mini">
+      <div class="mini-chip">빠른 입력</div>
+      <div class="mini-chip">자동 정리</div>
+      <div class="mini-chip">분류 보관</div>
     </div>
   </div>
 
-  <div class="card">
-    <h3 class="section-title">1. 빠른 입력</h3>
+  <div class="app-layout">
+    <div class="stack">
+      <div class="card">
+        <h3 class="section-title">빠른 입력</h3>
 
-    <div class="grid-2">
-      <div class="field">
-        <strong>제목</strong>
-        <input id="topicInput" placeholder="예: 발표문, 기획안, HTML 코드, 이미지 프롬프트">
-      </div>
-      <div class="field">
-        <strong>어떤 AI에 쓸 건가요?</strong>
-        <input id="aiInput" list="aiOptions" placeholder="예: ChatGPT">
-        <datalist id="aiOptions">
-          <option value="ChatGPT"></option>
-          <option value="Claude"></option>
-          <option value="Gemini"></option>
-          <option value="Midjourney"></option>
-        </datalist>
-      </div>
-    </div>
+        <div class="grid-2">
+          <div class="field">
+            <strong>제목</strong>
+            <input id="topicInput" placeholder="예: 발표문, 기획안, HTML 코드, 이미지 프롬프트">
+          </div>
+          <div class="field">
+            <strong>어떤 AI에 쓸 건가요?</strong>
+            <input id="aiInput" list="aiOptions" placeholder="예: ChatGPT">
+            <datalist id="aiOptions"></datalist>
+          </div>
+        </div>
 
-    <div class="grid-2" style="margin-top:12px;">
-      <div class="field">
-        <strong>용도</strong>
-        <input id="useInput" list="useOptions" placeholder="예: 글쓰기">
-        <datalist id="useOptions">
-          <option value="글쓰기"></option>
-          <option value="기획/분석"></option>
-          <option value="코딩"></option>
-          <option value="이미지"></option>
-        </datalist>
-      </div>
-      <div class="field">
-        <strong>원하는 느낌</strong>
-        <input id="toneInput" placeholder="예: 자연스럽게, 간단하게, 전문적으로">
-      </div>
-    </div>
+        <div class="grid-2" style="margin-top:12px;">
+          <div class="field">
+            <strong>용도</strong>
+            <input id="useInput" list="useOptions" placeholder="예: 글쓰기">
+            <datalist id="useOptions"></datalist>
+          </div>
+          <div class="field">
+            <strong>원하는 느낌</strong>
+            <input id="toneInput" placeholder="예: 자연스럽게, 간단하게, 전문적으로">
+          </div>
+        </div>
 
-    <div class="field" style="margin-top:12px;">
-      <strong>추가 조건</strong>
-      <textarea id="detailInput" placeholder="예: 3분 발표용, 학생 말투, 도입-본론-결론 구조"></textarea>
-      <div class="chips">
-        <button class="chip" data-add="자연스러운 말투">자연스러운 말투</button>
-        <button class="chip" data-add="짧고 명확하게">짧고 명확하게</button>
-        <button class="chip" data-add="도입-본론-결론">도입-본론-결론</button>
-        <button class="chip" data-add="학생 발표용">학생 발표용</button>
-        <button class="chip" data-add="복붙해서 바로 사용 가능하게">바로 사용 가능</button>
-        <button class="chip" data-add="예시 포함">예시 포함</button>
-      </div>
-    </div>
+        <div class="field" style="margin-top:12px;">
+          <strong>추가 조건</strong>
+          <textarea id="detailInput" placeholder="예: 3분 발표용, 학생 말투, 도입-본론-결론 구조"></textarea>
+          <div class="chips">
+            <button class="chip" data-add="자연스러운 말투">자연스러운 말투</button>
+            <button class="chip" data-add="짧고 명확하게">짧고 명확하게</button>
+            <button class="chip" data-add="도입-본론-결론">도입-본론-결론</button>
+            <button class="chip" data-add="학생 발표용">학생 발표용</button>
+            <button class="chip" data-add="복붙해서 바로 사용 가능하게">바로 사용 가능</button>
+            <button class="chip" data-add="예시 포함">예시 포함</button>
+          </div>
+        </div>
 
-    <div class="actions">
-      <button class="primary" id="generateBtn">프롬프트 정리하기</button>
-      <button class="dark" id="saveBtn">보관함에 저장</button>
-      <button class="soft-btn" id="resetBtn">초기화</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3 class="section-title">2. 정리된 결과</h3>
-    <div class="result-grid">
-      <div class="panel">
-        <div class="panel-head">입력 요약</div>
-        <div class="panel-body" id="summaryBox"></div>
+        <div class="actions">
+          <button class="primary" id="generateBtn">프롬프트 정리하기</button>
+          <button class="dark" id="saveBtn">보관함에 저장</button>
+          <button class="soft-btn" id="resetBtn">초기화</button>
+        </div>
       </div>
-      <div class="panel">
-        <div class="panel-head">완성된 프롬프트</div>
-        <div class="panel-body dark" id="resultBox"></div>
+
+      <div class="card">
+        <h3 class="section-title">정리된 결과</h3>
+        <div class="result-grid">
+          <div class="panel">
+            <div class="panel-head">입력 요약</div>
+            <div class="panel-body" id="summaryBox"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">완성된 프롬프트</div>
+            <div class="panel-body dark" id="resultBox"></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="copyBtn">정리본 복사</button>
+        </div>
       </div>
     </div>
-    <div class="actions">
-      <button class="primary" id="copyBtn">정리본 복사</button>
-    </div>
-  </div>
 
-  <div class="card">
-    <h3 class="section-title">3. 저장된 프롬프트</h3>
+    <div class="card">
+      <h3 class="section-title">저장된 프롬프트</h3>
 
-    <div class="view-toggle">
-      <button class="tab active" data-group="use">용도별 보기</button>
-      <button class="tab" data-group="ai">AI별 보기</button>
-    </div>
+      <div class="view-toggle">
+        <button class="tab active" data-group="use">용도별 보기</button>
+        <button class="tab" data-group="ai">AI별 보기</button>
+      </div>
 
-    <div class="toolbar">
-      <input id="searchInput" placeholder="검색">
-      <select id="aiFilter"></select>
-      <select id="useFilter"></select>
-    </div>
+      <div class="toolbar">
+        <input id="searchInput" placeholder="검색">
+        <select id="aiFilter"></select>
+        <select id="useFilter"></select>
+      </div>
 
-    <div class="library-layout">
-      <div class="groups" id="groups"></div>
-      <div class="panel preview-panel">
-        <div class="panel-head">파일 보기</div>
-        <div class="panel-body" id="filePreview">
-          <div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>
+      <div class="library-layout">
+        <div class="groups" id="groups"></div>
+        <div class="panel preview-panel">
+          <div class="panel-head">파일 보기</div>
+          <div class="panel-body" id="filePreview">
+            <div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -453,10 +435,13 @@ const filePreview = document.getElementById('filePreview');
 const searchInput = document.getElementById('searchInput');
 const aiFilter = document.getElementById('aiFilter');
 const useFilter = document.getElementById('useFilter');
+const aiOptions = document.getElementById('aiOptions');
+const useOptions = document.getElementById('useOptions');
 const toast = document.getElementById('toast');
 
 let groupMode = 'use';
 let selectedIndex = null;
+let editingIndex = null;
 
 let savedPrompts = [
   { title:'발표문', ai:'ChatGPT', use:'글쓰기', tone:'자연스럽게', detail:'학생 발표용, 도입-본론-결론 구조', result:'' },
@@ -468,7 +453,7 @@ let savedPrompts = [
 function showToast(message){
   toast.textContent = message;
   toast.classList.add('show');
-  setTimeout(()=> toast.classList.remove('show'), 1200);
+  setTimeout(()=> toast.classList.remove('show'), 1400);
 }
 
 function buildPrompt(title, ai, use, tone, detail){
@@ -500,6 +485,8 @@ function refreshFilterOptions(){
 
   aiFilter.innerHTML = aiValues.map(v => `<option value="${v}">${v === 'all' ? '모든 AI' : v}</option>`).join('');
   useFilter.innerHTML = useValues.map(v => `<option value="${v}">${v === 'all' ? '모든 용도' : v}</option>`).join('');
+  aiOptions.innerHTML = aiValues.filter(v => v !== 'all').map(v => `<option value="${v}"></option>`).join('');
+  useOptions.innerHTML = useValues.filter(v => v !== 'all').map(v => `<option value="${v}"></option>`).join('');
 }
 
 function renderOutput(){
@@ -520,6 +507,15 @@ function renderOutput(){
   resultBox.textContent = buildPrompt(title, ai, use, tone, detail);
 }
 
+function fillEditor(item){
+  topicInput.value = item.title;
+  aiInput.value = item.ai;
+  useInput.value = item.use;
+  toneInput.value = item.tone;
+  detailInput.value = item.detail;
+  renderOutput();
+}
+
 function renderPreview(item){
   if(!item){
     filePreview.innerHTML = '<div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>';
@@ -536,24 +532,41 @@ function renderPreview(item){
     <div class="preview" style="margin-bottom:12px;">${item.detail || '-'}</div>
     <div style="border:1px solid var(--line); border-radius:14px; background:#111827; color:#fff; padding:14px; white-space:pre-wrap; font-size:13px; line-height:1.7;">${item.result}</div>
     <div class="small-actions">
-      <button class="soft-btn" id="previewLoadBtn">입력칸에 불러오기</button>
+      <button class="soft-btn" id="previewLoadBtn">불러오기</button>
+      <button class="soft-btn" id="previewEditBtn">수정</button>
       <button class="primary" id="previewCopyBtn">복사</button>
+      <button class="danger-btn" id="previewDeleteBtn">삭제</button>
     </div>
   `;
 
   document.getElementById('previewLoadBtn').onclick = () => {
-    topicInput.value = item.title;
-    aiInput.value = item.ai;
-    useInput.value = item.use;
-    toneInput.value = item.tone;
-    detailInput.value = item.detail;
-    renderOutput();
-    showToast('입력칸에 불러왔어요');
+    fillEditor(item);
+    showToast('불러오기 성공!');
+  };
+
+  document.getElementById('previewEditBtn').onclick = () => {
+    fillEditor(item);
+    editingIndex = selectedIndex;
+    showToast('수정할 수 있게 불러왔어요');
   };
 
   document.getElementById('previewCopyBtn').onclick = async () => {
     await navigator.clipboard.writeText(item.result);
     showToast('복사 완료!');
+  };
+
+  document.getElementById('previewDeleteBtn').onclick = () => {
+    savedPrompts.splice(selectedIndex, 1);
+    if(savedPrompts.length === 0){
+      selectedIndex = null;
+      editingIndex = null;
+    } else {
+      selectedIndex = Math.max(0, selectedIndex - 1);
+      if(editingIndex !== null && editingIndex >= savedPrompts.length) editingIndex = null;
+    }
+    refreshFilterOptions();
+    renderSaved();
+    showToast('삭제 완료!');
   };
 }
 
@@ -585,9 +598,8 @@ function renderSaved(){
     return;
   }
 
-  if(selectedIndex === null || !savedPrompts[selectedIndex]){
-    const firstItem = filtered[0];
-    selectedIndex = savedPrompts.indexOf(firstItem);
+  if(selectedIndex === null || !savedPrompts[selectedIndex] || !filtered.includes(savedPrompts[selectedIndex])){
+    selectedIndex = savedPrompts.indexOf(filtered[0]);
   }
 
   Object.keys(grouped).forEach(groupName => {
@@ -639,6 +651,8 @@ document.getElementById('saveBtn').onclick = () => {
   const title = topicInput.value.trim();
   const ai = aiInput.value.trim();
   const use = useInput.value.trim();
+  const tone = toneInput.value.trim();
+  const detail = detailInput.value.trim();
 
   if(!title){
     showToast('제목을 입력하세요');
@@ -657,16 +671,24 @@ document.getElementById('saveBtn').onclick = () => {
     title,
     ai,
     use,
-    tone: toneInput.value.trim(),
-    detail: detailInput.value.trim(),
-    result: buildPrompt(title, ai, use, toneInput.value.trim(), detailInput.value.trim())
+    tone,
+    detail,
+    result: buildPrompt(title, ai, use, tone, detail)
   };
 
-  savedPrompts.unshift(item);
-  selectedIndex = 0;
+  if(editingIndex !== null && savedPrompts[editingIndex]){
+    savedPrompts[editingIndex] = item;
+    selectedIndex = editingIndex;
+    editingIndex = null;
+    showToast('수정 완료!');
+  } else {
+    savedPrompts.unshift(item);
+    selectedIndex = 0;
+    showToast('보관함에 저장됨');
+  }
+
   refreshFilterOptions();
   renderSaved();
-  showToast('보관함에 저장됨');
 };
 document.getElementById('resetBtn').onclick = () => {
   topicInput.value = '';
@@ -674,6 +696,7 @@ document.getElementById('resetBtn').onclick = () => {
   useInput.value = '';
   toneInput.value = '';
   detailInput.value = '';
+  editingIndex = null;
   renderOutput();
 };
 
@@ -696,9 +719,6 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 [topicInput, aiInput, useInput, toneInput, detailInput].forEach(el => {
   el.addEventListener('input', renderOutput);
-  el.addEventListener('focus', () => {
-    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.select?.();
-  });
 });
 
 searchInput.addEventListener('input', renderSaved);
