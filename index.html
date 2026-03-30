@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Archive Pro - Dual Filter</title>
+<title>Prompt Archive Pro - Premium Edition</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
@@ -55,18 +55,18 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .chip { padding: 6px 12px; background: var(--primary-soft); color: var(--primary); border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; }
 
 .result-box { 
-  background: #1e293b; color: #f8fafc; padding: 20px; border-radius: var(--radius-md); 
-  min-height: 200px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.7; border-left: 4px solid var(--primary);
+  background: #1e293b; color: #f8fafc; padding: 25px; border-radius: var(--radius-md); 
+  min-height: 250px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.8; border-left: 5px solid var(--primary);
+  font-family: 'Consolas', 'Monaco', monospace;
 }
 
 .btn-group { display: flex; gap: 10px; margin-top: 20px; }
 .btn-main { background: var(--primary); color: white; flex: 2; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 .btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 
-/* 보관함 상단 필터 레이아웃 (Dual Filter) */
+/* 보관함 필터 레이아웃 */
 .archive-filter-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.search-row { width: 100%; }
 
 .list-scroll { max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
 .archive-card { width: 100%; padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); background: white; transition: 0.2s; }
@@ -82,14 +82,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .copy-btn { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
 .del-btn { background: #fef2f2; color: #ef4444; }
 
-/* 커스텀 팝업 (Image b0df4a 반영) */
+/* 팝업 스타일 */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; }
 .modal-overlay.show { display: flex; }
 .modal { background: #2b2b2b; border-radius: 12px; width: 420px; overflow: hidden; }
 .modal-header { padding: 15px 20px; background: #222; color: #fff; font-size: 14px; border-bottom: 1px solid #3d3d3d; }
 .modal-body { padding: 25px 20px; }
 .modal-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; outline: none; }
-.modal-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 1px #3b82f6; }
 .modal-footer { padding: 15px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #222; }
 .m-btn { padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
 .m-confirm { background: #3b82f6; color: white; }
@@ -102,7 +101,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 
 <div class="modal-overlay" id="customModal">
   <div class="modal">
-    <div class="modal-header">tteodoli0812-maker.github.io의 메시지</div>
+    <div class="modal-header">시스템 메시지</div>
     <div class="modal-body">
       <p id="mTitle" style="color:white; margin-bottom:10px;">항목 추가</p>
       <input type="text" id="mInput" class="modal-input">
@@ -120,11 +119,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
       <h3>프롬프트 제작 도구 <span id="modeLabel" style="font-size:11px; color:var(--primary);">[새 모드]</span></h3>
       <div class="input-row">
         <div class="field">
-          <label>제목</label>
-          <input type="text" id="titleIn" placeholder="제목을 입력하세요">
+          <label>주제 및 목표</label>
+          <input type="text" id="titleIn" placeholder="무엇을 만들고 싶나요?">
         </div>
         <div class="field">
-          <label>AI 엔진</label>
+          <label>최적화 엔진</label>
           <div class="flex-input">
             <select id="aiSel"></select>
             <button class="add-inline-btn" onclick="openModal('aiSel')">추가</button>
@@ -133,30 +132,30 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
       </div>
       <div class="input-row">
         <div class="field">
-          <label>용도 카테고리</label>
+          <label>용도 분류</label>
           <div class="flex-input">
             <select id="useSel"></select>
             <button class="add-inline-btn" onclick="openModal('useSel')">추가</button>
           </div>
         </div>
         <div class="field">
-          <label>톤앤매너</label>
-          <input type="text" id="toneIn" placeholder="예: 전문적인">
+          <label>분위기(톤앤매너)</label>
+          <input type="text" id="toneIn" placeholder="예: 이성적이고 논리적인">
         </div>
       </div>
       <div class="field">
-        <label>상세 조건 및 제약 사항</label>
+        <label>강조 키워드 및 조건</label>
         <div class="flex-input">
           <input type="text" id="chipIn" placeholder="조건 입력">
           <button class="add-inline-btn" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="상세 지침을 입력하세요."></textarea>
+        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="AI가 지켜야 할 상세 지침이나 규칙을 자유롭게 작성하세요."></textarea>
       </div>
       <div class="result-box" id="resultOut"></div>
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">보관함 저장</button>
-        <button class="btn-sub" onclick="resetForm()">초기화</button>
+        <button class="btn-main" id="saveBtn">보관함 저장 및 복사</button>
+        <button class="btn-sub" onclick="resetForm()">새로 작성</button>
       </div>
     </div>
   </div>
@@ -166,32 +165,23 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
       <h3>프롬프트 보관함</h3>
       <div class="archive-filter-area">
         <div class="filter-row">
-          <select id="aiFilter" style="background:#f1f5f9; border:none; font-weight:700;">
-            <option value="all">전체 AI</option>
-          </select>
-          <select id="categoryFilter" style="background:#f1f5f9; border:none; font-weight:700;">
-            <option value="all">전체 용도</option>
-          </select>
+          <select id="aiFilter"><option value="all">전체 AI</option></select>
+          <select id="categoryFilter"><option value="all">전체 용도</option></select>
         </div>
-        <div class="search-row">
-          <input type="text" id="searchIn" placeholder="검색어를 입력하세요...">
-        </div>
+        <input type="text" id="searchIn" placeholder="저장된 프롬프트 검색...">
       </div>
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
 </div>
 
-<div id="toast">완료되었습니다!</div>
+<div id="toast">복사 및 저장되었습니다!</div>
 
 <script>
-let savedData = [
-  { id: 1, title: "파이썬 데이터 분석", ai: "ChatGPT", use: "코딩", tone: "분석적", detail: "Pandas 라이브러리를 사용해서 데이터프레임의 결측치를 처리하는 코드를 작성해줘." },
-  { id: 2, title: "IT 신제품 리뷰 기사", ai: "Claude", use: "글쓰기", tone: "친근한", detail: "최신 무선 이어폰의 장단점을 비교하는 블로그 포스팅 초안을 작성해줘." }
-];
+let savedData = [];
 let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["코딩", "글쓰기", "기획", "마케팅"];
-let chips = ["단계별 설명", "핵심 요약", "표 형식 사용"];
+let useOptions = ["코딩", "글쓰기", "기획", "비즈니스"];
+let chips = ["단계별 출력", "전문 용어 사용", "초보자 눈높이", "결과만 출력"];
 let editId = null;
 let currentTarget = '';
 
@@ -209,10 +199,8 @@ function renderOptions() {
 }
 
 function renderFilterOptions() {
-  const af = document.getElementById('aiFilter');
-  const cf = document.getElementById('categoryFilter');
-  af.innerHTML = '<option value="all">전체 AI</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
-  cf.innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('aiFilter').innerHTML = '<option value="all">전체 AI</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('categoryFilter').innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
@@ -230,9 +218,35 @@ function addChip() {
   if(i.value.trim()) { chips.push(i.value.trim()); renderChips(); i.value = ''; }
 }
 
+// [성의있는 프롬프트 엔진] - 핵심 로직
 function updatePreview() {
-  const res = `[${document.getElementById('aiSel').value} / ${document.getElementById('useSel').value}]\n목표: ${document.getElementById('titleIn').value || '제목없음'}\n말투: ${document.getElementById('toneIn').value || '일반'}\n내용: ${document.getElementById('detailIn').value || '요청사항 없음'}`;
-  document.getElementById('resultOut').textContent = res;
+  const title = document.getElementById('titleIn').value || '(주제 미정)';
+  const ai = document.getElementById('aiSel').value;
+  const use = document.getElementById('useSel').value;
+  const tone = document.getElementById('toneIn').value || '일반적인';
+  const detail = document.getElementById('detailIn').value || '상세 요청 사항을 입력해주세요.';
+
+  const template = `[ 시스템 프롬프트: ${ai} 최적화 ]
+
+■ 역할 정의 (Persona)
+당신은 최고의 "${use}" 전문가이자 전략가입니다. 사용자의 의도를 깊이 있게 분석하여 전문적인 결과물을 도출하십시오.
+
+■ 요청 주제
+"${title}"
+
+■ 수행 지침 (Instructions)
+1. 출력 톤앤매너: ${tone} 분위기를 엄격히 유지하십시오.
+2. 분석 대상: 아래 제공된 상세 내용을 바탕으로 가장 효율적인 해결책을 제시하십시오.
+
+■ 상세 요청 내용 및 제약 사항
+${detail}
+
+■ 최종 출력 형식
+- 가독성을 위해 구조화된 포맷을 사용하십시오.
+- 논리적 근거를 포함하여 답변의 신뢰도를 높이십시오.
+- 불필요한 서론과 결론은 생략하고 핵심 가치에 집중하십시오.`;
+  
+  document.getElementById('resultOut').textContent = template;
 }
 
 function renderList() {
@@ -249,15 +263,20 @@ function renderList() {
     return matchKw && matchAi && matchUse;
   });
 
+  if(filtered.length === 0) {
+    box.innerHTML = '<div style="text-align:center; padding:50px 0; color:#94a3b8; font-size:14px;">저장된 프롬프트가 없습니다.</div>';
+    return;
+  }
+
   filtered.forEach(item => {
     const div = document.createElement('div');
     div.className = 'archive-card';
     div.innerHTML = `
       <div class="meta-tags"><span class="tag">${item.ai}</span><span class="tag">${item.use}</span></div>
       <strong>${item.title}</strong>
-      <div style="font-size:13px; color:var(--text-sub);">${item.detail.substring(0, 50)}...</div>
+      <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">${item.detail.substring(0, 60)}...</div>
       <div class="card-actions">
-        <button class="load-btn" onclick="loadItem(${item.id})">열기</button>
+        <button class="load-btn" onclick="loadItem(${item.id})">불러오기</button>
         <button class="edit-btn" onclick="startEdit(${item.id})">수정</button>
         <button class="copy-btn" onclick="copyItem(${item.id})">복사</button>
         <button class="del-btn" onclick="deleteItem(${item.id})">삭제</button>
@@ -269,7 +288,7 @@ function renderList() {
 
 function openModal(type) {
   currentTarget = type;
-  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 추가' : '새 카테고리 추가';
+  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 추가' : '새 용도 카테고리 추가';
   document.getElementById('customModal').classList.add('show');
 }
 
@@ -280,11 +299,9 @@ document.getElementById('mConfirm').onclick = () => {
   if(!val) return;
   if(currentTarget === 'aiSel') aiOptions.push(val);
   else useOptions.push(val);
-  renderOptions();
-  renderFilterOptions();
+  renderOptions(); renderFilterOptions();
   document.getElementById(currentTarget).value = val;
-  updatePreview();
-  closeModal();
+  updatePreview(); closeModal();
 };
 
 function loadItem(id) {
@@ -300,21 +317,26 @@ function loadItem(id) {
 
 function startEdit(id) { loadItem(id); editId = id; document.getElementById('modeLabel').textContent = "[수정 모드]"; }
 
-function deleteItem(id) { if(confirm('삭제할까요?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
+function deleteItem(id) { if(confirm('영구 삭제하시겠습니까?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
 
 function copyItem(id) {
-  const item = savedData.find(d => d.id === id);
-  navigator.clipboard.writeText(`[${item.ai}/${item.use}] ${item.title}\n${item.detail}`);
-  showToast('복사되었습니다!');
+  const item = id ? savedData.find(d => d.id === id) : null;
+  const text = item ? `[${item.ai}/${item.use}] ${item.title}\n${item.detail}` : document.getElementById('resultOut').textContent;
+  navigator.clipboard.writeText(text);
+  showToast('클립보드에 복사되었습니다!');
 }
 
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value;
-  if(!title) return alert('제목을 입력하세요!');
+  if(!title) return alert('제목을 입력해주세요.');
+
   const obj = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
+  
   if(editId) savedData[savedData.findIndex(d => d.id === editId)] = obj;
   else savedData.unshift(obj);
-  resetForm(); renderList(); showToast('저장 완료!');
+  
+  copyItem(); // 저장 시 자동 복사
+  resetForm(); renderList();
 };
 
 function resetForm() {
@@ -328,6 +350,7 @@ document.getElementById('searchIn').oninput = renderList;
 document.getElementById('aiFilter').onchange = renderList;
 document.getElementById('categoryFilter').onchange = renderList;
 ['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).oninput = updatePreview);
+
 init();
 </script>
 </body>
