@@ -3,88 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Studio Pro</title>
+<title>Prompt Studio Pro | Professional Edition</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 :root {
-  --bg: #f5f7fa; --card: #ffffff; --primary: #6366f1; --primary-hover: #4f46e5;
-  --primary-soft: #e0e7ff; --text-main: #1e293b; --text-sub: #64748b;
-  --border: #e2e8f0; --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --bg: #f8fafc; --card: #ffffff; --primary: #4f46e5; --primary-hover: #4338ca;
+  --primary-soft: #eef2ff; --text-main: #0f172a; --text-sub: #475569;
+  --border: #e2e8f0; --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
   --radius-lg: 16px; --radius-md: 10px;
 }
 
-* { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; line-height: 1.6; }
+* { box-sizing: border-box; font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; line-height: 1.5; }
 
-.container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; }
-.main-header { grid-column: 1 / -1; margin-bottom: 8px; }
-.main-header h1 { font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+.container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; }
 
-.card { background: var(--card); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-card); }
-.section-title { font-size: 18px; font-weight: 700; margin: 0 0 20px 0; display: flex; align-items: center; gap: 10px; }
-.badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--primary-soft); color: var(--primary); font-weight: 800; }
+/* Header 디자인 */
+.main-header { grid-column: 1 / -1; margin-bottom: 24px; border-bottom: 1.5px solid var(--border); padding-bottom: 24px; }
+.main-header h1 { font-size: 32px; font-weight: 900; margin: 0; color: var(--text-main); letter-spacing: -0.04em; }
+.main-header p { color: var(--text-sub); margin: 8px 0 0; font-size: 16px; font-weight: 500; }
 
-.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.field { display: flex; flex-direction: column; gap: 8px; }
-label { font-size: 13px; font-weight: 700; }
+/* 카드 공통 */
+.card { background: var(--card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 40px; box-shadow: var(--shadow-sm); }
+.section-title { font-size: 20px; font-weight: 800; margin: 0 0 28px 0; display: flex; align-items: center; justify-content: space-between; }
+.badge { font-size: 12px; padding: 4px 10px; border-radius: 8px; background: var(--primary-soft); color: var(--primary); border: 1px solid #c7d2fe; }
 
-.flex-input { display: flex; gap: 8px; align-items: stretch; }
+/* 입력 폼 */
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.field { display: flex; flex-direction: column; gap: 10px; }
+label { font-size: 14px; font-weight: 700; color: #334155; }
+
+.flex-input { display: flex; gap: 10px; }
 input, select, textarea { 
-  width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); 
-  font-size: 14px; outline: none; background: #fff; transition: 0.2s;
+  width: 100%; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: var(--radius-md); 
+  font-size: 15px; background: #fff; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); outline: none; }
 
 .add-inline-btn { 
-  padding: 0 16px; background: white; color: var(--primary); border: 1.5px solid var(--primary); 
-  border-radius: var(--radius-md); cursor: pointer; font-weight: 700; flex-shrink: 0;
+  padding: 0 18px; background: var(--primary-soft); color: var(--primary); border: 1.5px solid #c7d2fe; 
+  border-radius: var(--radius-md); cursor: pointer; font-weight: 800; transition: 0.2s;
 }
+.add-inline-btn:hover { background: var(--primary); color: white; }
 
-.chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.chip { padding: 6px 14px; background: #f8fafc; border-radius: 20px; font-size: 12px; cursor: pointer; border: 1px solid var(--border); font-weight: 600; color: var(--text-sub); }
+/* 칩 */
+.chip-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.chip { 
+  padding: 8px 16px; background: #f1f5f9; border-radius: 25px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); color: var(--text-sub); transition: 0.2s;
+}
+.chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
 
+/* 프리뷰 창 (Professional Editor) */
+.preview-header { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
 .result-box { 
-  background: #0f172a; color: #e2e8f0; padding: 24px; border-radius: var(--radius-md); 
-  min-height: 280px; font-size: 13px; white-space: pre-wrap; margin-top: 12px;
-  font-family: 'Consolas', 'Monaco', monospace; border: 1px solid #1e293b; line-height: 1.6;
+  background: #0f172a; color: #f1f5f9; padding: 30px; border-radius: var(--radius-md); 
+  min-height: 350px; font-size: 14px; white-space: pre-wrap; margin-top: 12px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace; line-height: 1.8; border: 1px solid #1e293b;
+  position: relative; overflow: hidden;
 }
 
-.btn-group { display: flex; gap: 12px; margin-top: 24px; }
-.btn-main { background: var(--primary); color: white; flex: 2; padding: 16px; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
-.btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 16px; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
+/* 버튼 세트 */
+.btn-group { display: flex; gap: 16px; margin-top: 32px; }
+.btn-main { background: var(--primary); color: white; flex: 2; padding: 18px; border: none; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2); }
+.btn-main:hover { background: var(--primary-hover); transform: translateY(-1px); }
+.btn-sub { background: #f8fafc; color: var(--text-sub); flex: 1; padding: 18px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-weight: 700; cursor: pointer; }
 
-/* 보관함 및 모달 스타일 유지 */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-.modal-overlay.show { display: flex; }
-.modal { background: #232323; border-radius: 12px; width: 480px; overflow: hidden; }
-.modal-header { background: #1a1a1a; padding: 15px 20px; color: white; }
-.modal-body { padding: 25px 20px; color: white; }
-.modal-input { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 6px; background: #2a2a2a; color: white; margin-top: 10px; outline: none; }
-.modal-footer { padding: 15px 20px 20px; display: flex; justify-content: flex-end; gap: 10px; }
-.btn-modal-confirm { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px; }
-.btn-modal-cancel { background: #333; color: white; border: 1px solid #444; padding: 10px 20px; border-radius: 6px; }
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 28px; border-radius: 999px; display: none; z-index: 3000; }
-.archive-card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: white; margin-bottom: 16px; }
-.card-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 16px; }
-.action-btn { padding: 8px 0; font-size: 11px; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; }
-.action-load { background: #e0e7ff; color: #4338ca; }
+/* 보관함 */
+.list-scroll { max-height: 700px; overflow-y: auto; padding-right: 8px; }
+.archive-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: white; margin-bottom: 20px; transition: 0.3s; }
+.archive-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.card-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+.action-btn { padding: 10px 0; font-size: 12px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; }
+.action-load { background: var(--primary-soft); color: var(--primary); }
 .copy-btn { background: #f1f5f9; color: var(--text-sub); }
 .action-del { background: #fee2e2; color: #b91c1c; }
+
+/* 모달 - Dark Mode Professional */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(8px); }
+.modal-overlay.show { display: flex; }
+.modal { background: #1e293b; border-radius: 20px; width: 500px; border: 1px solid #334155; overflow: hidden; box-shadow: var(--shadow-lg); }
+.modal-header { background: #0f172a; padding: 20px 28px; color: white; font-weight: 800; border-bottom: 1px solid #334155; }
+.modal-body { padding: 32px 28px; }
+.modal-input { width: 100%; padding: 16px; border: 1px solid #334155; border-radius: 12px; background: #0f172a; color: white; font-size: 16px; margin-top: 12px; }
+.modal-footer { padding: 20px 28px; display: flex; justify-content: flex-end; gap: 12px; }
+
+.toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 14px 32px; border-radius: 99px; font-weight: 700; display: none; z-index: 3000; box-shadow: var(--shadow-lg); }
 </style>
 </head>
 <body>
 
 <div class="modal-overlay" id="categoryModal">
   <div class="modal">
-    <div class="modal-header"><h4>tteodoli0812-maker.github.io의 메시지</h4></div>
+    <div class="modal-header">새 카테고리 추가</div>
     <div class="modal-body">
-      <p id="modalDesc">항목을 입력하세요</p>
-      <input type="text" id="modalInput" class="modal-input">
+      <label style="color:#94a3b8">항목의 이름을 정확하게 입력하세요</label>
+      <input type="text" id="modalInput" class="modal-input" placeholder="이름을 입력하세요">
     </div>
     <div class="modal-footer">
-      <button class="btn-modal-confirm" id="modalConfirmBtn">확인</button>
-      <button class="btn-modal-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-sub" style="padding:10px 20px" onclick="closeModal()">취소</button>
+      <button class="btn-main" style="flex:none; padding:10px 30px" id="modalConfirmBtn">추가하기</button>
     </div>
   </div>
 </div>
@@ -92,63 +112,72 @@ input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4p
 <div class="container">
   <div class="main-header">
     <h1>Prompt Studio Pro</h1>
-    <p>AI의 잠재력을 100% 끌어내는 고품질 프롬프트 엔지니어링 에디터</p>
+    <p>Professional Prompt Engineering Dashboard</p>
   </div>
 
   <div class="main-side">
     <div class="card">
-      <h3 class="section-title">작성 에디터 <span id="modeStatus" class="badge">새로 만들기</span></h3>
+      <div class="section-title">
+        <span>프롬프트 에디터</span>
+        <span id="modeStatus" class="badge">NEW PROJECT</span>
+      </div>
       
       <div class="input-row">
-        <div class="field"><label>제목</label><input type="text" id="titleIn" placeholder="무엇을 만들 건가요?"></div>
-        <div class="field"><label>AI 엔진</label>
+        <div class="field"><label>PROJECT TITLE</label><input type="text" id="titleIn" placeholder="프로젝트 제목을 입력하세요"></div>
+        <div class="field"><label>AI ENGINE</label>
           <div class="flex-input"><select id="aiSel"></select><button class="add-inline-btn" onclick="openModal('aiSel')">+</button></div>
         </div>
       </div>
 
       <div class="input-row">
-        <div class="field"><label>용도 카테고리</label>
+        <div class="field"><label>OBJECTIVE CATEGORY</label>
           <div class="flex-input"><select id="useSel"></select><button class="add-inline-btn" onclick="openModal('useSel')">+</button></div>
         </div>
-        <div class="field"><label>톤앤매너</label><input type="text" id="toneIn" placeholder="예: 비즈니스 전문가 스타일"></div>
+        <div class="field"><label>TONE & MANNER</label><input type="text" id="toneIn" placeholder="예: 시니어 개발자 톤"></div>
       </div>
 
-      <div class="field" style="margin-bottom:20px;">
-        <label>추가 조건 키워드</label>
+      <div class="field">
+        <label>CONSTRAINTS & CONTEXT</label>
         <div class="flex-input">
-          <input type="text" id="customChipIn" placeholder="자주 쓰는 제약조건 입력">
-          <button class="add-inline-btn" onclick="addChip()">추가</button>
+          <input type="text" id="customChipIn" placeholder="제약 조건 키워드를 추가하세요">
+          <button class="add-inline-btn" onclick="addChip()">ADD</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="4" style="margin-top:12px;" placeholder="구체적인 상황이나 데이터 소스를 입력하세요."></textarea>
+        <textarea id="detailIn" rows="5" style="margin-top:16px;" placeholder="구체적인 요청 사항과 배경지식을 상세히 기술하세요."></textarea>
       </div>
 
-      <label>💎 엔진 최적화 결과 (Prompt Engineering 적용)</label>
+      <div class="preview-header">
+        <label>STRUCTURED PROMPT PREVIEW</label>
+        <span id="charCount" style="font-size:12px; color:var(--text-sub)">0 chars</span>
+      </div>
       <div class="result-box" id="resultOut"></div>
 
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">보관함에 저장하기</button>
-        <button class="btn-sub" id="resetBtn">입력 초기화</button>
+        <button class="btn-main" id="saveBtn">보관함에 저장 (SAVE PROJECT)</button>
+        <button class="btn-sub" id="resetBtn">에디터 초기화</button>
       </div>
     </div>
   </div>
 
   <div class="archive-side">
     <div class="card">
-      <h3 class="section-title">프롬프트 보관함</h3>
-      <div class="filters"><select id="categoryFilter"></select><input type="text" id="searchIn" placeholder="검색..."></div>
+      <div class="section-title">보관된 프롬프트</div>
+      <div class="filters">
+        <select id="categoryFilter"></select>
+        <input type="text" id="searchIn" placeholder="검색어를 입력하세요">
+      </div>
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
 </div>
 
-<div id="toast" class="toast">완료되었습니다!</div>
+<div id="toast" class="toast">Action Complete</div>
 
 <script>
 let savedData = [];
-let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["글쓰기", "코딩", "기획", "분석", "이미지 생성"];
-let chips = ["핵심 요약 포함", "전문 용어 사용 자제", "단계별 가이드라인"];
+let aiOptions = ["GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5 Pro"];
+let useOptions = ["코드 최적화", "비즈니스 보고서", "창의적 글쓰기", "전략 기획"];
+let chips = ["불필요한 설명 생략", "단계별 요약 포함", "출력 형식은 Markdown"];
 let editId = null;
 
 function init() {
@@ -159,49 +188,41 @@ function init() {
   updateResult();
 }
 
-/* 🚀 핵심: 프롬프트 퀄리티 엔진 (지능형 생성) */
+/* 🚀 최상향 프롬프트 엔지니어링 로직 */
 function updateResult() {
-  const title = document.getElementById('titleIn').value.trim() || "지정되지 않은 작업";
+  const title = document.getElementById('titleIn').value.trim() || "Untitled Project";
   const ai = document.getElementById('aiSel').value;
   const use = document.getElementById('useSel').value;
-  const tone = document.getElementById('toneIn').value.trim() || "명확하고 전문적인 톤";
-  const detail = document.getElementById('detailIn').value.trim() || "추가 상세 내용 없음";
+  const tone = document.getElementById('toneIn').value.trim() || "전문적이고 객관적인 톤";
+  const detail = document.getElementById('detailIn').value.trim() || "상세 가이드라인 없음";
 
-  // 용도별 전문가 역할 페르소나 매칭
-  const roles = {
-    "글쓰기": "독자의 마음을 사로잡는 베스트셀러 작가이자 편집자",
-    "코딩": "효율적이고 읽기 쉬운 코드를 작성하는 시니어 소프트웨어 엔지니어",
-    "기획": "데이터에 기반하여 혁신적인 전략을 세우는 비즈니스 전략가",
-    "분석": "복잡한 데이터를 명확한 인사이트로 변환하는 데이터 사이언티스트",
-    "이미지 생성": "창의적이고 감각적인 비주얼을 창조하는 아트 디렉터"
-  };
-  const role = roles[use] || `${use} 분야의 최고 전문가`;
+  const prompt = `[PERSONA]
+당신은 최고의 "${use}" 전문가이자 전략가입니다. ${ai}의 최신 지식 베이스를 활용하여 사용자의 요청을 가장 수준 높게 처리해야 합니다.
 
-  const promptText = `[ROLE]
-당신은 현재 ${ai} 환경에서 작동하는 "${role}"입니다.
+[OBJECTIVE]
+목표: ${title}
+이 작업의 핵심 성공 요인을 파악하고, 최적화된 결과물을 산출하십시오.
 
-[CONTEXT & GOAL]
-현재 작업의 목표는 "${title}" 입니다. 
-사용자의 의도를 깊이 파악하여 최상의 결과물을 도출해야 합니다.
-
-[TONE & STYLE]
-- ${tone}
-
-[CONSTRAINTS & REQUIREMENTS]
+[CONTEXT & CONSTRAINTS]
+- Tone: ${tone}
+- Requirements: 
 ${detail}
 
-[OUTPUT FORMAT]
-1. 가독성을 위해 논리적인 구조(헤더, 리스트 등)를 사용하세요.
-2. 실행 가능한 구체적인 답변을 제공하세요.
-3. ${ai} 모델의 강점을 극대화하여 답변하세요.
+[OUTPUT FORMATTING]
+1. 명확한 헤더와 구조를 사용하십시오.
+2. 모든 주장은 논리적 근거를 포함해야 합니다.
+3. 실행 가능한(Actionable) 형태로 답변하십시오.
+4. ${ai} 모델 고유의 깊이 있는 분석력을 발휘하십시오.
 
 ---
-준비가 되었다면, 위 가이드라인에 따라 응답을 시작해 주세요.`;
+준비가 되었다면, 위 매커니즘에 따라 요청을 수행하십시오.`;
 
-  document.getElementById('resultOut').textContent = promptText;
+  const box = document.getElementById('resultOut');
+  box.textContent = prompt;
+  document.getElementById('charCount').textContent = prompt.length + " chars";
 }
 
-/* 🛠️ 필드 초기화 (모든 칸 비우기) */
+/* 🛠️ 버그 없는 초기화 */
 function resetFields() {
   ['titleIn', 'toneIn', 'detailIn', 'customChipIn'].forEach(id => {
     document.getElementById(id).value = '';
@@ -209,16 +230,13 @@ function resetFields() {
   document.getElementById('aiSel').selectedIndex = 0;
   document.getElementById('useSel').selectedIndex = 0;
   editId = null;
-  document.getElementById('modeStatus').textContent = '새로 만들기';
+  document.getElementById('modeStatus').textContent = 'NEW PROJECT';
   updateResult();
 }
 
-/* 모달 및 칩 기능 */
 function openModal(id) {
   targetSelectId = id;
-  document.getElementById('modalDesc').textContent = id === 'aiSel' ? '사용할 AI 이름을 입력하세요.' : '분류명을 입력하세요.';
   document.getElementById('categoryModal').classList.add('show');
-  document.getElementById('modalInput').value = '';
   document.getElementById('modalInput').focus();
 }
 
@@ -255,7 +273,7 @@ function addChip() {
   if(val) {
     if(!chips.includes(val)) chips.push(val);
     renderChips();
-    input.value = ''; // 추가 시 입력창 비움
+    input.value = ''; // 추가 시 입력창 즉시 비움
   }
 }
 
@@ -263,16 +281,16 @@ function renderList() {
   const box = document.getElementById('listBox');
   box.innerHTML = savedData.map(item => `
     <div class="archive-card">
-      <div style="font-size:11px; color:#6366f1; font-weight:800; margin-bottom:8px;">${item.ai} · ${item.use}</div>
-      <strong>${item.title}</strong>
+      <div style="font-size:11px; color:var(--primary); font-weight:900; letter-spacing:0.05em; margin-bottom:8px;">${item.ai.toUpperCase()} / ${item.use}</div>
+      <strong style="font-size:18px;">${item.title}</strong>
       <div class="card-actions">
-        <button class="action-btn action-load" onclick="loadItem(${item.id}, false)">불러오기</button>
-        <button class="action-btn action-edit" onclick="loadItem(${item.id}, true)">수정</button>
-        <button class="action-btn copy-btn" onclick="copyItem(${item.id})">복사</button>
-        <button class="action-btn action-del" onclick="deleteItem(${item.id})">삭제</button>
+        <button class="action-btn action-load" onclick="loadItem(${item.id}, false)">OPEN</button>
+        <button class="action-btn action-load" style="background:#dcfce7; color:#15803d" onclick="loadItem(${item.id}, true)">EDIT</button>
+        <button class="action-btn copy-btn" onclick="copyItem(${item.id})">COPY</button>
+        <button class="action-btn action-del" onclick="deleteItem(${item.id})">DEL</button>
       </div>
     </div>
-  `).join('') || '<p style="text-align:center; color:#94a3b8; padding-top:40px;">저장된 데이터가 없습니다.</p>';
+  `).join('') || '<p style="text-align:center; padding-top:100px; color:#94a3b8;">저장된 프로젝트가 없습니다.</p>';
 }
 
 function loadItem(id, editMode) {
@@ -284,32 +302,31 @@ function loadItem(id, editMode) {
   document.getElementById('toneIn').value = item.tone || '';
   document.getElementById('detailIn').value = item.detail;
   editId = editMode ? id : null;
-  document.getElementById('modeStatus').textContent = editMode ? '수정 중...' : '새로 만들기';
+  document.getElementById('modeStatus').textContent = editMode ? 'EDITING...' : 'NEW PROJECT';
   updateResult();
+  showToast('불러오기 완료');
 }
 
 function copyItem(id) {
-  const item = savedData.find(d => d.id === id);
-  if(!item) return;
   navigator.clipboard.writeText(document.getElementById('resultOut').textContent);
-  showToast('복사 완료!');
+  showToast('클립보드에 복사됨');
 }
 
 function deleteItem(id) {
-  if(!confirm('삭제하시겠습니까?')) return;
+  if(!confirm('프로젝트를 영구 삭제하시겠습니까?')) return;
   savedData = savedData.filter(d => d.id !== id);
   renderList();
 }
 
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value.trim();
-  if(!title) return showToast('제목을 입력해주세요.');
+  if(!title) return showToast('제목을 입력하세요.');
   const data = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
   if(editId) { const idx = savedData.findIndex(d => d.id === editId); savedData[idx] = data; }
   else { savedData.unshift(data); }
   renderList();
   resetFields();
-  showToast('저장 완료!');
+  showToast('안전하게 저장되었습니다.');
 };
 
 document.getElementById('resetBtn').onclick = resetFields;
