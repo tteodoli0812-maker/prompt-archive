@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Archive Pro - Premium Edition</title>
+<title>Prompt Archive Pro - Professional Engine</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
@@ -22,53 +22,39 @@
 * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
 body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px; }
 
-.container { 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  display: grid; 
-  grid-template-columns: 1fr 450px; 
-  gap: 24px; 
-}
-
-.card { 
-  background: var(--card); border-radius: var(--radius-lg); border: 1px solid var(--border); 
-  padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-}
-
+.container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 450px; gap: 24px; }
+.card { background: var(--card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
 h3 { font-size: 18px; margin: 0 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
 
-/* 입력 폼 스타일 */
+/* 레이아웃 정렬 */
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 label { font-size: 13px; font-weight: 700; color: var(--text-main); }
 
 .flex-input { display: flex; gap: 8px; align-items: stretch; }
-input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none; }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none; transition: 0.2s; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
-.add-inline-btn { 
-  padding: 0 15px; background: var(--primary); color: white; border: none; border-radius: var(--radius-md); 
-  cursor: pointer; font-weight: 700; font-size: 14px; white-space: nowrap; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
+.add-inline-btn { padding: 0 15px; background: var(--primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 700; font-size: 14px; white-space: nowrap; flex-shrink: 0; }
 
 .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .chip { padding: 6px 12px; background: var(--primary-soft); color: var(--primary); border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; }
 
 .result-box { 
   background: #1e293b; color: #f8fafc; padding: 25px; border-radius: var(--radius-md); 
-  min-height: 250px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.8; border-left: 5px solid var(--primary);
-  font-family: 'Consolas', 'Monaco', monospace;
+  min-height: 350px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.8; 
+  border-left: 5px solid var(--primary); font-family: 'Consolas', monospace; overflow-y: auto;
 }
 
 .btn-group { display: flex; gap: 10px; margin-top: 20px; }
 .btn-main { background: var(--primary); color: white; flex: 2; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 .btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 
-/* 보관함 필터 레이아웃 */
+/* 보관함 필터 */
 .archive-filter-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-.list-scroll { max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+.list-scroll { max-height: 850px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
 .archive-card { width: 100%; padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); background: white; transition: 0.2s; }
 .archive-card:hover { border-color: var(--primary); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
 
@@ -76,23 +62,20 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: #f1f5f9; font-weight: 700; color: var(--text-sub); }
 
 .card-actions { display: flex; gap: 6px; margin-top: 15px; }
-.card-actions button { flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
+.card-actions button { flex: 1; padding: 8px; font-size: 11px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
 .load-btn { background: #eef2ff; color: #4f46e5; }
 .edit-btn { background: #ecfdf5; color: #10b981; }
 .copy-btn { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
 .del-btn { background: #fef2f2; color: #ef4444; }
 
-/* 팝업 스타일 */
+/* 모달 디자인 */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; }
 .modal-overlay.show { display: flex; }
-.modal { background: #2b2b2b; border-radius: 12px; width: 420px; overflow: hidden; }
-.modal-header { padding: 15px 20px; background: #222; color: #fff; font-size: 14px; border-bottom: 1px solid #3d3d3d; }
-.modal-body { padding: 25px 20px; }
-.modal-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; outline: none; }
-.modal-footer { padding: 15px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #222; }
-.m-btn { padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
-.m-confirm { background: #3b82f6; color: white; }
-.m-cancel { background: #444; color: #ccc; }
+.modal { background: #222; border-radius: 12px; width: 400px; overflow: hidden; }
+.modal-header { padding: 15px; background: #111; color: #ccc; font-size: 12px; border-bottom: 1px solid #333; }
+.modal-body { padding: 24px; }
+.modal-input { width: 100%; background: #333; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; outline: none; }
+.modal-footer { padding: 15px; display: flex; justify-content: flex-end; gap: 10px; background: #1a1a1a; }
 
 #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 25px; border-radius: 50px; display: none; z-index: 10000; font-size: 13px; }
 </style>
@@ -101,14 +84,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 
 <div class="modal-overlay" id="customModal">
   <div class="modal">
-    <div class="modal-header">시스템 메시지</div>
+    <div class="modal-header">시스템 설정</div>
     <div class="modal-body">
-      <p id="mTitle" style="color:white; margin-bottom:10px;">항목 추가</p>
-      <input type="text" id="mInput" class="modal-input">
+      <p id="mTitle" style="color:white; margin:0 0 15px 0; font-weight:600;">항목 추가</p>
+      <input type="text" id="mInput" class="modal-input" placeholder="명칭을 입력하세요">
     </div>
     <div class="modal-footer">
-      <button class="m-btn m-confirm" id="mConfirm">확인</button>
-      <button class="m-btn m-cancel" onclick="closeModal()">취소</button>
+      <button class="add-inline-btn" id="mConfirm">확인</button>
+      <button class="add-inline-btn" style="background:#444" onclick="closeModal()">취소</button>
     </div>
   </div>
 </div>
@@ -116,81 +99,77 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 <div class="container">
   <div class="main-side">
     <div class="card">
-      <h3>프롬프트 제작 도구 <span id="modeLabel" style="font-size:11px; color:var(--primary);">[새 모드]</span></h3>
+      <h3>프롬프트 엔진 <span id="modeLabel" style="font-size:11px; color:var(--primary);">[PRO VERSION]</span></h3>
       <div class="input-row">
         <div class="field">
-          <label>주제 및 목표</label>
-          <input type="text" id="titleIn" placeholder="무엇을 만들고 싶나요?">
+          <label>핵심 주제 (Topic)</label>
+          <input type="text" id="titleIn" placeholder="무엇에 대한 해결책이 필요한가요?">
         </div>
         <div class="field">
-          <label>최적화 엔진</label>
+          <label>AI 엔진 최적화</label>
           <div class="flex-input">
             <select id="aiSel"></select>
-            <button class="add-inline-btn" onclick="openModal('aiSel')">추가</button>
+            <button class="add-inline-btn" onclick="openModal('aiSel')">+</button>
           </div>
         </div>
       </div>
       <div class="input-row">
         <div class="field">
-          <label>용도 분류</label>
+          <label>분야 선택</label>
           <div class="flex-input">
             <select id="useSel"></select>
-            <button class="add-inline-btn" onclick="openModal('useSel')">추가</button>
+            <button class="add-inline-btn" onclick="openModal('useSel')">+</button>
           </div>
         </div>
         <div class="field">
-          <label>분위기(톤앤매너)</label>
-          <input type="text" id="toneIn" placeholder="예: 이성적이고 논리적인">
+          <label>톤앤매너 (Tone)</label>
+          <input type="text" id="toneIn" placeholder="예: 전문적이고 실용적인">
         </div>
       </div>
       <div class="field">
-        <label>강조 키워드 및 조건</label>
+        <label>추가 제약 조건</label>
         <div class="flex-input">
-          <input type="text" id="chipIn" placeholder="조건 입력">
+          <input type="text" id="chipIn" placeholder="키워드 입력">
           <button class="add-inline-btn" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="AI가 지켜야 할 상세 지침이나 규칙을 자유롭게 작성하세요."></textarea>
+        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="구체적인 상황이나 데이터, 제외해야 할 사항을 입력하세요."></textarea>
       </div>
       <div class="result-box" id="resultOut"></div>
       <div class="btn-group">
-        <button class="btn-main" id="saveBtn">보관함 저장 및 복사</button>
-        <button class="btn-sub" onclick="resetForm()">새로 작성</button>
+        <button class="btn-main" id="saveBtn">보관함 저장 및 프롬프트 복사</button>
+        <button class="btn-sub" onclick="resetForm()">초기화</button>
       </div>
     </div>
   </div>
 
   <div class="archive-side">
     <div class="card">
-      <h3>프롬프트 보관함</h3>
+      <h3>스마트 보관함</h3>
       <div class="archive-filter-area">
         <div class="filter-row">
-          <select id="aiFilter"><option value="all">전체 AI</option></select>
-          <select id="categoryFilter"><option value="all">전체 용도</option></select>
+          <select id="aiFilter"><option value="all">전체 엔진</option></select>
+          <select id="categoryFilter"><option value="all">전체 분야</option></select>
         </div>
-        <input type="text" id="searchIn" placeholder="저장된 프롬프트 검색...">
+        <input type="text" id="searchIn" placeholder="프롬프트 제목 또는 내용 검색">
       </div>
       <div class="list-scroll" id="listBox"></div>
     </div>
   </div>
 </div>
 
-<div id="toast">복사 및 저장되었습니다!</div>
+<div id="toast">복사 완료!</div>
 
 <script>
 let savedData = [];
-let aiOptions = ["ChatGPT", "Claude", "Gemini"];
-let useOptions = ["코딩", "글쓰기", "기획", "비즈니스"];
-let chips = ["단계별 출력", "전문 용어 사용", "초보자 눈높이", "결과만 출력"];
+let aiOptions = ["ChatGPT", "Claude", "Gemini", "Perplexity"];
+let useOptions = ["코딩/개발", "비즈니스 기획", "콘텐츠 마케팅", "데이터 분석", "학술/교육"];
+let chips = ["최신 트렌드 반영", "단계별 추론(CoT)", "클린 코드 준수", "비전공자 타겟", "구체적 사례 포함"];
 let editId = null;
 let currentTarget = '';
 
 function init() {
-  renderOptions();
-  renderChips();
-  renderFilterOptions();
-  renderList();
-  updatePreview();
+  renderOptions(); renderChips(); renderFilterOptions(); renderList(); updatePreview();
 }
 
 function renderOptions() {
@@ -199,8 +178,8 @@ function renderOptions() {
 }
 
 function renderFilterOptions() {
-  document.getElementById('aiFilter').innerHTML = '<option value="all">전체 AI</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
-  document.getElementById('categoryFilter').innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('aiFilter').innerHTML = '<option value="all">전체 엔진</option>' + aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('categoryFilter').innerHTML = '<option value="all">전체 분야</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
@@ -218,34 +197,41 @@ function addChip() {
   if(i.value.trim()) { chips.push(i.value.trim()); renderChips(); i.value = ''; }
 }
 
-// [성의있는 프롬프트 엔진] - 핵심 로직
+/* [최종 프롬프트 성의 강화 로직] */
 function updatePreview() {
-  const title = document.getElementById('titleIn').value || '(주제 미정)';
+  const topic = document.getElementById('titleIn').value || '(주제 미정)';
   const ai = document.getElementById('aiSel').value;
   const use = document.getElementById('useSel').value;
-  const tone = document.getElementById('toneIn').value || '일반적인';
-  const detail = document.getElementById('detailIn').value || '상세 요청 사항을 입력해주세요.';
+  const tone = document.getElementById('toneIn').value || '논리적이고 전문적인';
+  const detail = document.getElementById('detailIn').value || '추가 요청 사항 없음';
 
-  const template = `[ 시스템 프롬프트: ${ai} 최적화 ]
+  // AI에게 전문성을 부여하는 확장 지시문
+  const template = `[ SYSTEM INSTRUCTION: ${ai} Optimized ]
 
-■ 역할 정의 (Persona)
-당신은 최고의 "${use}" 전문가이자 전략가입니다. 사용자의 의도를 깊이 있게 분석하여 전문적인 결과물을 도출하십시오.
+당신은 최고의 "${use}" 전문가이자 전략적 컨설턴트입니다. 
+사용자의 요청 "${topic}"에 대해 단순히 답변하는 것을 넘어, 아래의 다단계 사고 과정을 거쳐 최상의 결과물을 도출하십시오.
 
-■ 요청 주제
-"${title}"
+### 1. Context & Objective
+- 주제: ${topic}
+- 목표: 이 분야에서 가장 사실적이고 최신 정보를 기반으로 한 실용적인 답변 제공.
+- 출력 톤: ${tone}
 
-■ 수행 지침 (Instructions)
-1. 출력 톤앤매너: ${tone} 분위기를 엄격히 유지하십시오.
-2. 분석 대상: 아래 제공된 상세 내용을 바탕으로 가장 효율적인 해결책을 제시하십시오.
+### 2. Analytical Framework (사고 과정 가이드)
+- 단계별 추론(Chain-of-Thought): 결과 도출 전, 해결 과정의 논리적 단계를 먼저 점검하십시오.
+- 사실 기반(Fact-Based): 검증되지 않은 정보는 배제하고, 구체적인 수치나 검증 가능한 사례를 포함하십시오.
+- 최적화 지침: ${ai}의 최신 알고리즘을 활용하여 가장 명확하고 간결한 구조로 답변하십시오.
 
-■ 상세 요청 내용 및 제약 사항
-${detail}
+### 3. Requirements & Constraints
+- 제약 사항: ${detail}
+- 필독: 사용자가 명시하지 않았더라도 해당 분야( ${use} )에서 반드시 지켜야 할 클린 코드, 가독성, 윤리 지침을 스스로 적용하십시오.
 
-■ 최종 출력 형식
-- 가독성을 위해 구조화된 포맷을 사용하십시오.
-- 논리적 근거를 포함하여 답변의 신뢰도를 높이십시오.
-- 불필요한 서론과 결론은 생략하고 핵심 가치에 집중하십시오.`;
-  
+### 4. Output Structure
+- 도입부에서 핵심 요약을 제시하십시오.
+- 본문은 논리적 불렛 포인트나 표(Table)를 활용하여 가독성을 극대화하십시오.
+- 마지막에 사용자가 놓칠 수 있는 '전문가 제언'을 3가지 추가하십시오.
+
+"위의 지침에 따라 "${topic}"에 대한 최고 수준의 결과물을 생성하십시오."`;
+
   document.getElementById('resultOut').textContent = template;
 }
 
@@ -264,7 +250,7 @@ function renderList() {
   });
 
   if(filtered.length === 0) {
-    box.innerHTML = '<div style="text-align:center; padding:50px 0; color:#94a3b8; font-size:14px;">저장된 프롬프트가 없습니다.</div>';
+    box.innerHTML = '<div style="text-align:center; padding:40px; color:#94a3b8; font-size:14px;">저장된 데이터가 없습니다.</div>';
     return;
   }
 
@@ -274,9 +260,9 @@ function renderList() {
     div.innerHTML = `
       <div class="meta-tags"><span class="tag">${item.ai}</span><span class="tag">${item.use}</span></div>
       <strong>${item.title}</strong>
-      <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">${item.detail.substring(0, 60)}...</div>
+      <div style="font-size:12px; color:var(--text-sub); margin-bottom:12px;">${item.detail.substring(0, 50)}...</div>
       <div class="card-actions">
-        <button class="load-btn" onclick="loadItem(${item.id})">불러오기</button>
+        <button class="load-btn" onclick="loadItem(${item.id})">열기</button>
         <button class="edit-btn" onclick="startEdit(${item.id})">수정</button>
         <button class="copy-btn" onclick="copyItem(${item.id})">복사</button>
         <button class="del-btn" onclick="deleteItem(${item.id})">삭제</button>
@@ -288,7 +274,7 @@ function renderList() {
 
 function openModal(type) {
   currentTarget = type;
-  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 추가' : '새 용도 카테고리 추가';
+  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 엔진 명칭 입력' : '새 분야 명칭 입력';
   document.getElementById('customModal').classList.add('show');
 }
 
@@ -317,31 +303,27 @@ function loadItem(id) {
 
 function startEdit(id) { loadItem(id); editId = id; document.getElementById('modeLabel').textContent = "[수정 모드]"; }
 
-function deleteItem(id) { if(confirm('영구 삭제하시겠습니까?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
+function deleteItem(id) { if(confirm('삭제하시겠습니까?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
 
 function copyItem(id) {
-  const item = id ? savedData.find(d => d.id === id) : null;
-  const text = item ? `[${item.ai}/${item.use}] ${item.title}\n${item.detail}` : document.getElementById('resultOut').textContent;
+  const text = id ? savedData.find(d => d.id === id).detail : document.getElementById('resultOut').textContent;
   navigator.clipboard.writeText(text);
-  showToast('클립보드에 복사되었습니다!');
+  showToast('프롬프트가 클립보드에 복사되었습니다.');
 }
 
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value;
-  if(!title) return alert('제목을 입력해주세요.');
-
+  if(!title) return alert('제목(주제)를 입력해주세요.');
   const obj = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
-  
   if(editId) savedData[savedData.findIndex(d => d.id === editId)] = obj;
   else savedData.unshift(obj);
-  
-  copyItem(); // 저장 시 자동 복사
+  copyItem(); // 복사 기능 통합
   resetForm(); renderList();
 };
 
 function resetForm() {
   document.getElementById('titleIn').value = ''; document.getElementById('toneIn').value = ''; document.getElementById('detailIn').value = '';
-  editId = null; document.getElementById('modeLabel').textContent = "[새 모드]"; updatePreview();
+  editId = null; document.getElementById('modeLabel').textContent = "[PRO VERSION]"; updatePreview();
 }
 
 function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(()=>t.style.display='none', 2000); }
