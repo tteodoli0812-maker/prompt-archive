@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prompt Archive Pro - Category Filter</title>
+<title>Prompt Archive Pro - Final</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
@@ -11,7 +11,6 @@
   --bg: #f8fafc;
   --card: #ffffff;
   --primary: #4f46e5;
-  --primary-hover: #4338ca;
   --primary-soft: #eef2ff;
   --text-main: #1e293b;
   --text-sub: #64748b;
@@ -32,109 +31,75 @@ body { margin: 0; background: var(--bg); color: var(--text-main); padding: 20px;
 }
 
 .card { 
-  background: var(--card); 
-  border-radius: var(--radius-lg); 
-  border: 1px solid var(--border); 
-  padding: 24px; 
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  background: var(--card); border-radius: var(--radius-lg); border: 1px solid var(--border); 
+  padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
 }
 
 h3 { font-size: 18px; margin: 0 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
 
-/* 입력 폼 스타일 */
+/* 입력 폼 및 버튼 정렬 수정 (이미지 반영) */
 .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 label { font-size: 13px; font-weight: 700; color: var(--text-main); }
 
 .flex-input { display: flex; gap: 8px; align-items: stretch; }
-input, select, textarea { 
-  width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none;
-}
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
+/* '추가' 버튼 나란히 정렬 및 줄바꿈 방지 */
 .add-inline-btn { 
-  padding: 0 20px; 
-  background: var(--primary); 
-  color: white; 
-  border: none; 
-  border-radius: var(--radius-md); 
-  cursor: pointer; 
-  font-weight: 700; 
-  font-size: 14px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  padding: 0 15px; background: var(--primary); color: white; border: none; border-radius: var(--radius-md); 
+  cursor: pointer; font-weight: 700; font-size: 14px; white-space: nowrap; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 
 .chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.chip { 
-  padding: 6px 12px; background: var(--primary-soft); color: var(--primary); 
-  border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;
-}
+.chip { padding: 6px 12px; background: var(--primary-soft); color: var(--primary); border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; }
 
 .result-box { 
   background: #1e293b; color: #f8fafc; padding: 20px; border-radius: var(--radius-md); 
-  min-height: 200px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.7;
-  border-left: 4px solid var(--primary);
+  min-height: 200px; font-size: 13px; white-space: pre-wrap; margin-top: 12px; line-height: 1.7; border-left: 4px solid var(--primary);
 }
 
 .btn-group { display: flex; gap: 10px; margin-top: 20px; }
 .btn-main { background: var(--primary); color: white; flex: 2; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 .btn-sub { background: #f1f5f9; color: var(--text-sub); flex: 1; padding: 14px; border-radius: var(--radius-md); border: none; font-weight: 700; cursor: pointer; }
 
-/* 보관함 상단 필터 레이아웃 */
-.archive-filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+/* 보관함 상단 필터 디자인 */
+.archive-filter-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.filter-row { display: grid; grid-template-columns: 140px 1fr; gap: 10px; }
 
-.list-scroll { 
-  max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;
-}
-.archive-card { 
-  width: 100%;
-  padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); 
-  background: white; transition: 0.2s; position: relative;
-}
+.list-scroll { max-height: 800px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 5px; }
+.archive-card { width: 100%; padding: 20px; border: 1.5px solid var(--border); border-radius: var(--radius-lg); background: white; position: relative; transition: 0.2s; }
 .archive-card:hover { border-color: var(--primary); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
 
+/* 카드 내용 정렬 및 가독성 수정 */
 .meta-tags { display: flex; gap: 6px; margin-bottom: 10px; }
 .tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: #f1f5f9; font-weight: 700; color: var(--text-sub); }
+.archive-card strong { font-size: 16px; display: block; margin-bottom: 8px; }
+.archive-card .desc-preview { font-size: 13px; color: var(--text-sub); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-.archive-card strong { font-size: 16px; display: block; margin-bottom: 8px; color: var(--text-main); }
-.archive-card .desc-preview { font-size: 13px; color: var(--text-sub); margin-bottom: 15px; }
-
-.card-actions { display: flex; gap: 8px; width: 100%; }
-.card-actions button { 
-  flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;
-}
+.card-actions { display: flex; gap: 6px; }
+.card-actions button { flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
 .load-btn { background: #eef2ff; color: #4f46e5; }
 .edit-btn { background: #ecfdf5; color: #10b981; }
 .copy-btn { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
 .del-btn { background: #fef2f2; color: #ef4444; }
 
-/* 모달 디자인 */
-.modal-overlay { 
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); 
-  display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(4px);
-}
+/* 커스텀 팝업 (이미지 b0df4a 반영) */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 9999; }
 .modal-overlay.show { display: flex; }
-.modal { background: #222; border-radius: 12px; width: 400px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
-.modal-header { padding: 15px; background: #111; color: #ccc; font-size: 12px; border-bottom: 1px solid #333; }
-.modal-body { padding: 24px; }
-.modal-body p { color: white; margin: 0 0 15px 0; font-weight: 600; }
-.modal-footer { padding: 15px; display: flex; justify-content: flex-end; gap: 10px; background: #1a1a1a; }
-.m-btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+.modal { background: #2b2b2b; border-radius: 12px; width: 420px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.modal-header { padding: 15px 20px; background: #222; color: #fff; font-size: 14px; border-bottom: 1px solid #3d3d3d; }
+.modal-body { padding: 25px 20px; }
+.modal-body p { color: #fff; margin: 0 0 15px 0; font-size: 15px; }
+.modal-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; outline: none; }
+.modal-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 1px #3b82f6; }
+.modal-footer { padding: 15px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #222; }
+.m-btn { padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
 .m-confirm { background: #3b82f6; color: white; }
 .m-cancel { background: #444; color: #ccc; }
 
-#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 8px; display: none; z-index: 10000; }
-
-@media (max-width: 900px) { .container { grid-template-columns: 1fr; } .archive-filters { grid-template-columns: 1fr; } }
+#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 25px; border-radius: 50px; display: none; z-index: 10000; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -144,7 +109,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
     <div class="modal-header">tteodoli0812-maker.github.io의 메시지</div>
     <div class="modal-body">
       <p id="mTitle">항목 추가</p>
-      <input type="text" id="mInput" style="background:#333; border:1px solid #444; color:white;">
+      <input type="text" id="mInput" class="modal-input" placeholder="내용을 입력하세요">
     </div>
     <div class="modal-footer">
       <button class="m-btn m-confirm" id="mConfirm">확인</button>
@@ -157,7 +122,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
   <div class="main-side">
     <div class="card">
       <h3>프롬프트 제작 도구 <span id="modeLabel" style="font-size:11px; color:var(--primary);">[새 모드]</span></h3>
-      
       <div class="input-row">
         <div class="field">
           <label>제목</label>
@@ -171,7 +135,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
           </div>
         </div>
       </div>
-
       <div class="input-row">
         <div class="field">
           <label>용도 카테고리</label>
@@ -182,22 +145,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
         </div>
         <div class="field">
           <label>톤앤매너</label>
-          <input type="text" id="toneIn" placeholder="예: 전문적인, 유머러스한">
+          <input type="text" id="toneIn" placeholder="예: 전문적인">
         </div>
       </div>
-
       <div class="field">
         <label>상세 조건 및 제약 사항</label>
         <div class="flex-input">
-          <input type="text" id="chipIn" placeholder="조건 키워드 입력">
+          <input type="text" id="chipIn" placeholder="조건 입력">
           <button class="add-inline-btn" onclick="addChip()">추가</button>
         </div>
         <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="AI에게 전달할 상세 지침을 작성하세요."></textarea>
+        <textarea id="detailIn" rows="5" style="margin-top:12px;" placeholder="상세 지침을 입력하세요."></textarea>
       </div>
-
       <div class="result-box" id="resultOut"></div>
-      
       <div class="btn-group">
         <button class="btn-main" id="saveBtn">보관함 저장</button>
         <button class="btn-sub" onclick="resetForm()">초기화</button>
@@ -208,11 +168,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
   <div class="archive-side">
     <div class="card">
       <h3>프롬프트 보관함</h3>
-      <div class="archive-filters">
-        <select id="categoryFilter">
-          <option value="all">전체 용도</option>
-        </select>
-        <input type="text" id="searchIn" placeholder="검색어 입력...">
+      <div class="archive-filter-area">
+        <div class="filter-row">
+          <select id="categoryFilter" style="background:#f1f5f9; border:none; font-weight:700;">
+            <option value="all">전체 용도</option>
+          </select>
+          <input type="text" id="searchIn" placeholder="제목/내용 검색...">
+        </div>
       </div>
       <div class="list-scroll" id="listBox"></div>
     </div>
@@ -223,14 +185,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 
 <script>
 let savedData = [
-  { id: 1, title: "파이썬 데이터 시각화 스크립트", ai: "ChatGPT", use: "코딩", tone: "분석적이고 정확하게", detail: "Pandas와 Matplotlib을 사용해서 CSV 데이터를 시각화하는 코드를 짜줘. 주석은 한글로 달아주고 코드 효율성을 높여줘." },
-  { id: 2, title: "블로그 IT 리뷰 포스팅 초안", ai: "Claude", use: "글쓰기", tone: "친근하고 설득력 있게", detail: "최신 스마트폰 리뷰 글을 써줘. 서론-본론-결론 구조로 작성하고, 독자들이 흥미를 느낄만한 소제목을 3개 이상 포함해줘." },
-  { id: 3, title: "주간 업무 보고 기획안", ai: "Gemini", use: "기획", tone: "격식 있고 간결하게", detail: "한 주 동안 진행된 마케팅 성과를 요약하는 보고서 양식을 만들어줘. 수치 위주의 불렛포인트 형식을 사용해줘." }
+  { id: 1, title: "파이썬 데이터 분석", ai: "ChatGPT", use: "코딩", tone: "분석적", detail: "Pandas 라이브러리를 사용해서 데이터프레임의 결측치를 처리하고 상관관계를 분석하는 코드를 작성해줘." },
+  { id: 2, title: "IT 신제품 리뷰 기사", ai: "Claude", use: "글쓰기", tone: "친근한", detail: "최신 무선 이어폰의 장단점을 비교하는 블로그 포스팅 초안을 작성해줘. 소제목을 포함해줘." }
 ];
-
-let aiOptions = ["ChatGPT", "Claude", "Gemini", "Llama 3"];
-let useOptions = ["코딩", "글쓰기", "기획", "이미지 생성", "마케팅"];
-let chips = ["단계별 설명", "핵심 요약 포함", "전문 용어 제외", "표 형식 사용"];
+let aiOptions = ["ChatGPT", "Claude", "Gemini"];
+let useOptions = ["코딩", "글쓰기", "기획", "마케팅"];
+let chips = ["단계별 설명", "핵심 요약", "표 형식 사용"];
 let editId = null;
 let currentTarget = '';
 
@@ -243,24 +203,17 @@ function init() {
 }
 
 function renderOptions() {
-  const a = document.getElementById('aiSel');
-  const u = document.getElementById('useSel');
-  a.innerHTML = aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
-  u.innerHTML = useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('aiSel').innerHTML = aiOptions.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('useSel').innerHTML = useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
-// 보관함 필터의 카테고리 목록 갱신
 function renderFilterOptions() {
   const f = document.getElementById('categoryFilter');
-  const current = f.value;
-  f.innerHTML = '<option value="all">전체 용도</option>' + 
-                useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
-  f.value = useOptions.includes(current) ? current : "all";
+  f.innerHTML = '<option value="all">전체 용도</option>' + useOptions.map(v => `<option value="${v}">${v}</option>`).join('');
 }
 
 function renderChips() {
-  const box = document.getElementById('chipBox');
-  box.innerHTML = chips.map(c => `<span class="chip" onclick="applyChip('${c}')">${c}</span>`).join('');
+  document.getElementById('chipBox').innerHTML = chips.map(c => `<span class="chip" onclick="applyChip('${c}')">${c}</span>`).join('');
 }
 
 function applyChip(c) {
@@ -271,59 +224,35 @@ function applyChip(c) {
 
 function addChip() {
   const i = document.getElementById('chipIn');
-  if(i.value.trim()) {
-    chips.push(i.value.trim());
-    renderChips();
-    i.value = '';
-  }
+  if(i.value.trim()) { chips.push(i.value.trim()); renderChips(); i.value = ''; }
 }
 
 function updatePreview() {
-  const title = document.getElementById('titleIn').value || '(제목 없음)';
-  const ai = document.getElementById('aiSel').value;
-  const use = document.getElementById('useSel').value;
-  const tone = document.getElementById('toneIn').value || '일반적인';
-  const detail = document.getElementById('detailIn').value || '내용을 입력해주세요.';
-
-  const template = `[ 시스템 지침: ${ai} 전용 ]\n\n` +
-                   `● 페르소나 및 목표: ${use} 전문가로서 "${title}" 작업을 수행합니다.\n` +
-                   `● 출력 톤앤매너: ${tone}\n\n` +
-                   `[ 상세 요청 내용 ]\n${detail}\n\n` +
-                   `※ 위 지침에 따라 최상의 결과물을 생성해 주세요.`;
-  
-  document.getElementById('resultOut').textContent = template;
+  const res = `[${document.getElementById('aiSel').value} / ${document.getElementById('useSel').value}]\n목표: ${document.getElementById('titleIn').value || '제목없음'}\n말투: ${document.getElementById('toneIn').value || '일반'}\n내용: ${document.getElementById('detailIn').value || '요청사항 없음'}`;
+  document.getElementById('resultOut').textContent = res;
 }
 
-// 보관함 리스트 (필터 기능 통합)
 function renderList() {
   const kw = document.getElementById('searchIn').value.toLowerCase();
-  const filterVal = document.getElementById('categoryFilter').value;
+  const filter = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
   box.innerHTML = '';
 
   const filtered = savedData.filter(d => {
     const matchKw = d.title.toLowerCase().includes(kw) || d.detail.toLowerCase().includes(kw);
-    const matchFilter = (filterVal === 'all') || (d.use === filterVal);
+    const matchFilter = (filter === 'all' || d.use === filter);
     return matchKw && matchFilter;
   });
-
-  if(filtered.length === 0) {
-    box.innerHTML = '<div style="text-align:center; padding:40px; color:#94a3b8; font-size:14px;">검색 결과가 없습니다.</div>';
-    return;
-  }
 
   filtered.forEach(item => {
     const div = document.createElement('div');
     div.className = 'archive-card';
     div.innerHTML = `
-      <div class="meta-tags">
-        <span class="tag">${item.ai}</span>
-        <span class="tag">${item.use}</span>
-      </div>
+      <div class="meta-tags"><span class="tag">${item.ai}</span><span class="tag">${item.use}</span></div>
       <strong>${item.title}</strong>
-      <div class="desc-preview">${item.detail.substring(0, 40)}...</div>
+      <div class="desc-preview">${item.detail}</div>
       <div class="card-actions">
-        <button class="load-btn" onclick="loadItem(${item.id})">불러오기</button>
+        <button class="load-btn" onclick="loadItem(${item.id})">열기</button>
         <button class="edit-btn" onclick="startEdit(${item.id})">수정</button>
         <button class="copy-btn" onclick="copyItem(${item.id})">복사</button>
         <button class="del-btn" onclick="deleteItem(${item.id})">삭제</button>
@@ -335,111 +264,63 @@ function renderList() {
 
 function openModal(type) {
   currentTarget = type;
-  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 명칭 입력' : '새 카테고리 명칭 입력';
+  document.getElementById('mTitle').textContent = type === 'aiSel' ? '새 AI 엔진 추가' : '새 카테고리 추가';
   document.getElementById('customModal').classList.add('show');
-  document.getElementById('mInput').focus();
 }
 
-function closeModal() {
-  document.getElementById('customModal').classList.remove('show');
-  document.getElementById('mInput').value = '';
-}
+function closeModal() { document.getElementById('customModal').classList.remove('show'); document.getElementById('mInput').value = ''; }
 
 document.getElementById('mConfirm').onclick = () => {
   const val = document.getElementById('mInput').value.trim();
   if(!val) return;
-  if(currentTarget === 'aiSel') {
-    if(!aiOptions.includes(val)) aiOptions.push(val);
-  } else {
-    if(!useOptions.includes(val)) {
-        useOptions.push(val);
-        renderFilterOptions(); // 필터 목록도 함께 갱신
-    }
-  }
+  if(currentTarget === 'aiSel') aiOptions.push(val);
+  else { useOptions.push(val); renderFilterOptions(); }
   renderOptions();
   document.getElementById(currentTarget).value = val;
   updatePreview();
   closeModal();
 };
 
-function loadItem(id) {
-  const item = savedData.find(d => d.id === id);
-  if(item) {
-    document.getElementById('titleIn').value = item.title;
-    document.getElementById('aiSel').value = item.ai;
-    document.getElementById('useSel').value = item.use;
-    document.getElementById('toneIn').value = item.tone;
-    document.getElementById('detailIn').value = item.detail;
-    updatePreview();
-    showToast('데이터를 불러왔습니다.');
-  }
-}
-
 function startEdit(id) {
-  loadItem(id);
+  const item = savedData.find(d => d.id === id);
+  if(!item) return;
   editId = id;
+  document.getElementById('titleIn').value = item.title;
+  document.getElementById('aiSel').value = item.ai;
+  document.getElementById('useSel').value = item.use;
+  document.getElementById('toneIn').value = item.tone;
+  document.getElementById('detailIn').value = item.detail;
   document.getElementById('modeLabel').textContent = "[수정 모드]";
+  updatePreview();
 }
 
-function deleteItem(id) {
-  if(confirm('삭제할까요?')) {
-    savedData = savedData.filter(d => d.id !== id);
-    renderList();
-  }
-}
+function deleteItem(id) { if(confirm('삭제할까요?')) { savedData = savedData.filter(d => d.id !== id); renderList(); } }
 
 function copyItem(id) {
   const item = savedData.find(d => d.id === id);
-  const text = `[${item.ai} / ${item.use}] ${item.title}\n\n${item.detail}`;
-  navigator.clipboard.writeText(text);
-  showToast('클립보드에 복사되었습니다.');
+  navigator.clipboard.writeText(`[${item.ai}/${item.use}] ${item.title}\n${item.detail}`);
+  showToast('복사되었습니다!');
 }
 
 document.getElementById('saveBtn').onclick = () => {
   const title = document.getElementById('titleIn').value;
-  if(!title) return alert('제목을 입력하세요.');
-
-  const obj = {
-    id: editId || Date.now(),
-    title,
-    ai: document.getElementById('aiSel').value,
-    use: document.getElementById('useSel').value,
-    tone: document.getElementById('toneIn').value,
-    detail: document.getElementById('detailIn').value
-  };
-
-  if(editId) {
-    const idx = savedData.findIndex(d => d.id === editId);
-    savedData[idx] = obj;
-  } else {
-    savedData.unshift(obj);
-  }
-  
-  resetForm();
-  renderList();
-  showToast('저장 완료!');
+  if(!title) return alert('제목 필수!');
+  const obj = { id: editId || Date.now(), title, ai: document.getElementById('aiSel').value, use: document.getElementById('useSel').value, tone: document.getElementById('toneIn').value, detail: document.getElementById('detailIn').value };
+  if(editId) savedData[savedData.findIndex(d => d.id === editId)] = obj;
+  else savedData.unshift(obj);
+  resetForm(); renderList(); showToast('저장 완료!');
 };
 
 function resetForm() {
-  ['titleIn', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).value = '');
-  editId = null;
-  document.getElementById('modeLabel').textContent = "[새 모드]";
-  updatePreview();
+  document.getElementById('titleIn').value = ''; document.getElementById('toneIn').value = ''; document.getElementById('detailIn').value = '';
+  editId = null; document.getElementById('modeLabel').textContent = "[새 모드]"; updatePreview();
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 2000);
-}
+function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(()=>t.style.display='none', 2000); }
 
 document.getElementById('searchIn').oninput = renderList;
-document.getElementById('categoryFilter').onchange = renderList; // 필터 변경 시 리스트 갱신
-['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => {
-  document.getElementById(id).oninput = updatePreview;
-});
-
+document.getElementById('categoryFilter').onchange = renderList;
+['titleIn', 'aiSel', 'useSel', 'toneIn', 'detailIn'].forEach(id => document.getElementById(id).oninput = updatePreview);
 init();
 </script>
 </body>
