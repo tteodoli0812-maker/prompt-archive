@@ -1,379 +1,3 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Prompt Studio Pro | Ultimate Edition</title>
-<style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
-
-:root {
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-soft: #eef2ff;
-  --text-main: #0f172a;
-  --text-sub: #64748b;
-  --border: #e2e8f0;
-  --radius-lg: 20px;
-  --radius-md: 12px;
-}
-
-* { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-main); padding: 40px 20px; }
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 40px;
-}
-
-.main-header { grid-column: 1 / -1; margin-bottom: 20px; }
-.main-header h1 { font-size: 34px; font-weight: 900; margin: 0; letter-spacing: -0.05em; }
-.main-header p { margin-top: 8px; color: var(--text-sub); }
-
-.card {
-  background: var(--card);
-  border-radius: var(--radius-lg);
-  padding: 40px;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-}
-
-.section-title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.badge {
-  font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 99px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  font-weight: 700;
-  border: 1px solid #c7d2fe;
-}
-
-.input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #475569;
-}
-
-.flex-input {
-  display: flex;
-  gap: 10px;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 14px 18px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s;
-}
-
-input:focus, textarea:focus, select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-}
-
-.add-inline-btn {
-  padding: 0 16px;
-  background: #fff;
-  color: var(--primary);
-  border: 1.5px solid var(--primary);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.add-inline-btn:hover {
-  background: var(--primary-soft);
-}
-
-.chip-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.chip {
-  padding: 8px 16px;
-  background: #f8fafc;
-  border-radius: 99px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  color: var(--text-sub);
-}
-
-.chip:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.result-box {
-  background: #0f172a;
-  color: #e2e8f0;
-  padding: 30px;
-  border-radius: var(--radius-md);
-  min-height: 350px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  margin-top: 15px;
-  font-family: 'Consolas', monospace;
-  line-height: 1.7;
-  border: 1px solid #1e293b;
-}
-
-.btn-group {
-  display: flex;
-  gap: 16px;
-  margin-top: 32px;
-}
-
-.btn-main {
-  background: var(--primary);
-  color: white;
-  flex: 2;
-  padding: 18px;
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.btn-sub {
-  background: #f8fafc;
-  color: var(--text-sub);
-  flex: 1;
-  padding: 18px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.filter-box {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.list-scroll {
-  max-height: 750px;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.archive-card {
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: white;
-  margin-bottom: 16px;
-  transition: 0.2s;
-}
-
-.archive-card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-}
-
-.card-actions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: 16px;
-}
-
-.action-btn {
-  padding: 10px 0;
-  font-size: 12px;
-  border-radius: 8px;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
-}
-
-.action-load { background: var(--primary-soft); color: var(--primary); }
-.action-del { background: #fee2e2; color: #b91c1c; }
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  backdrop-filter: blur(4px);
-}
-
-.modal-overlay.show { display: flex; }
-
-.modal {
-  background: #1e293b;
-  border-radius: 20px;
-  width: 450px;
-  overflow: hidden;
-  color: white;
-}
-
-.modal-header {
-  background: #0f172a;
-  padding: 20px;
-  font-weight: 800;
-}
-
-.modal-body { padding: 30px 20px; }
-
-.modal-input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  background: #0f172a;
-  color: white;
-  margin-top: 10px;
-}
-
-.toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1e293b;
-  color: white;
-  padding: 14px 30px;
-  border-radius: 99px;
-  display: none;
-  z-index: 3000;
-}
-</style>
-</head>
-<body>
-
-<div class="modal-overlay" id="categoryModal">
-  <div class="modal">
-    <div class="modal-header">새 항목 추가</div>
-    <div class="modal-body">
-      <p id="modalDesc" style="margin:0; color:#94a3b8; font-size:14px;">항목을 입력하세요</p>
-      <input type="text" id="modalInput" class="modal-input" />
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
-        <button class="btn-sub" style="padding:10px 20px" onclick="closeModal()">취소</button>
-        <button class="btn-main" style="flex:none; padding:10px 25px" id="modalConfirmBtn">추가</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="main-header">
-    <h1>Prompt Studio Pro</h1>
-    <p>Professional Prompt Engineering Tool</p>
-  </div>
-
-  <div class="main-side">
-    <div class="card">
-      <div class="section-title">Editor <span id="modeStatus" class="badge">NEW</span></div>
-
-      <div class="input-row">
-        <div class="field">
-          <label>Project Title</label>
-          <input type="text" id="titleIn" placeholder="작업의 제목을 입력하세요" />
-        </div>
-        <div class="field">
-          <label>AI Model</label>
-          <div class="flex-input">
-            <select id="aiSel"></select>
-            <button class="add-inline-btn" onclick="openModal('aiSel')">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="input-row">
-        <div class="field">
-          <label>Category</label>
-          <div class="flex-input">
-            <select id="useSel"></select>
-            <button class="add-inline-btn" onclick="openModal('useSel')">+</button>
-          </div>
-        </div>
-        <div class="field">
-          <label>Tone & Manner</label>
-          <input type="text" id="toneIn" placeholder="전문적인, 직설적인 등" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Requirements & Constraints</label>
-        <div class="flex-input">
-          <input type="text" id="customChipIn" placeholder="제약 조건 키워드 추가" />
-          <button class="add-inline-btn" onclick="addChip()">Add</button>
-        </div>
-        <div class="chip-container" id="chipBox"></div>
-        <textarea id="detailIn" rows="5" style="margin-top:15px;" placeholder="구체적인 요청 사항을 적어주세요."></textarea>
-      </div>
-
-      <label style="margin-top:25px; display:block;">Engineered Prompt Preview</label>
-      <div class="result-box" id="resultOut"></div>
-
-      <div class="btn-group">
-        <button class="btn-main" id="saveBtn">Save to Archive</button>
-        <button class="btn-sub" id="resetBtn">Reset Editor</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="archive-side">
-    <div class="card">
-      <div class="section-title">Archive Storage</div>
-      <div class="filter-box">
-        <select id="categoryFilter">
-          <option value="all">전체 카테고리</option>
-        </select>
-        <select id="aiFilter">
-          <option value="all">전체 AI</option>
-        </select>
-        <input type="text" id="searchIn" placeholder="검색어를 입력하세요..." />
-      </div>
-      <div class="list-scroll" id="listBox"></div>
-    </div>
-  </div>
-</div>
-
-<div id="toast" class="toast">완료되었습니다!</div>
-
 <script>
 let savedData = [];
 let aiOptions = ["GPT-4o", "Claude 3.5", "Gemini 1.5 Pro"];
@@ -421,13 +45,13 @@ function init() {
   renderSelect('aiSel', aiOptions);
   renderSelect('useSel', useOptions);
   renderFilterOptions();
-  renderAiFilterOptions();
   renderChips();
   resetFields(false);
   renderList();
   updateResult();
 }
 
+/* 🚀 프롬프트 생성 엔진 */
 function updateResult() {
   const title = document.getElementById('titleIn').value.trim() || "지정되지 않은 작업";
   const ai = document.getElementById('aiSel').value || aiOptions[0] || "";
@@ -474,10 +98,10 @@ ${selectedChips}
   document.getElementById('resultOut').textContent = prompt;
 }
 
+/* 보관함 렌더링 */
 function renderList() {
   const keyword = document.getElementById('searchIn').value.toLowerCase().trim();
-  const categoryFilter = document.getElementById('categoryFilter').value;
-  const aiFilter = document.getElementById('aiFilter').value;
+  const filter = document.getElementById('categoryFilter').value;
   const box = document.getElementById('listBox');
 
   const filtered = savedData.filter(item => {
@@ -495,10 +119,8 @@ function renderList() {
       ai.includes(keyword) ||
       use.includes(keyword);
 
-    const matchCategory = (categoryFilter === 'all' || item.use === categoryFilter);
-    const matchAi = (aiFilter === 'all' || item.ai === aiFilter);
-
-    return matchKeyword && matchCategory && matchAi;
+    const matchFilter = (filter === 'all' || item.use === filter);
+    return matchKeyword && matchFilter;
   });
 
   box.innerHTML = filtered.map(item => `
@@ -527,21 +149,6 @@ function renderFilterOptions() {
   filter.innerHTML =
     '<option value="all">전체 카테고리</option>' +
     useOptions.map(opt => `<option value="${escapeAttribute(opt)}">${escapeHtml(opt)}</option>`).join('');
-
-  if ([...filter.options].some(option => option.value === currentValue)) {
-    filter.value = currentValue;
-  } else {
-    filter.value = 'all';
-  }
-}
-
-function renderAiFilterOptions() {
-  const filter = document.getElementById('aiFilter');
-  const currentValue = filter.value || 'all';
-
-  filter.innerHTML =
-    '<option value="all">전체 AI</option>' +
-    aiOptions.map(opt => `<option value="${escapeAttribute(opt)}">${escapeHtml(opt)}</option>`).join('');
 
   if ([...filter.options].some(option => option.value === currentValue)) {
     filter.value = currentValue;
@@ -606,7 +213,6 @@ document.getElementById('modalConfirmBtn').onclick = () => {
     if (!aiOptions.includes(val)) {
       aiOptions.push(val);
       renderSelect('aiSel', aiOptions);
-      renderAiFilterOptions();
       saveStorage();
     }
   } else {
@@ -656,7 +262,6 @@ function loadItem(id, editMode) {
   if (!aiOptions.includes(item.ai)) {
     aiOptions.push(item.ai);
     renderSelect('aiSel', aiOptions);
-    renderAiFilterOptions();
   }
 
   if (!useOptions.includes(item.use)) {
@@ -776,7 +381,6 @@ document.getElementById('saveBtn').onclick = () => {
   saveStorage();
   renderList();
   renderFilterOptions();
-  renderAiFilterOptions();
   resetFields();
   showToast(editId ? '수정 완료!' : '저장 완료!');
 };
@@ -785,7 +389,6 @@ document.getElementById('resetBtn').onclick = () => resetFields();
 
 document.getElementById('searchIn').addEventListener('input', renderList);
 document.getElementById('categoryFilter').addEventListener('change', renderList);
-document.getElementById('aiFilter').addEventListener('change', renderList);
 
 ['titleIn', 'toneIn', 'detailIn'].forEach(id => {
   document.getElementById(id).addEventListener('input', updateResult);
@@ -845,5 +448,3 @@ function escapeJsString(str = '') {
 
 init();
 </script>
-</body>
-</html>
