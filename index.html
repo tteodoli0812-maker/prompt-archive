@@ -26,12 +26,12 @@ body{
   color:var(--text);
 }
 .wrap{
-  max-width:1240px;
+  max-width:1280px;
   margin:0 auto;
-  padding:28px 18px 48px;
+  padding:24px 18px 40px;
 }
 .header{
-  margin-bottom:18px;
+  margin-bottom:14px;
 }
 .header h1{
   margin:0;
@@ -47,35 +47,35 @@ body{
   background:var(--card);
   border:1px solid var(--line);
   border-radius:20px;
-  padding:20px;
-  margin-bottom:16px;
+  padding:18px;
+  margin-bottom:14px;
 }
 .hero{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:14px;
-  align-items:start;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
 }
-.hero-main h2{
-  margin:0 0 8px;
-  font-size:26px;
+.hero h2{
+  margin:0 0 6px;
+  font-size:22px;
   line-height:1.25;
   letter-spacing:-0.03em;
 }
-.hero-main p{
+.hero p{
   margin:0;
   color:var(--sub);
   font-size:14px;
-  line-height:1.7;
+  line-height:1.6;
 }
 .hero-mini{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  justify-content:flex-end;
+  flex-shrink:0;
 }
 .mini-chip{
-  padding:8px 10px;
+  padding:7px 10px;
   border-radius:999px;
   background:var(--soft);
   border:1px solid var(--line);
@@ -83,18 +83,17 @@ body{
   font-weight:700;
   color:#475569;
 }
+.main-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  align-items:start;
+}
 .section-title{
   margin:0 0 14px;
   font-size:18px;
   font-weight:700;
 }
-.app-layout{
-  display:grid;
-  grid-template-columns:1.05fr .95fr;
-  gap:16px;
-  align-items:start;
-}
-.stack{display:grid; gap:16px;}
 .grid-2{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -164,11 +163,6 @@ button{
 .dark{background:var(--dark);color:#fff;}
 .soft-btn{background:#eef2f7;color:#111827;}
 .danger-btn{background:var(--danger-soft); color:var(--danger);}
-.result-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-}
 .panel{
   border:1px solid var(--line);
   border-radius:16px;
@@ -184,7 +178,7 @@ button{
 }
 .panel-body{
   padding:14px;
-  min-height:170px;
+  min-height:220px;
   white-space:pre-wrap;
   font-size:14px;
   line-height:1.7;
@@ -215,20 +209,12 @@ button{
   gap:10px;
   margin-bottom:14px;
 }
-.library-layout{
-  display:grid;
-  grid-template-columns:.92fr 1.08fr;
-  gap:14px;
-}
 .groups{display:grid; gap:16px;}
 .group{
   border-top:1px solid var(--line);
   padding-top:12px;
 }
-.group:first-child{
-  border-top:none;
-  padding-top:0;
-}
+.group:first-child{border-top:none;padding-top:0;}
 .group-title{
   font-size:15px;
   font-weight:700;
@@ -243,14 +229,8 @@ button{
   cursor:pointer;
   transition:.15s ease;
 }
-.file-item:hover{
-  border-color:#cbd5e1;
-  background:#fafcff;
-}
-.file-item.active{
-  border-color:#93c5fd;
-  background:#eff6ff;
-}
+.file-item:hover{border-color:#cbd5e1;background:#fafcff;}
+.file-item.active{border-color:#93c5fd;background:#eff6ff;}
 .file-top strong{
   display:block;
   font-size:14px;
@@ -275,15 +255,14 @@ button{
   color:var(--sub);
   line-height:1.6;
 }
-.preview-empty{color:var(--sub);}
-.small-actions{
+.file-actions{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin-top:14px;
+  margin-top:12px;
 }
-.small-actions button{
-  padding:9px 11px;
+.file-actions button{
+  padding:8px 10px;
   font-size:12px;
 }
 .status{
@@ -302,8 +281,8 @@ button{
 }
 .status.show{opacity:1;transform:translateY(0);}
 @media (max-width:980px){
-  .hero,.app-layout,.grid-2,.toolbar,.library-layout{grid-template-columns:1fr;}
-  .hero-mini{justify-content:flex-start;}
+  .main-layout,.grid-2,.toolbar{grid-template-columns:1fr;}
+  .hero{flex-direction:column;align-items:flex-start;}
 }
 </style>
 </head>
@@ -315,19 +294,19 @@ button{
   </div>
 
   <div class="card hero">
-    <div class="hero-main">
+    <div>
       <h2>짧게 적고 바로 쓰는 프롬프트 정리 공간</h2>
-      <p>핵심만 넣으면 바로 쓸 수 있는 형태로 정리되고, 저장한 프롬프트는 파일처럼 눌러서 다시 확인하고 수정할 수 있습니다.</p>
+      <p>핵심만 넣으면 바로 쓸 수 있는 형태로 정리되고, 저장한 프롬프트는 다시 불러와 수정하거나 복사할 수 있습니다.</p>
     </div>
     <div class="hero-mini">
       <div class="mini-chip">빠른 입력</div>
       <div class="mini-chip">자동 정리</div>
-      <div class="mini-chip">분류 보관</div>
+      <div class="mini-chip">수정 · 삭제</div>
     </div>
   </div>
 
-  <div class="app-layout">
-    <div class="stack">
+  <div class="main-layout">
+    <div>
       <div class="card">
         <h3 class="section-title">빠른 입력</h3>
 
@@ -338,16 +317,24 @@ button{
           </div>
           <div class="field">
             <strong>어떤 AI에 쓸 건가요?</strong>
-            <input id="aiInput" list="aiOptions" placeholder="예: ChatGPT">
-            <datalist id="aiOptions"></datalist>
+            <select id="aiInput">
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Claude">Claude</option>
+              <option value="Gemini">Gemini</option>
+              <option value="Midjourney">Midjourney</option>
+            </select>
           </div>
         </div>
 
         <div class="grid-2" style="margin-top:12px;">
           <div class="field">
             <strong>용도</strong>
-            <input id="useInput" list="useOptions" placeholder="예: 글쓰기">
-            <datalist id="useOptions"></datalist>
+            <select id="useInput">
+              <option value="글쓰기">글쓰기</option>
+              <option value="기획/분석">기획/분석</option>
+              <option value="코딩">코딩</option>
+              <option value="이미지">이미지</option>
+            </select>
           </div>
           <div class="field">
             <strong>원하는 느낌</strong>
@@ -376,16 +363,10 @@ button{
       </div>
 
       <div class="card">
-        <h3 class="section-title">정리된 결과</h3>
-        <div class="result-grid">
-          <div class="panel">
-            <div class="panel-head">입력 요약</div>
-            <div class="panel-body" id="summaryBox"></div>
-          </div>
-          <div class="panel">
-            <div class="panel-head">완성된 프롬프트</div>
-            <div class="panel-body dark" id="resultBox"></div>
-          </div>
+        <h3 class="section-title">완성된 프롬프트</h3>
+        <div class="panel">
+          <div class="panel-head">결과</div>
+          <div class="panel-body dark" id="resultBox"></div>
         </div>
         <div class="actions">
           <button class="primary" id="copyBtn">정리본 복사</button>
@@ -407,15 +388,7 @@ button{
         <select id="useFilter"></select>
       </div>
 
-      <div class="library-layout">
-        <div class="groups" id="groups"></div>
-        <div class="panel preview-panel">
-          <div class="panel-head">파일 보기</div>
-          <div class="panel-body" id="filePreview">
-            <div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>
-          </div>
-        </div>
-      </div>
+      <div class="groups" id="groups"></div>
     </div>
   </div>
 </div>
@@ -428,15 +401,11 @@ const aiInput = document.getElementById('aiInput');
 const useInput = document.getElementById('useInput');
 const toneInput = document.getElementById('toneInput');
 const detailInput = document.getElementById('detailInput');
-const summaryBox = document.getElementById('summaryBox');
 const resultBox = document.getElementById('resultBox');
 const groups = document.getElementById('groups');
-const filePreview = document.getElementById('filePreview');
 const searchInput = document.getElementById('searchInput');
 const aiFilter = document.getElementById('aiFilter');
 const useFilter = document.getElementById('useFilter');
-const aiOptions = document.getElementById('aiOptions');
-const useOptions = document.getElementById('useOptions');
 const toast = document.getElementById('toast');
 
 let groupMode = 'use';
@@ -485,8 +454,6 @@ function refreshFilterOptions(){
 
   aiFilter.innerHTML = aiValues.map(v => `<option value="${v}">${v === 'all' ? '모든 AI' : v}</option>`).join('');
   useFilter.innerHTML = useValues.map(v => `<option value="${v}">${v === 'all' ? '모든 용도' : v}</option>`).join('');
-  aiOptions.innerHTML = aiValues.filter(v => v !== 'all').map(v => `<option value="${v}"></option>`).join('');
-  useOptions.innerHTML = useValues.filter(v => v !== 'all').map(v => `<option value="${v}"></option>`).join('');
 }
 
 function renderOutput(){
@@ -495,15 +462,6 @@ function renderOutput(){
   const use = useInput.value.trim();
   const tone = toneInput.value.trim();
   const detail = detailInput.value.trim();
-
-  summaryBox.textContent = [
-    `주제: ${title || '-'}`,
-    `AI: ${ai || '-'}`,
-    `용도: ${use || '-'}`,
-    `느낌: ${tone || '-'}`,
-    `조건: ${detail || '-'}`
-  ].join('\n');
-
   resultBox.textContent = buildPrompt(title, ai, use, tone, detail);
 }
 
@@ -514,60 +472,6 @@ function fillEditor(item){
   toneInput.value = item.tone;
   detailInput.value = item.detail;
   renderOutput();
-}
-
-function renderPreview(item){
-  if(!item){
-    filePreview.innerHTML = '<div class="preview-empty">왼쪽에서 프롬프트를 눌러 내용을 확인하세요.</div>';
-    return;
-  }
-
-  filePreview.innerHTML = `
-    <strong style="display:block;font-size:16px;margin-bottom:8px;">${item.title}</strong>
-    <div class="meta" style="margin-bottom:10px;">
-      <span class="pill">${item.ai}</span>
-      <span class="pill">${item.use}</span>
-      <span class="pill">${item.tone || '-'}</span>
-    </div>
-    <div class="preview" style="margin-bottom:12px;">${item.detail || '-'}</div>
-    <div style="border:1px solid var(--line); border-radius:14px; background:#111827; color:#fff; padding:14px; white-space:pre-wrap; font-size:13px; line-height:1.7;">${item.result}</div>
-    <div class="small-actions">
-      <button class="soft-btn" id="previewLoadBtn">불러오기</button>
-      <button class="soft-btn" id="previewEditBtn">수정</button>
-      <button class="primary" id="previewCopyBtn">복사</button>
-      <button class="danger-btn" id="previewDeleteBtn">삭제</button>
-    </div>
-  `;
-
-  document.getElementById('previewLoadBtn').onclick = () => {
-    fillEditor(item);
-    showToast('불러오기 성공!');
-  };
-
-  document.getElementById('previewEditBtn').onclick = () => {
-    fillEditor(item);
-    editingIndex = selectedIndex;
-    showToast('수정할 수 있게 불러왔어요');
-  };
-
-  document.getElementById('previewCopyBtn').onclick = async () => {
-    await navigator.clipboard.writeText(item.result);
-    showToast('복사 완료!');
-  };
-
-  document.getElementById('previewDeleteBtn').onclick = () => {
-    savedPrompts.splice(selectedIndex, 1);
-    if(savedPrompts.length === 0){
-      selectedIndex = null;
-      editingIndex = null;
-    } else {
-      selectedIndex = Math.max(0, selectedIndex - 1);
-      if(editingIndex !== null && editingIndex >= savedPrompts.length) editingIndex = null;
-    }
-    refreshFilterOptions();
-    renderSaved();
-    showToast('삭제 완료!');
-  };
 }
 
 function groupItems(items, mode){
@@ -594,7 +498,6 @@ function renderSaved(){
 
   if(!filtered.length){
     groups.innerHTML = '<div class="file-item"><div class="preview">저장된 프롬프트가 없습니다.</div></div>';
-    renderPreview(null);
     return;
   }
 
@@ -616,9 +519,16 @@ function renderSaved(){
               <div class="meta">
                 <span class="pill">${item.ai}</span>
                 <span class="pill">${item.use}</span>
+                <span class="pill">${item.tone || '-'}</span>
               </div>
               <div class="preview">${item.detail || '-'}</div>
             </div>
+          </div>
+          <div class="file-actions">
+            <button class="soft-btn load-btn" data-index="${realIndex}">불러오기</button>
+            <button class="soft-btn edit-btn" data-index="${realIndex}">수정</button>
+            <button class="primary copy-btn" data-index="${realIndex}">복사</button>
+            <button class="danger-btn delete-btn" data-index="${realIndex}">삭제</button>
           </div>
         </div>
       `;
@@ -633,13 +543,58 @@ function renderSaved(){
   });
 
   document.querySelectorAll('.file-item[data-index]').forEach(item => {
-    item.onclick = () => {
+    item.onclick = (e) => {
+      if(e.target.tagName === 'BUTTON') return;
       selectedIndex = Number(item.dataset.index);
       renderSaved();
     };
   });
 
-  renderPreview(savedPrompts[selectedIndex]);
+  document.querySelectorAll('.load-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = Number(btn.dataset.index);
+      selectedIndex = idx;
+      fillEditor(savedPrompts[idx]);
+      showToast('불러오기 성공!');
+      renderSaved();
+    };
+  });
+
+  document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = Number(btn.dataset.index);
+      selectedIndex = idx;
+      editingIndex = idx;
+      fillEditor(savedPrompts[idx]);
+      showToast('수정할 수 있게 불러왔어요');
+      renderSaved();
+    };
+  });
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.onclick = async () => {
+      const idx = Number(btn.dataset.index);
+      await navigator.clipboard.writeText(savedPrompts[idx].result);
+      showToast('복사 완료!');
+    };
+  });
+
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = Number(btn.dataset.index);
+      savedPrompts.splice(idx, 1);
+      if(savedPrompts.length === 0){
+        selectedIndex = null;
+        editingIndex = null;
+      } else {
+        selectedIndex = Math.max(0, idx - 1);
+        if(editingIndex === idx) editingIndex = null;
+      }
+      refreshFilterOptions();
+      renderSaved();
+      showToast('삭제 완료!');
+    };
+  });
 }
 
 document.getElementById('generateBtn').onclick = renderOutput;
@@ -647,6 +602,7 @@ document.getElementById('copyBtn').onclick = async () => {
   await navigator.clipboard.writeText(resultBox.textContent || '');
   showToast('정리본 복사 완료!');
 };
+
 document.getElementById('saveBtn').onclick = () => {
   const title = topicInput.value.trim();
   const ai = aiInput.value.trim();
@@ -656,14 +612,6 @@ document.getElementById('saveBtn').onclick = () => {
 
   if(!title){
     showToast('제목을 입력하세요');
-    return;
-  }
-  if(!ai){
-    showToast('AI를 입력하세요');
-    return;
-  }
-  if(!use){
-    showToast('용도를 입력하세요');
     return;
   }
 
@@ -687,13 +635,20 @@ document.getElementById('saveBtn').onclick = () => {
     showToast('보관함에 저장됨');
   }
 
+  topicInput.value = '';
+  aiInput.value = 'ChatGPT';
+  useInput.value = '글쓰기';
+  toneInput.value = '';
+  detailInput.value = '';
+  renderOutput();
   refreshFilterOptions();
   renderSaved();
 };
+
 document.getElementById('resetBtn').onclick = () => {
   topicInput.value = '';
-  aiInput.value = '';
-  useInput.value = '';
+  aiInput.value = 'ChatGPT';
+  useInput.value = '글쓰기';
   toneInput.value = '';
   detailInput.value = '';
   editingIndex = null;
@@ -719,6 +674,7 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 [topicInput, aiInput, useInput, toneInput, detailInput].forEach(el => {
   el.addEventListener('input', renderOutput);
+  el.addEventListener('change', renderOutput);
 });
 
 searchInput.addEventListener('input', renderSaved);
